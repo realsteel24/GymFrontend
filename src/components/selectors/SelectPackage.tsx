@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
-import { FeeOptions } from "@/hooks";
+import { FeeOptions, useFeeCategories } from "@/hooks";
 import {
   Select,
   SelectContent,
@@ -8,34 +8,46 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { LabelledInput } from "../LabelledInput";
 
 interface SelectFeeCategoryProps {
+  gymId: string;
   feeCategoryId: string;
   setFeeCategoryId: (feeCategoryId: string) => void;
   setSelectedAmount: (amount: number) => void;
   setDueDate: (dueDate: Date) => void;
-  paidDate: Date;
-  feeCategories: FeeOptions[];
-  feeCategoryLoading: Boolean;
+  setPaidDate: (paidDate: Date) => void;
+  dataToDisplay: Date;
 }
 
 const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
+  gymId,
   feeCategoryId,
   setFeeCategoryId,
   setSelectedAmount,
   setDueDate,
-  paidDate,
-  feeCategories,
-  feeCategoryLoading,
+  setPaidDate,
+  dataToDisplay,
 }) => {
+  const { feeCategories, fetchCategories, feeCategoryLoading } =
+    useFeeCategories({ gymId });
+
+  const [freq, setFreq] = useState<string>("");
+  const [selectDate, setSelectDate] = useState<Date>(new Date());
+
   const handleSelectionChange = (value: string) => {
     setFeeCategoryId(value);
     const selectedCategory = feeCategories.find((item) => item.id === value);
     if (selectedCategory) {
       setSelectedAmount(parseInt(selectedCategory.amount));
-      setDueDate(calculateDueDate(paidDate, selectedCategory.frequency));
+      setFreq(selectedCategory.frequency);
     }
   };
+
+  useEffect(() => {
+    const newDueDate = calculateDueDate(selectDate, freq);
+    setDueDate(newDueDate);
+  }, [selectDate, freq]);
 
   const calculateDueDate = (startDate: Date, frequency: string): Date => {
     const frequencies = {
@@ -46,9 +58,13 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
       yearly: 12,
     };
     const monthsToAdd =
-      frequencies[frequency.toLowerCase() as keyof typeof frequencies] || 240;
+      frequencies[frequency.toLowerCase() as keyof typeof frequencies] || 1;
     return addMonths(startDate, monthsToAdd);
   };
+
+  useEffect(() => {
+    fetchCategories();
+  }, [gymId]);
 
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-2">
@@ -73,6 +89,28 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
           )}
         </SelectContent>
       </Select>
+      <div className="col-span-4">
+        <LabelledInput
+          formId="date"
+          formName="date"
+          label="Payment Date"
+          placeholder="Enter Date"
+          pickDate={(date) => {
+            setPaidDate(date);
+            setSelectDate(date);
+          }}
+          selectedDate={selectDate}
+          type="Calendar"
+        />
+        <LabelledInput
+          formId="dueDate"
+          formName="dueDate"
+          label="Due Date"
+          placeholder="Enter Date"
+          selectedDate={dataToDisplay}
+          type="Calendar"
+        />
+      </div>
     </div>
   );
 };

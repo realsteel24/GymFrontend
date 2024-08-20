@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CustomDialogForm } from "../CustomDialogForm";
 import { LabelledInput, addMonths } from "../LabelledInput";
-import { useFeeCategories } from "@/hooks";
 import { useToast } from "../ui/use-toast";
 import SelectMember from "../selectors/SelectMembers";
 import SelectPackage from "../selectors/SelectPackage";
@@ -14,11 +13,6 @@ export const CreateMemberFee = () => {
   const { gymId } = useParams<{ gymId: string }>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState("");
-
-  const { feeCategories, fetchCategories, feeCategoryLoading } =
-    useFeeCategories({
-      gymId: gymId!,
-    });
 
   const [feeCategoryId, setFeeCategoryId] = useState("");
   const [selectedAmount, setSelectedAmount] = useState(0);
@@ -76,17 +70,16 @@ export const CreateMemberFee = () => {
       setError(e instanceof Error ? e.message : "An unexpected error occurred");
     }
   };
-
+  console.log(`paid: ${paidDate} due: ${dueDate}`);
   return (
     <div>
       <CustomDialogForm
         isOpen={isDialogOpen}
         setIsOpen={() => {
           setIsDialogOpen(!isDialogOpen);
+
           if (isDialogOpen) {
             clear();
-          } else {
-            fetchCategories();
           }
         }}
         FormTitle="Record a Payment"
@@ -102,14 +95,15 @@ export const CreateMemberFee = () => {
               setMemberId={setMemberId}
             />
             <SelectPackage
-              feeCategories={feeCategories}
-              feeCategoryLoading={feeCategoryLoading}
+              gymId={gymId!}
               feeCategoryId={feeCategoryId}
               setFeeCategoryId={setFeeCategoryId}
               setSelectedAmount={setSelectedAmount}
               setDueDate={setDueDate}
-              paidDate={paidDate}
+              setPaidDate={setPaidDate}
+              dataToDisplay={dueDate}
             />
+            
             <LabelledInput
               formId="Amount"
               formName="Amount"
@@ -120,7 +114,7 @@ export const CreateMemberFee = () => {
               placeholder="Amount"
             />
 
-            <LabelledInput
+            {/* <LabelledInput
               formId="date"
               formName="date"
               label="Payment Date"
@@ -128,9 +122,7 @@ export const CreateMemberFee = () => {
               selectedDate={paidDate}
               pickDate={(date) => {
                 setPaidDate(date);
-                const selectedCategory = feeCategories.find(
-                  (item) => item.id === feeCategoryId
-                );
+                const selectedCategory = feeCategoryId;
                 if (selectedCategory) {
                   setDueDate(
                     calculateDueDate(date, selectedCategory.frequency)
@@ -138,7 +130,7 @@ export const CreateMemberFee = () => {
                 }
               }}
               type="Calendar"
-            />
+            /> */}
 
             <LabelledInput
               formId="method"
@@ -168,15 +160,3 @@ export const CreateMemberFee = () => {
   );
 };
 
-function calculateDueDate(startDate: Date, frequency: string): Date {
-  const frequencies = {
-    admission: 0,
-    monthly: 1,
-    quarterly: 3,
-    halfYearly: 6,
-    yearly: 12,
-  };
-  const monthsToAdd =
-    frequencies[frequency.toLowerCase() as keyof typeof frequencies] || 240;
-  return addMonths(startDate, monthsToAdd);
-}
