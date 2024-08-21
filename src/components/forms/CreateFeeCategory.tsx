@@ -8,6 +8,13 @@ import { CustomDialogForm } from "../CustomDialogForm";
 import { LabelledInput } from "../LabelledInput";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 enum PaymentFrequency {
   Monthly = "Monthly",
@@ -28,8 +35,8 @@ export const CreateFeeCategory = () => {
   const { gymId } = useParams<{ gymId: string }>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState("");
-  const handleFrequencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFrequency(e.target.value as PaymentFrequency);
+  const handleFrequencyChange = (value: PaymentFrequency) => {
+    setFrequency(value);
   };
 
   const getEnumValues = <T extends object>(enumObj: T): string[] => {
@@ -100,6 +107,25 @@ export const CreateFeeCategory = () => {
               placeholder="Package Name"
               onChange={(e) => setDescription(e.target.value)}
             />
+
+            <div className="grid grid-cols-4 items-center gap-4 ">
+              <Label htmlFor="frequency" className="text-right">
+                Duration
+              </Label>
+              <Select onValueChange={handleFrequencyChange}>
+                <SelectTrigger className="col-span-3" id={frequency}>
+                  <SelectValue placeholder="Choose Package" />
+                </SelectTrigger>
+                <SelectContent>
+                  {frequencyOptions.map((fee) => (
+                    <SelectItem key={fee} value={fee}>
+                      {fee}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             <LabelledInput
               formId="Amount"
               formName="Amount"
@@ -108,24 +134,6 @@ export const CreateFeeCategory = () => {
               defaultValue="1500"
               onChange={(e) => setAmount(parseInt(e.target.value))}
             />
-
-            <div className="grid grid-cols-4 items-center gap-4 pt-2">
-              <Label htmlFor="frequency" className="text-right">
-                Duration
-              </Label>
-              <select
-                id="frequency"
-                value={frequency}
-                onChange={handleFrequencyChange}
-                className="col-span-3 dark:bg-black "
-              >
-                {frequencyOptions.map((freq) => (
-                  <option key={freq} value={freq}>
-                    {freq}
-                  </option>
-                ))}
-              </select>
-            </div>
           </div>
         }
         button={

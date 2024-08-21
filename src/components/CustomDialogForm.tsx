@@ -62,6 +62,7 @@ export const CustomDialogForm = ({
             </DrawerHeader>
             {children}
             <DrawerFooter className="pt-2">
+              {button}
               <DrawerClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DrawerClose>

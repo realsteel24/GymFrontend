@@ -51,7 +51,7 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
 
   const calculateDueDate = (startDate: Date, frequency: string): Date => {
     const frequencies = {
-      admission: 0,
+      onetime: 240,
       monthly: 1,
       quarterly: 3,
       halfYearly: 6,
@@ -79,7 +79,7 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
           {feeCategoryLoading ? (
             <div>Loading...</div>
           ) : feeCategories.length === 0 ? (
-            <div className="text-sm opacity-80 p-1">No options available</div>
+            <div className="text-sm opacity-80 p-1 ">No options available</div>
           ) : (
             feeCategories.map((fee: FeeOptions) => (
               <SelectItem key={fee.id} value={fee.id}>
@@ -122,5 +122,3 @@ function addMonths(startDate: Date, monthsToAdd: number): Date {
   date.setMonth(date.getMonth() + monthsToAdd);
   return date;
 }
-
-console.log("commit")

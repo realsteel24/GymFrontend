@@ -70,7 +70,6 @@ export const CreateMemberFee = () => {
       setError(e instanceof Error ? e.message : "An unexpected error occurred");
     }
   };
-  console.log(`paid: ${paidDate} due: ${dueDate}`);
   return (
     <div>
       <CustomDialogForm
@@ -103,7 +102,7 @@ export const CreateMemberFee = () => {
               setPaidDate={setPaidDate}
               dataToDisplay={dueDate}
             />
-            
+
             <LabelledInput
               formId="Amount"
               formName="Amount"
@@ -113,24 +112,6 @@ export const CreateMemberFee = () => {
               onChange={(e) => setSelectedAmount(parseInt(e.target.value))}
               placeholder="Amount"
             />
-
-            {/* <LabelledInput
-              formId="date"
-              formName="date"
-              label="Payment Date"
-              placeholder="Enter Date"
-              selectedDate={paidDate}
-              pickDate={(date) => {
-                setPaidDate(date);
-                const selectedCategory = feeCategoryId;
-                if (selectedCategory) {
-                  setDueDate(
-                    calculateDueDate(date, selectedCategory.frequency)
-                  );
-                }
-              }}
-              type="Calendar"
-            /> */}
 
             <LabelledInput
               formId="method"
@@ -159,4 +140,3 @@ export const CreateMemberFee = () => {
     </div>
   );
 };
-

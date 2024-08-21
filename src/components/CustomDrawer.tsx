@@ -27,7 +27,7 @@ interface DrawerProps {
   type?: "list" | "card";
 }
 
-export const CustomDrawer = ({
+export const CustomDrwer = ({
   buttonTitle,
   drawerTitle,
   drawerDescription,

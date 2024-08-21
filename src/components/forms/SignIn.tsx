@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { LabelledInput } from "../LabelledInput";
 import { Button } from "../ui/button";
-import { BACKEND_URL } from "@/config";
+import { BACKEND_URL, SUPER_ADMIN } from "@/config";
 import { useNavigate } from "react-router-dom";
 
 export const SignIn = () => {
@@ -32,8 +32,7 @@ export const SignIn = () => {
       const admin = await response.json();
       localStorage.setItem("token", admin.jwt);
 
-      admin.jwt ===
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoibWFzdGVyIn0.UJ2j7urR89yBU63TcWW4Wy4FZ72KV30sCTLWXVyZy5k"
+      admin.jwt === SUPER_ADMIN
         ? navigate("/gym")
         : navigate(`/gym/${gymCode.split("/")[1]}/menu`);
     } catch (e) {
