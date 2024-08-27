@@ -14,10 +14,10 @@ export function FeeCategoryCard() {
         children={<CreateFeeCategory />}
       />
       <CardMenu
-        cardTitle="View all Packages"
+        cardTitle="View Fee Plans"
         type="buttonedCard"
         cardFunction={() => ViewFeeCategories(gymId ?? "", navigate)}
-        buttonTitle="View Packages"
+        buttonTitle="Fee Packages"
       />
     </div>
   );

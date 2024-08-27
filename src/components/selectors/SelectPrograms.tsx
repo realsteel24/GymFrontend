@@ -28,21 +28,21 @@ const SelectPrograms: React.FC<SelectProgramProps> = ({
 
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-2">
-      <Label htmlFor="program" className="text-right">
+      <Label htmlFor="program" className="text-right text-md">
         Program
       </Label>
       <Select onValueChange={(value) => setProgramId(value)}>
-        <SelectTrigger className="col-span-3" id={programId}>
+        <SelectTrigger className="col-span-3 text-md" id={programId}>
           <SelectValue placeholder="Choose Program" />
         </SelectTrigger>
         <SelectContent>
           {programLoading ? (
             <div>Loading...</div>
           ) : programs.length === 0 ? (
-            <div className="text-sm opacity-80 p-1">No options available</div>
+            <div className="text-md opacity-80 p-1">No options available</div>
           ) : (
             programs.map((prog: ProgramsOptions) => (
-              <SelectItem key={prog.id} value={prog.id}>
+              <SelectItem key={prog.id} value={prog.id} className="text-md">
                 {prog.name}
               </SelectItem>
             ))

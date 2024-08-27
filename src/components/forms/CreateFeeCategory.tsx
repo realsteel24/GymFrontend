@@ -93,11 +93,11 @@ export const CreateFeeCategory = () => {
       <CustomDialogForm
         isOpen={isDialogOpen}
         setIsOpen={() => setIsDialogOpen(!isDialogOpen)}
-        FormTitle="Create Fee Package"
+        FormTitle="Create Fee Plan"
         FormDescription=" Please add all the necessary fields and click save"
-        drawerTitle="Create Fee Package"
+        drawerTitle="Create Fee Plan"
         drawerDescription=" Please add all the necessary fields and click save"
-        titleButton="Create Fee Package"
+        titleButton="Create Fee Plan"
         children={
           <div>
             <LabelledInput
@@ -109,16 +109,16 @@ export const CreateFeeCategory = () => {
             />
 
             <div className="grid grid-cols-4 items-center gap-4 ">
-              <Label htmlFor="frequency" className="text-right">
+              <Label htmlFor="frequency" className="text-right text-md">
                 Duration
               </Label>
               <Select onValueChange={handleFrequencyChange}>
-                <SelectTrigger className="col-span-3" id={frequency}>
+                <SelectTrigger className="col-span-3 text-md" id={frequency}>
                   <SelectValue placeholder="Choose Package" />
                 </SelectTrigger>
                 <SelectContent>
                   {frequencyOptions.map((fee) => (
-                    <SelectItem key={fee} value={fee}>
+                    <SelectItem key={fee} value={fee} className="text-md">
                       {fee}
                     </SelectItem>
                   ))}
@@ -137,7 +137,7 @@ export const CreateFeeCategory = () => {
           </div>
         }
         button={
-          <Button type="submit" onClick={handleSubmit} variant={"outline"}>
+          <Button type="submit" onClick={handleSubmit} variant={"outline"} className="bg-accent text-white dark:text-black">
             Save changes
           </Button>
         }

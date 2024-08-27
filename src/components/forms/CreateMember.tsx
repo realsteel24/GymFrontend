@@ -130,7 +130,7 @@ export const CreateMember = () => {
           </div>
         }
         button={
-          <Button type="submit" onClick={handleSubmit} variant={"outline"}>
+          <Button type="submit" onClick={handleSubmit} variant={"outline"} className="bg-accent text-white dark:text-black">
             Save changes
           </Button>
         }

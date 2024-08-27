@@ -21,6 +21,7 @@ import {
 import { useState } from "react";
 
 import React from "react";
+import { ScrollArea } from "./ui/scroll-area";
 
 export const CustomDialogForm = ({
   FormTitle,
@@ -60,11 +61,13 @@ export const CustomDialogForm = ({
               <DrawerTitle>{drawerTitle}</DrawerTitle>
               <DrawerDescription>{drawerDescription}</DrawerDescription>
             </DrawerHeader>
-            {children}
+            <ScrollArea className="overflow-y-auto">{children}</ScrollArea>
             <DrawerFooter className="pt-2">
               {button}
               <DrawerClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" size={"sm"}>
+                  Cancel
+                </Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
@@ -83,7 +86,7 @@ export const CustomDialogForm = ({
               <DialogTitle>{FormTitle}</DialogTitle>
               <DialogDescription>{FormDescription} </DialogDescription>
             </DialogHeader>
-            {children}
+            <ScrollArea className="overflow-y-auto">{children}</ScrollArea>
             <DialogFooter>{button}</DialogFooter>
           </DialogContent>
         </Dialog>

@@ -68,11 +68,11 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
 
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-2">
-      <Label htmlFor="feeCategory" className="text-right">
-        Fee Category
+      <Label htmlFor="feeCategory" className="text-right text-md">
+        Fee Plan
       </Label>
       <Select onValueChange={handleSelectionChange}>
-        <SelectTrigger className="col-span-3" id={feeCategoryId}>
+        <SelectTrigger className="col-span-3 text-md" id={feeCategoryId}>
           <SelectValue placeholder="Choose Package" />
         </SelectTrigger>
         <SelectContent>

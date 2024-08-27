@@ -42,7 +42,7 @@ export function LabelledInput({
       <div className="grid grid-cols-4 items-center gap-4">
         <Label
           htmlFor={formName}
-          className={`text-right font-medium text-sm text-${labelColor}`}
+          className={`text-right font-medium text-md text-${labelColor}`}
         >
           {label}
         </Label>
@@ -55,14 +55,14 @@ export function LabelledInput({
             selected={selectedDate}
             onChange={pickDate!}
             dateFormat={"dd/MM/yyyy"}
-            className=" dark:bg-black p-2 text-sm rounded-md shadow-sm border col-span-3"
+            className=" dark:bg-black p-2 text-md rounded-md shadow-sm border col-span-3"
           />
         ) : (
           <Input
             type={type}
             id={formId}
             defaultValue={defaultValue}
-            className={`col-span-3 text-${textColor}`}
+            className={`col-span-3 text-${textColor} text-md`}
             onChange={onChange}
             value={value}
             placeholder={placeholder}

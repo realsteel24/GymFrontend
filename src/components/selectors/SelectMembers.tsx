@@ -93,14 +93,14 @@ const SelectMember: React.FC<SelectMemberProps> = ({ gymId, setMemberId }) => {
 
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-2">
-      <Label htmlFor="members" className="text-right">
+      <Label htmlFor="members" className="text-right text-md">
         Member
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="col-span-3 justify-between p-3 font-normal"
+            className="col-span-3 justify-between p-3 font-normal text-md"
           >
             {selectedStatus ? (
               <>
@@ -117,6 +117,7 @@ const SelectMember: React.FC<SelectMemberProps> = ({ gymId, setMemberId }) => {
         <PopoverContent className="col-span-3 p-0 z-50" align="start">
           <Command>
             <CommandInput
+              className="text-md"
               placeholder="Search members..."
               value={search}
               onChangeCapture={(e) => handleInputChange(e.currentTarget.value)}
@@ -133,6 +134,7 @@ const SelectMember: React.FC<SelectMemberProps> = ({ gymId, setMemberId }) => {
                         key={member.Members[0].id}
                         value={member.name}
                         onSelect={() => handleMemberSelect(member)}
+                        className="text-md"
                       >
                         {member.name}
                       </CommandItem>
