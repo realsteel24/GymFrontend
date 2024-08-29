@@ -7,17 +7,18 @@ import { LabelledInput } from "../LabelledInput";
 import { useToast } from "../ui/use-toast";
 
 export const CreateProgram = () => {
-  const [name, setName] = useState("Kickboxing");
-  const [description, setDescription] = useState(
-    "Martial Arts is a way of life"
-  );
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("An art is a way of life");
   const [error, setError] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const { gymId } = useParams<{ gymId: string }>();
   const clear = () => {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     setName("");
     setDescription("");
     setError("");
@@ -25,6 +26,8 @@ export const CreateProgram = () => {
   };
 
   const handleSubmit = async () => {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     setError("");
     try {
       const response = await fetch(
@@ -54,6 +57,7 @@ export const CreateProgram = () => {
         description: "Success",
       });
       navigate(`/gym/${gymId}/menu`);
+
       clear();
     } catch (e) {
       if (e instanceof Error) {
@@ -64,8 +68,10 @@ export const CreateProgram = () => {
   return (
     <div>
       <CustomDialogForm
+        isMobileOpen={isDrawerOpen}
+        setIsMobileOpen={setIsDrawerOpen}
         isOpen={isDialogOpen}
-        setIsOpen={() => setIsDialogOpen(!isDialogOpen)}
+        setIsOpen={setIsDialogOpen}
         FormTitle="Create a Program"
         FormDescription=" Please add all the necessary fields and click save"
         drawerTitle="Create a Program"
@@ -78,7 +84,6 @@ export const CreateProgram = () => {
               formName="Program"
               label="Program"
               placeholder="Program Name"
-              defaultValue="Kickboxing"
               onChange={(e) => setName(e.target.value)}
             />
             <LabelledInput
@@ -86,13 +91,17 @@ export const CreateProgram = () => {
               formName="Description"
               label="Description"
               placeholder="Description"
-              defaultValue="Martial Arts is a way of life"
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
         }
         button={
-          <Button type="submit" onClick={handleSubmit} variant={"outline"} className="bg-accent text-white dark:text-black">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            variant={"outline"}
+            className="bg-accent text-white dark:text-black"
+          >
             Save changes
           </Button>
         }

@@ -18,7 +18,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useState } from "react";
 
 import React from "react";
 import { ScrollArea } from "./ui/scroll-area";
@@ -34,6 +33,8 @@ export const CustomDialogForm = ({
   isOpen,
   setIsOpen,
   fn,
+  setIsMobileOpen,
+  isMobileOpen,
 }: {
   drawerTitle?: string;
   drawerDescription?: string;
@@ -42,17 +43,17 @@ export const CustomDialogForm = ({
   children: React.ReactNode;
   button: React.ReactNode;
   titleButton: string;
-  isOpen: boolean;
+  isOpen?: boolean;
+  isMobileOpen?: boolean;
   fn?: () => void;
-  setIsOpen: () => void;
+  setIsOpen?: (value: boolean) => void;
+  setIsMobileOpen?: (value: boolean) => void;
 }) => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
   return (
     <>
       {/* Drawer for mobile */}
       <div className="block md:hidden ">
-        <Drawer open={mobileOpen} onOpenChange={setMobileOpen}>
+        <Drawer open={isMobileOpen} onOpenChange={setIsMobileOpen}>
           <DrawerTrigger asChild>
             <Button variant="outline">{titleButton}</Button>
           </DrawerTrigger>

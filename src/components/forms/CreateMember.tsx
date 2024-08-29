@@ -21,15 +21,19 @@ export const CreateMember = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const clear = () => {
     setName("");
     setEmail("");
     setContact("");
     setIsDialogOpen(false);
+    setIsDrawerOpen(false);
   };
 
   async function handleSubmit() {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     try {
       const submit = await fetch(`${BACKEND_URL}/api/v1/admin/${gymId}/users`, {
         method: "POST",
@@ -67,7 +71,9 @@ export const CreateMember = () => {
     <div>
       <CustomDialogForm
         isOpen={isDialogOpen}
-        setIsOpen={() => setIsDialogOpen(!isDialogOpen)}
+        isMobileOpen={isDrawerOpen}
+        setIsOpen={setIsDialogOpen}
+        setIsMobileOpen={setIsDrawerOpen}
         FormTitle="Add new Member"
         FormDescription=" Please add all the necessary fields and click save"
         drawerTitle="Add new Member"
@@ -126,11 +132,15 @@ export const CreateMember = () => {
               pickDate={(date) => setEnrollmentDate(date)}
               type="Calendar"
             />
-            
           </div>
         }
         button={
-          <Button type="submit" onClick={handleSubmit} variant={"outline"} className="bg-accent text-white dark:text-black">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            variant={"outline"}
+            className="bg-accent text-white dark:text-black"
+          >
             Save changes
           </Button>
         }

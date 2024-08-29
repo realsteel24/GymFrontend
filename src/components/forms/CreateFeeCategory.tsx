@@ -38,6 +38,7 @@ export const CreateFeeCategory = () => {
   const handleFrequencyChange = (value: PaymentFrequency) => {
     setFrequency(value);
   };
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const getEnumValues = <T extends object>(enumObj: T): string[] => {
     return Object.values(enumObj).filter(
@@ -48,6 +49,8 @@ export const CreateFeeCategory = () => {
   const frequencyOptions = getEnumValues(PaymentFrequency);
 
   const clear = () => {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     setDescription("");
     setAmount(0);
     setError("");
@@ -55,6 +58,8 @@ export const CreateFeeCategory = () => {
   };
 
   async function handleSubmit() {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     try {
       const submit = await fetch(
         `${BACKEND_URL}/api/v1/admin/${gymId}/feeCategory`,
@@ -92,7 +97,9 @@ export const CreateFeeCategory = () => {
     <div>
       <CustomDialogForm
         isOpen={isDialogOpen}
-        setIsOpen={() => setIsDialogOpen(!isDialogOpen)}
+        isMobileOpen={isDrawerOpen}
+        setIsOpen={setIsDialogOpen}
+        setIsMobileOpen={setIsDrawerOpen}
         FormTitle="Create Fee Plan"
         FormDescription=" Please add all the necessary fields and click save"
         drawerTitle="Create Fee Plan"
@@ -137,7 +144,12 @@ export const CreateFeeCategory = () => {
           </div>
         }
         button={
-          <Button type="submit" onClick={handleSubmit} variant={"outline"} className="bg-accent text-white dark:text-black">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            variant={"outline"}
+            className="bg-accent text-white dark:text-black"
+          >
             Save changes
           </Button>
         }

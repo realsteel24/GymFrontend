@@ -83,7 +83,7 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
           ) : (
             feeCategories.map((fee: FeeOptions) => (
               <SelectItem key={fee.id} value={fee.id}>
-                {fee.description} - {fee.frequency}
+                {fee.description}
               </SelectItem>
             ))
           )}

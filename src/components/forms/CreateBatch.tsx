@@ -16,6 +16,7 @@ export const CreateBatch: React.FC = () => {
   const navigate = useNavigate();
   const { gymId } = useParams<{ gymId: string }>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
 
@@ -25,9 +26,14 @@ export const CreateBatch: React.FC = () => {
     setError("");
     setDays("");
     setIsDialogOpen(false);
+    setIsDrawerOpen(false);
+    setProgramId("")
+    setName("")
   };
 
   async function handleSubmit() {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     try {
       const submit = await fetch(
         `${BACKEND_URL}/api/v1/admin/${gymId}/batches`,
@@ -68,9 +74,9 @@ export const CreateBatch: React.FC = () => {
     <div>
       <CustomDialogForm
         isOpen={isDialogOpen}
-        setIsOpen={() => {
-          setIsDialogOpen(!isDialogOpen);
-        }}
+        isMobileOpen={isDrawerOpen}
+        setIsOpen={setIsDialogOpen}
+        setIsMobileOpen={setIsDrawerOpen}
         FormTitle="Create a Batch"
         FormDescription=" Please add all the necessary fields and click save"
         drawerTitle="Create a Batch"
@@ -117,7 +123,12 @@ export const CreateBatch: React.FC = () => {
           </div>
         }
         button={
-          <Button type="submit" onClick={handleSubmit} variant={"outline"} className="bg-accent text-white dark:text-black">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            variant={"outline"}
+            className="bg-accent text-white dark:text-black"
+          >
             Save changes
           </Button>
         }

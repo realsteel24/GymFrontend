@@ -19,6 +19,7 @@ export const CreateMemberProgram = () => {
 
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
 
@@ -28,9 +29,13 @@ export const CreateMemberProgram = () => {
     setMemberId("");
     setError("");
     setIsDialogOpen(false);
+    setIsDrawerOpen(false);
   };
 
   async function handleSubmit() {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
+
     try {
       const response = await fetch(
         `${BACKEND_URL}/api/v1/admin/${gymId}/memberPrograms`,
@@ -71,10 +76,10 @@ export const CreateMemberProgram = () => {
   return (
     <div>
       <CustomDialogForm
+        isMobileOpen={isDrawerOpen}
+        setIsMobileOpen={setIsDrawerOpen}
         isOpen={isDialogOpen}
-        setIsOpen={() => {
-          setIsDialogOpen(!isDialogOpen);
-        }}
+        setIsOpen={setIsDialogOpen}
         FormTitle="Add Member to Program"
         FormDescription="Please add all the necessary fields and click save"
         titleButton="Add Member"
@@ -122,7 +127,15 @@ export const CreateMemberProgram = () => {
           </div>
         }
         button={
-          <Button type="submit" onClick={handleSubmit} variant={"outline"} className="bg-accent text-white dark:text-black">
+          <Button
+            type="submit"
+            onClick={() => {
+              setIsDialogOpen(!isDialogOpen);
+              handleSubmit();
+            }}
+            variant={"outline"}
+            className="bg-accent text-white dark:text-black"
+          >
             Save changes
           </Button>
         }

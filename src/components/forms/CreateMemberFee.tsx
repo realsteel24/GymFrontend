@@ -21,10 +21,14 @@ export const CreateMemberFee = () => {
   const [dueDate, setDueDate] = useState<Date>(addMonths(new Date(), 1));
   const [remarks, setRemarks] = useState("Success");
   const [memberId, setMemberId] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
 
   const { toast } = useToast();
 
   const clear = () => {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     setFeeCategoryId("");
     setMemberId("");
     setRemarks("");
@@ -35,6 +39,8 @@ export const CreateMemberFee = () => {
   };
 
   const handleSubmit = async () => {
+    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     try {
       const response = await fetch(
         `${BACKEND_URL}/api/v1/admin/${gymId}/memberFees`,
@@ -74,13 +80,9 @@ export const CreateMemberFee = () => {
     <div>
       <CustomDialogForm
         isOpen={isDialogOpen}
-        setIsOpen={() => {
-          setIsDialogOpen(!isDialogOpen);
-
-          if (isDialogOpen) {
-            clear();
-          }
-        }}
+        isMobileOpen={isDrawerOpen}
+        setIsOpen={setIsDialogOpen}
+        setIsMobileOpen={setIsDrawerOpen}
         FormTitle="Record a Payment"
         FormDescription="Please add all the necessary fields and click save"
         drawerTitle="Record a Payment"
