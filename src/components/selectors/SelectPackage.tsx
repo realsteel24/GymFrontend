@@ -17,7 +17,8 @@ interface SelectFeeCategoryProps {
   setSelectedAmount: (amount: number) => void;
   setDueDate: (dueDate: Date) => void;
   setPaidDate: (paidDate: Date) => void;
-  dataToDisplay: Date;
+  dataToDisplay?: Date;
+  className?: string
 }
 
 const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
@@ -28,6 +29,7 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
   setDueDate,
   setPaidDate,
   dataToDisplay,
+  className,
 }) => {
   const { feeCategories, fetchCategories, feeCategoryLoading } =
     useFeeCategories({ gymId });
@@ -89,7 +91,7 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
           )}
         </SelectContent>
       </Select>
-      <div className="col-span-4">
+      <div className={`col-span-4 ${className}`} >
         <LabelledInput
           formId="date"
           formName="date"
@@ -98,18 +100,19 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
           pickDate={(date) => {
             setPaidDate(date);
             setSelectDate(date);
+            console.log(dataToDisplay);
           }}
           selectedDate={selectDate}
           type="Calendar"
         />
-        <LabelledInput
+        {/* <LabelledInput
           formId="dueDate"
           formName="dueDate"
           label="Due Date"
           placeholder="Enter Date"
           selectedDate={dataToDisplay}
           type="Calendar"
-        />
+        /> */}
       </div>
     </div>
   );

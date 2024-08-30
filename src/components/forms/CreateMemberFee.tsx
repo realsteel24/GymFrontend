@@ -88,6 +88,7 @@ export const CreateMemberFee = () => {
         drawerTitle="Record a Payment"
         drawerDescription="Please add all the necessary fields and click save"
         titleButton="Add transaction"
+        mobileFn={clear}
         children={
           <div>
             <SelectMember
@@ -103,6 +104,7 @@ export const CreateMemberFee = () => {
               setDueDate={setDueDate}
               setPaidDate={setPaidDate}
               dataToDisplay={dueDate}
+              className={feeCategoryId ? "block" : "hidden"}
             />
 
             <LabelledInput

@@ -35,6 +35,7 @@ export const CustomDialogForm = ({
   fn,
   setIsMobileOpen,
   isMobileOpen,
+  mobileFn,
 }: {
   drawerTitle?: string;
   drawerDescription?: string;
@@ -46,6 +47,7 @@ export const CustomDialogForm = ({
   isOpen?: boolean;
   isMobileOpen?: boolean;
   fn?: () => void;
+  mobileFn?: () => void;
   setIsOpen?: (value: boolean) => void;
   setIsMobileOpen?: (value: boolean) => void;
 }) => {
@@ -58,15 +60,18 @@ export const CustomDialogForm = ({
             <Button variant="outline">{titleButton}</Button>
           </DrawerTrigger>
           <DrawerContent className="px-4">
-            <DrawerHeader className="text-left">
-              <DrawerTitle>{drawerTitle}</DrawerTitle>
-              <DrawerDescription>{drawerDescription}</DrawerDescription>
-            </DrawerHeader>
-            <ScrollArea className="overflow-y-auto">{children}</ScrollArea>
+            <ScrollArea className="flex-grow overflow-y-auto">
+              <DrawerHeader className="text-left">
+                <DrawerTitle>{drawerTitle}</DrawerTitle>
+                <DrawerDescription>{drawerDescription}</DrawerDescription>
+              </DrawerHeader>
+              {children}
+            </ScrollArea>
+
             <DrawerFooter className="pt-2">
               {button}
               <DrawerClose asChild>
-                <Button variant="outline" size={"sm"}>
+                <Button variant="outline" size={"sm"} onClick={mobileFn}>
                   Cancel
                 </Button>
               </DrawerClose>
