@@ -92,7 +92,7 @@ export const CustomDialogForm = ({
               <DialogTitle>{FormTitle}</DialogTitle>
               <DialogDescription>{FormDescription} </DialogDescription>
             </DialogHeader>
-            <ScrollArea className="overflow-y-auto">{children}</ScrollArea>
+            {children}
             <DialogFooter>{button}</DialogFooter>
           </DialogContent>
         </Dialog>

@@ -10,7 +10,6 @@ import { SignIn } from "./components/forms/SignIn";
 import { FeeCategories } from "./pages/tables/FeeCategories";
 import { Members } from "./pages/tables/Members";
 import { MemberFees } from "./pages/tables/MemberFees";
-import { Dashboard } from "./pages/Dashboard";
 import { GymNameProvider } from "./context/Gym";
 import { TransactionHistory } from "./pages/tables/TransactionHistory";
 
@@ -27,7 +26,9 @@ function App() {
                 <Routes>
                   <Route
                     path="menu"
-                    element={<Layout children={<GymProfile />} />}
+                    element={
+                      <Layout children={<GymProfile component="Dashboard" />} />
+                    }
                   />
                   <Route
                     path="programs"
@@ -35,13 +36,15 @@ function App() {
                   />
                   <Route
                     path="dashboard"
-                    element={<Layout children={<Dashboard />} />}
+                    element={
+                      <Layout children={<GymProfile component="Dashboard" />} />
+                    }
                   />
                 </Routes>
               </GymNameProvider>
             }
           />
-          
+
           <Route
             path="/gym/:gymId/batches/:id"
             element={<Layout children={<Batches />} />}

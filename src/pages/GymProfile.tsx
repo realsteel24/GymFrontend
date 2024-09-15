@@ -10,8 +10,8 @@ import { useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { useGymNameContext } from "@/context/Gym";
 
-export function GymProfile() {
-  const [activeComponent, setActiveComponent] = useState("Dashboard");
+export function GymProfile({ component }: { component: string }) {
+  const [activeComponent, setActiveComponent] = useState(component);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { gymName, loading } = useGymNameContext();
   const renderComponent = () => {
@@ -30,7 +30,8 @@ export function GymProfile() {
         return <PaymentCard />;
       case "Instructor":
         return <InstructorCard />;
-
+      case "":
+        return null;
       default:
         return <Dashboard />;
     }
