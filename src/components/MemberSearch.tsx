@@ -21,7 +21,7 @@ interface SearchMemberProps {
   id: string;
 }
 
-const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, setMemberId }) => {
+const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [memberSearch, setMemberSearch] = useState<MemberOptions[]>([]);
