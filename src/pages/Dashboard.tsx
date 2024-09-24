@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  Activity,
-  ArrowUpRight,
-  CreditCard,
-  IndianRupee,
-  Users,
-} from "lucide-react";
+import { ArrowUpRight, CreditCard, IndianRupee, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,6 +30,7 @@ import dateFormat from "dateformat";
 import GenderPieChart from "@/components/vizualizations/GenderPieChart";
 import { MoneyGraph } from "@/components/vizualizations/MoneyGraph";
 import { MonthlyCollection } from "@/components/vizualizations/MonthlyCollection";
+import MemberSearch from "@/components/MemberSearch";
 
 export function Dashboard() {
   const { gymId } = useParams<{ gymId: string }>();
@@ -188,14 +183,14 @@ export function Dashboard() {
           </Card>
           <Card x-chunk="dashboard-01-chunk-3">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Search Members</CardTitle>
+              <MemberSearch id="all" gymId={gymId!} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+573</div>
-              <p className="text-xs text-muted-foreground">
-                +201 since last hour
-              </p>
+              <div className="text-2xl font-bold">
+                {maleCount + femaleCount}
+              </div>
+              <p className="text-xs text-muted-foreground">Total Members</p>
             </CardContent>
           </Card>
         </div>

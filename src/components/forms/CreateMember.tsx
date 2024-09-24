@@ -6,14 +6,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CustomDialogForm } from "../CustomDialogForm";
 import { LabelledInput } from "../LabelledInput";
 import { useToast } from "../ui/use-toast";
+import { CreateMemberInput } from "realsteelgym";
 
 export const CreateMember = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [contact, setContact] = useState("");
-  const [dob, setDob] = useState<Date>(new Date());
-  const [gender, setGender] = useState("Undefined");
-  const [enrollmentDate, setEnrollmentDate] = useState<Date>(new Date());
+  const [createMemberInput, setCreateMemberInput] = useState<CreateMemberInput>(
+    {
+      name: "",
+      email: "",
+      contact: "",
+      dob: new Date(),
+      gender: "",
+      enrollmentDate: new Date(),
+    }
+  );
 
   const navigate = useNavigate();
   const { gymId } = useParams<{ gymId: string }>();
@@ -24,9 +29,14 @@ export const CreateMember = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const clear = () => {
-    setName("");
-    setEmail("");
-    setContact("");
+    setCreateMemberInput({
+      name: "",
+      email: "",
+      contact: "",
+      dob: new Date(),
+      gender: "",
+      enrollmentDate: new Date(),
+    });
     setIsDialogOpen(false);
     setIsDrawerOpen(false);
   };
@@ -38,12 +48,7 @@ export const CreateMember = () => {
       const submit = await fetch(`${BACKEND_URL}/api/v1/admin/${gymId}/users`, {
         method: "POST",
         body: JSON.stringify({
-          name,
-          email,
-          contact,
-          dob,
-          gender,
-          enrollmentDate,
+          ...createMemberInput,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +92,12 @@ export const CreateMember = () => {
               autoComplete="name"
               label="Name"
               placeholder="Full Name"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setCreateMemberInput({
+                  ...createMemberInput,
+                  name: e.target.value,
+                });
+              }}
             />
             <LabelledInput
               formId="Email"
@@ -95,7 +105,12 @@ export const CreateMember = () => {
               autoComplete="email"
               label="Email"
               placeholder="@gmail.com"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setCreateMemberInput({
+                  ...createMemberInput,
+                  email: e.target.value,
+                });
+              }}
             />
             <LabelledInput
               formId="Contact"
@@ -103,7 +118,12 @@ export const CreateMember = () => {
               autoComplete="phone"
               label="Contact"
               placeholder="Contact Number"
-              onChange={(e) => setContact(e.target.value)}
+              onChange={(e) => {
+                setCreateMemberInput({
+                  ...createMemberInput,
+                  contact: e.target.value,
+                });
+              }}
             />
             <LabelledInput
               formId="Gender"
@@ -111,15 +131,22 @@ export const CreateMember = () => {
               autoComplete="gender"
               label="Gender"
               placeholder="eg. Female"
-              onChange={(e) => setGender(e.target.value)}
+              onChange={(e) => {
+                setCreateMemberInput({
+                  ...createMemberInput,
+                  gender: e.target.value,
+                });
+              }}
             />
             <LabelledInput
               formId="Birth Date"
               formName="Birth Date"
               label="Birth Date"
               placeholder={"Enter Date"}
-              selectedDate={dob}
-              pickDate={(date) => setDob(date)}
+              selectedDate={createMemberInput.dob}
+              pickDate={(date) => {
+                setCreateMemberInput({ ...createMemberInput, dob: date });
+              }}
               type="Calendar"
             />
 
@@ -128,8 +155,13 @@ export const CreateMember = () => {
               formName="Enroll"
               label="Enrollment Date"
               placeholder="Date of joining"
-              selectedDate={enrollmentDate}
-              pickDate={(date) => setEnrollmentDate(date)}
+              selectedDate={createMemberInput.enrollmentDate}
+              pickDate={(date) => {
+                setCreateMemberInput({
+                  ...createMemberInput,
+                  enrollmentDate: date,
+                });
+              }}
               type="Calendar"
             />
           </div>
