@@ -6,11 +6,11 @@ import { BACKEND_URL, SUPER_ADMIN } from "@/config";
 import { useNavigate } from "react-router-dom";
 
 export const SignIn = () => {
-  const [username, setUsername] = useState("demo");
-  const [password, setPassword] = useState("getitnow");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [gymCode, setGymCode] = useState("STEEL/DEMO");
+  const [gymCode, setGymCode] = useState("STEEL/");
 
   const handleSubmit = async () => {
     setError("");
@@ -59,7 +59,7 @@ export const SignIn = () => {
                 formName="GymCode"
                 formId="GymCode"
                 autoComplete="Code"
-                defaultValue="STEEL/DEMO"
+                defaultValue="STEEL/"
                 onChange={(e) => {
                   setGymCode(e.target.value.toUpperCase());
                 }}
@@ -72,7 +72,7 @@ export const SignIn = () => {
                 formName="email"
                 formId="email"
                 autoComplete="email"
-                defaultValue="Demo"
+                // defaultValue="Demo"
                 onChange={(e) => {
                   setUsername(e.target.value.toLowerCase());
                 }}
@@ -85,7 +85,7 @@ export const SignIn = () => {
                 formName="password"
                 formId="password"
                 type="password"
-                defaultValue="getitnow"
+                // defaultValue=""
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
