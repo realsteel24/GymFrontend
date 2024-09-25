@@ -173,7 +173,7 @@ export function Dashboard() {
                 </div>
               ) : (
                 <div>
-                  <div className="text-2xl font-bold">{statusCount} </div>
+                  <div className="text-2xl font-bold pt-4">{statusCount} </div>
                   <p className="text-xs text-muted-foreground">
                     +20.1% from last month
                   </p>
@@ -183,12 +183,14 @@ export function Dashboard() {
           </Card>
           <Card x-chunk="dashboard-01-chunk-3">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Search Members</CardTitle>
-              <MemberSearch id="all" gymId={gymId!} />
+              <CardTitle className="text-sm font-medium">
+                Member Search
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-bold flex justify-between">
                 {maleCount + femaleCount}
+                <MemberSearch id="all" gymId={gymId!} />
               </div>
               <p className="text-xs text-muted-foreground">Total Members</p>
             </CardContent>

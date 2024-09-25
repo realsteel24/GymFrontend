@@ -12,7 +12,6 @@ import {
   CommandList,
   CommandDialog,
 } from "././ui/command";
-import { Button } from "././ui/button";
 import { ScanSearch } from "lucide-react";
 
 interface SearchMemberProps {
@@ -91,10 +90,15 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
   };
 
   return (
-<div>
-          <Button onClick={() => setOpen(prev => !prev)} className=" text-md flex justify-end">
-              <ScanSearch />
-      </Button>
+    <div>
+      <div
+        onClick={() => setOpen((prev) => !prev)}
+        className=" text-md flex justify-between"
+      >
+        <div>
+          <ScanSearch className="h-16 w-16 text-muted-foreground" />
+        </div>
+      </div>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command className="rounded-lg border shadow-md md:min-w-[450px]">
           <CommandInput
@@ -114,10 +118,10 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
                     <CommandItem
                       key={member.Members[0].id}
                       value={member.name}
-                          onSelect={() => {
-                              handleMemberSelect(member) 
-                              selectedStatus
-                          }}
+                      onSelect={() => {
+                        handleMemberSelect(member);
+                        selectedStatus;
+                      }}
                       className="text-md"
                     >
                       {member.name}
