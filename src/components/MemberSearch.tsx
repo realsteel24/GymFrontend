@@ -100,7 +100,7 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
         </div>
       </div>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <Command className="rounded-lg border shadow-md md:min-w-[450px]">
+        <Command className="rounded-lg shadow-md md:min-w-[450px]">
           <CommandInput
             className="text-md"
             placeholder="Search members..."
@@ -117,7 +117,7 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
                   {memberSearch.map((member) => (
                     <CommandItem
                       key={member.Members[0].id}
-                      value={member.name}
+                      value={member.id}
                       onSelect={() => {
                         handleMemberSelect(member);
                         selectedStatus;

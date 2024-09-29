@@ -110,8 +110,8 @@ export const CreateFeeCategory = () => {
             <LabelledInput
               formId="Package"
               formName="Package"
-              label="Category Name"
-              placeholder="Package Name"
+              label="Package Name"
+              placeholder="Name"
               onChange={(e) => setDescription(e.target.value)}
             />
 
@@ -123,7 +123,7 @@ export const CreateFeeCategory = () => {
                 <SelectTrigger className="col-span-3 text-md" id={frequency}>
                   <SelectValue placeholder="Choose Package" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-opacity-30 border boder-input">
                   {frequencyOptions.map((fee) => (
                     <SelectItem key={fee} value={fee} className="text-md">
                       {fee}

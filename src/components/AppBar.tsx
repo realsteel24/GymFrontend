@@ -3,7 +3,6 @@ import DarkModeToggle from "./DarkModeToggle";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface AppbarProps {
-  // TODO: can u figure out what the type should be here?
   children: React.ReactNode;
 }
 

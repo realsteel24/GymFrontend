@@ -12,6 +12,7 @@ import { Members } from "./pages/tables/Members";
 import { MemberFees } from "./pages/tables/MemberFees";
 import { GymNameProvider } from "./context/Gym";
 import { TransactionHistory } from "./pages/tables/TransactionHistory";
+import { BulkForm } from "./pages/BulkForm";
 
 function App() {
   return (
@@ -40,6 +41,12 @@ function App() {
                       <Layout children={<GymProfile component="Dashboard" />} />
                     }
                   />
+                  <Route
+                    path="importForm"
+                    element={
+                      <Layout children={<BulkForm />} />
+                    }
+                  />
                 </Routes>
               </GymNameProvider>
             }
@@ -65,7 +72,7 @@ function App() {
             path="/gym/:gymId/transactionHistory/:memberId"
             element={<Layout children={<TransactionHistory />} />}
           />
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/" element={<SignIn />} />
           <Route path="/payment" element={<Batches />} />
           <Route path="/test" element={<SignIn />} />
         </Routes>

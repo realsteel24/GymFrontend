@@ -24,7 +24,7 @@ export function Layout({
           <Button
             onClick={() => {
               localStorage.clear();
-              navigate("/signin");
+              navigate("/");
             }}
             size={"sm"}
             variant={"outline"}
@@ -43,9 +43,9 @@ export function Layout({
               title="Dashboard"
             />
             <SidebarItem
-              href={`/gym/${gymId}/menu`}
+              href={`/gym/${gymId}/importForm`}
               icon={<TransactionsIcon />}
-              title="Record Payment"
+              title="Import form"
             />
             <SidebarItem
               href={`/gym/${gymId}/menu`}

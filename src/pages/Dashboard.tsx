@@ -173,7 +173,7 @@ export function Dashboard() {
                 </div>
               ) : (
                 <div>
-                  <div className="text-2xl font-bold pt-4">{statusCount} </div>
+                  <div className="text-2xl font-bold pt-0">{statusCount} </div>
                   <p className="text-xs text-muted-foreground">
                     +20.1% from last month
                   </p>
