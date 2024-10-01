@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import { MemberOptions } from "@/hooks";
 import { BACKEND_URL } from "@/config";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Command,
   CommandEmpty,
@@ -12,15 +12,19 @@ import {
   CommandList,
   CommandDialog,
 } from "././ui/command";
-import { ScanSearch } from "lucide-react";
+import { Search } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { DialogDescription } from "./ui/dialog";
 
 interface SearchMemberProps {
   gymId: string;
   setMemberId?: (memberId: string) => void;
   id: string;
+  data?: number;
 }
 
-const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
+const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [memberSearch, setMemberSearch] = useState<MemberOptions[]>([]);
@@ -29,6 +33,7 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
   );
   const [open, setOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
+  const navigate = useNavigate();
 
   const fetchMembers = async (search: string) => {
     setLoading(true);
@@ -95,11 +100,28 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
         onClick={() => setOpen((prev) => !prev)}
         className=" text-md flex justify-between"
       >
-        <div>
+        {/* <div>
           <ScanSearch className="h-16 w-16 text-muted-foreground" />
-        </div>
+        </div> */}
+
+        <Card x-chunk="dashboard-01-chunk-3">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Member Search</CardTitle>
+            <Search className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold pt-0">{data} </div>
+
+            <p className="text-xs text-muted-foreground">Total Members</p>
+          </CardContent>
+        </Card>
       </div>
+
       <CommandDialog open={open} onOpenChange={setOpen}>
+        <DialogTitle className="hidden">Search</DialogTitle>
+        <DialogDescription className="hidden">
+          Search for members
+        </DialogDescription>
         <Command className="rounded-lg shadow-md md:min-w-[450px]">
           <CommandInput
             className="text-md"
@@ -121,6 +143,9 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId }) => {
                       onSelect={() => {
                         handleMemberSelect(member);
                         selectedStatus;
+                        navigate(
+                          `/gym/${gymId}/transactionHistory/${member.Members[0].id}`
+                        );
                       }}
                       className="text-md"
                     >

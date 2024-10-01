@@ -8,7 +8,11 @@ import { useToast } from "../ui/use-toast";
 import SelectMember from "../selectors/SelectMembers";
 import SelectPackage from "../selectors/SelectPackage";
 
-export const CreateMemberFee = () => {
+interface createFeeRecordProps {
+  derivedMemberid?: string;
+}
+
+export const CreateMemberFee = ({ derivedMemberid }: createFeeRecordProps) => {
   const navigate = useNavigate();
   const { gymId } = useParams<{ gymId: string }>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -20,9 +24,10 @@ export const CreateMemberFee = () => {
   const [paidDate, setPaidDate] = useState<Date>(new Date());
   const [dueDate, setDueDate] = useState<Date>(addMonths(new Date(), 1));
   const [remarks, setRemarks] = useState("Success");
-  const [memberId, setMemberId] = useState("");
+  const [memberId, setMemberId] = useState(
+    derivedMemberid ? derivedMemberid : " "
+  );
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
 
   const { toast } = useToast();
 
@@ -91,11 +96,13 @@ export const CreateMemberFee = () => {
         mobileFn={clear}
         children={
           <div>
-            <SelectMember
-              gymId={gymId!}
-              id="members"
-              setMemberId={setMemberId}
-            />
+            {derivedMemberid ? null : (
+              <SelectMember
+                gymId={gymId!}
+                id="members"
+                setMemberId={setMemberId}
+              />
+            )}
             <SelectPackage
               gymId={gymId!}
               feeCategoryId={feeCategoryId}
@@ -135,7 +142,12 @@ export const CreateMemberFee = () => {
           </div>
         }
         button={
-          <Button type="submit" onClick={handleSubmit} variant={"outline"} className="bg-accent text-white dark:text-black">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            variant={"outline"}
+            className="bg-accent text-white dark:text-black"
+          >
             Save changes
           </Button>
         }

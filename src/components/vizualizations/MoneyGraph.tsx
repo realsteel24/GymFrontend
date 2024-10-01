@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
+  Card,
   CardContent,
   CardDescription,
   CardFooter,
@@ -15,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   ChartLegend,
-    ChartLegendContent,
+  ChartLegendContent,
 } from "@/components/ui/chart";
 import { MemberFeeOptions } from "@/hooks";
 import { TrendingUp } from "lucide-react";
@@ -102,45 +103,47 @@ export function MoneyGraph({
 
   return (
     <>
-      <CardHeader>
-        <CardTitle>Monthly Collection</CardTitle>
-        <CardDescription>
-          For the year - {new Date().getFullYear()}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <YAxis tickLine={false} axisLine={false} tickMargin={10} />
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-
-            <ChartLegend content={<ChartLegendContent />} />
-            {programs.map((program, index) => (
-              <Bar
-                key={program}
-                dataKey={program}
-                stackId="a"
-                fill={`hsl(var(--chart-${index + 1}))`}
-                accumulate="sum"
+      <Card>
+        <CardHeader className="mb-24">
+          <CardTitle>Monthly Collection</CardTitle>
+          <CardDescription>
+            For the year - {new Date().getFullYear()}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig}>
+            <BarChart accessibilityLayer data={chartData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 3)}
               />
-            ))}
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none text-muted-foreground opacity-80">
-          Showing total collections for the current year
-          <TrendingUp className="h-4 w-4 text-secondary-foreground" />
-        </div>
-      </CardFooter>
+              <YAxis tickLine={false} axisLine={false} tickMargin={10} />
+              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+
+              <ChartLegend content={<ChartLegendContent />} />
+              {programs.map((program, index) => (
+                <Bar
+                  key={program}
+                  dataKey={program}
+                  stackId="a"
+                  fill={`hsl(var(--chart-${index + 1}))`}
+                  accumulate="sum"
+                />
+              ))}
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex gap-2 font-medium leading-none text-muted-foreground opacity-80">
+            Showing total collections for the current year
+            <TrendingUp className="h-4 w-4 text-secondary-foreground" />
+          </div>
+        </CardFooter>
+      </Card>
     </>
   );
 }

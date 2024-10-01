@@ -29,7 +29,6 @@ import { useParams } from "react-router-dom";
 import dateFormat from "dateformat";
 import GenderPieChart from "@/components/vizualizations/GenderPieChart";
 import { MoneyGraph } from "@/components/vizualizations/MoneyGraph";
-import { MonthlyCollection } from "@/components/vizualizations/MonthlyCollection";
 import MemberSearch from "@/components/MemberSearch";
 
 export function Dashboard() {
@@ -181,22 +180,21 @@ export function Dashboard() {
               )}
             </CardContent>
           </Card>
-          <Card x-chunk="dashboard-01-chunk-3">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Member Search
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold flex justify-between">
-                {maleCount + femaleCount}
-                <MemberSearch id="all" gymId={gymId!} />
-              </div>
-              <p className="text-xs text-muted-foreground">Total Members</p>
-            </CardContent>
-          </Card>
+
+          <MemberSearch id="all" gymId={gymId!} data={maleCount + femaleCount} />
         </div>
         <div className="grid gap-4 md:gap-8 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4">
+          <div className="col-span-1 md:col-span-2">
+            <MoneyGraph
+              memberFees={transactionCharts}
+              memberFeesLoading={transactionChartsLoading}
+            />
+            {/* <MonthlyCollection
+             memberFees={transactionCharts}
+             memberFeesLoading={transactionChartsLoading}
+           /> */}
+          </div>
+
           <Card className="md:col-span-2" x-chunk="dashboard-01-chunk-4">
             <CardHeader className="flex flex-row items-center">
               <div className="grid gap-4">
@@ -280,17 +278,6 @@ export function Dashboard() {
             <GenderPieChart maleCount={maleCount} femaleCount={femaleCount} />
           </div>
 
-          <Card className="col-span-1 md:col-span-2">
-            <CardHeader>
-              <CardTitle>Monthwise Collection Graph</CardTitle>
-              <CardDescription>Total Sales</CardDescription>
-            </CardHeader>
-            <MonthlyCollection
-              memberFees={transactionCharts}
-              memberFeesLoading={transactionChartsLoading}
-            />
-          </Card>
-
           <Card className="md:col-span-2" x-chunk="dashboard-01-chunk-4">
             <CardHeader className="flex flex-row items-center">
               <div className="grid gap-4">
@@ -367,12 +354,6 @@ export function Dashboard() {
               )}
             </CardContent>
           </Card>
-          <div className="col-span-1 md:col-span-2">
-            <MoneyGraph
-              memberFees={transactionCharts}
-              memberFeesLoading={transactionChartsLoading}
-            />
-          </div>
         </div>
       </main>
     </div>

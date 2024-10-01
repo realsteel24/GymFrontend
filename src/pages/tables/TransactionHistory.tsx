@@ -13,6 +13,7 @@ import {
   PaginationEllipsis,
   PaginationNext,
 } from "@/components/ui/pagination";
+import { CreateMemberFee } from "@/components/forms/CreateMemberFee";
 
 export const TransactionHistory = () => {
   const { gymId, memberId } = useParams<{ gymId: string; memberId: string }>();
@@ -57,7 +58,10 @@ export const TransactionHistory = () => {
       <div className="flex justify-center text-xl my-6 underline underline-offset-8 decoration-4 decoration-accent font-semibold">
         Transaction History
       </div>
-      <div>
+      <div className="text-end mb-4 mx-8">
+      <CreateMemberFee derivedMemberid={memberId} />
+      </div>
+        <div>
         {transactionHistoryLoading ? (
           <div className="md:mx-8">
             <Skeleton />
