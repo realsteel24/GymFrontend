@@ -61,8 +61,10 @@ function App() {
   }, []);
 
   const isIOS = () => {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
   };
+
   const isDesktop = () => !/iPad|iPhone|iPod|Android/.test(navigator.userAgent);
 
   const handleInstallClick = () => {
