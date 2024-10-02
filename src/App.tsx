@@ -91,7 +91,6 @@ function App() {
             </p>
           </div>
         ),
-        duration: 50000,
       });
     }
   };
@@ -111,7 +110,6 @@ function App() {
             Install App
           </Button>
         ),
-        duration: 50000, // Duration for the toast (optional)
       });
     }
   }, [showInstallButton, toast]);

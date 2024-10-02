@@ -16,6 +16,7 @@ import { Search } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { DialogDescription } from "./ui/dialog";
+import { useToast } from "./ui/use-toast";
 
 interface SearchMemberProps {
   gymId: string;
@@ -34,7 +35,7 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const navigate = useNavigate();
-
+  const { toast } = useToast();
   const fetchMembers = async (search: string) => {
     setLoading(true);
     try {
@@ -150,7 +151,11 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data }) => {
                           ? navigate(
                               `/gym/${gymId}/transactionHistory/${member.Members[0].id}`
                             )
-                          : null;
+                          : toast({
+                              title: "Error: User not enrolled",
+                              description:
+                                "Enroll User to a Program then try again",
+                            });
                       }}
                       className="text-md justify-between"
                     >
