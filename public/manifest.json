@@ -1,0 +1,21 @@
+{
+    "name": "Admin-App",
+    "short_name": "Admin",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "description": "Manage your business on the go",
+    "icons": [
+      {
+        "src": "/Admin-Logo.svg",
+        "sizes": "149x150",
+        "type": "image/svg+xml"
+      },
+      {
+        "src": "/icons/Admin-Logo.svg",
+        "sizes": "512x512",
+        "type": "image/svg+xml"
+      }
+    ]
+  }

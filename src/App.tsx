@@ -15,6 +15,21 @@ import { TransactionHistory } from "./pages/tables/TransactionHistory";
 import { BulkForm } from "./pages/BulkForm";
 
 function App() {
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/service-worker.js")
+        .then((registration) => {
+          console.log(
+            "Service Worker registered with scope:",
+            registration.scope
+          );
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+    });
+  }
   return (
     <>
       <BrowserRouter>
@@ -43,9 +58,7 @@ function App() {
                   />
                   <Route
                     path="importForm"
-                    element={
-                      <Layout children={<BulkForm />} />
-                    }
+                    element={<Layout children={<BulkForm />} />}
                   />
                 </Routes>
               </GymNameProvider>
