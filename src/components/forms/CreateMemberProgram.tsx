@@ -91,6 +91,7 @@ export const CreateMemberProgram = () => {
               gymId={gymId!}
               id="members"
               setMemberId={setMemberId}
+              
             />
 
             <SelectPrograms

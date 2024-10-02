@@ -8,6 +8,7 @@ export interface MemberOptions {
   dob: string | null;
   contact: string;
   gender: string;
+  status: string;
   Members: {
     length: number;
     0: {
@@ -15,14 +16,7 @@ export interface MemberOptions {
       enrollmentDate: string;
       gymId: string;
       MemberFees?: { 0: { paidDate?: string } };
-      MemberPrograms: {
-        0: {
-          Program: { name: string };
-          programId: string;
-          batchId: string;
-          Batch: { name: string };
-        };
-      };
+      MemberPrograms: MemberProgramOptions[];
     };
   };
   navigate: (path: string) => void;
@@ -79,7 +73,7 @@ export interface MemberProgramOptions {
   programId: string;
   batchId: string;
   gymId: string;
-
+  Batch: { name: string };
   Member: {
     0: {
       userId: string;
@@ -95,7 +89,7 @@ export interface MemberProgramOptions {
       User: { 0: { name: string } };
     };
   };
-  Program: { 0: { name: string } };
+  Program: ProgramsOptions;
 }
 
 export interface MemberFeeOptions {

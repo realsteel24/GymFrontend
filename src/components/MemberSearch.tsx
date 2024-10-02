@@ -138,18 +138,23 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data }) => {
                 <CommandGroup>
                   {memberSearch.map((member) => (
                     <CommandItem
-                      key={member.Members[0].id}
-                      value={member.id}
+                      key={member.id}
+                      value={member.name}
                       onSelect={() => {
                         handleMemberSelect(member);
                         selectedStatus;
-                        navigate(
-                          `/gym/${gymId}/transactionHistory/${member.Members[0].id}`
-                        );
+                        member.status === "member"
+                          ? navigate(
+                              `/gym/${gymId}/transactionHistory/${member.Members[0].id}`
+                            )
+                          : null;
                       }}
-                      className="text-md"
+                      className="text-md justify-between"
                     >
-                      {member.name}
+                      <div>{member.name}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {member.status}
+                      </div>
                     </CommandItem>
                   ))}
                 </CommandGroup>

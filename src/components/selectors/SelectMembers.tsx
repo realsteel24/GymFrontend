@@ -20,9 +20,14 @@ interface SelectMemberProps {
   gymId: string;
   setMemberId: (memberId: string) => void;
   id: string;
+  type?: string;
 }
 
-const SelectMember: React.FC<SelectMemberProps> = ({ gymId, setMemberId }) => {
+const SelectMember: React.FC<SelectMemberProps> = ({
+  gymId,
+  setMemberId,
+  type,
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [memberSearch, setMemberSearch] = useState<MemberOptions[]>([]);
@@ -36,7 +41,9 @@ const SelectMember: React.FC<SelectMemberProps> = ({ gymId, setMemberId }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${BACKEND_URL}/api/v1/admin/${gymId}/members/select?search=${search}`,
+        `${BACKEND_URL}/api/v1/admin/${gymId}/members/${
+          type === "member" ? "selectMembers" : "select"
+        }?search=${search}`,
         {
           headers: {
             "Content-Type": "application/json",

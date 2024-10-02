@@ -101,6 +101,7 @@ export const CreateMemberFee = ({ derivedMemberid }: createFeeRecordProps) => {
                 gymId={gymId!}
                 id="members"
                 setMemberId={setMemberId}
+                type="member"
               />
             )}
             <SelectPackage

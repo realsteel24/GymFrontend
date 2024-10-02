@@ -31,11 +31,13 @@ export const Members = () => {
   const formattedMembers = members.map((item) => {
     const memberDetail = item.Members[0];
     const memberProgram = memberDetail?.MemberPrograms[0];
-    const programName = memberProgram?.Program?.name || "N/A";
+    const programName = item.Members[0].MemberPrograms.length > 0
+    ? item.Members[0].MemberPrograms.map((program) => program.Program.name || "N/A").join(", ")
+    : "N/A";
+
     const batchName = memberProgram?.Batch?.name || "N/A";
     const enrollmentDate = memberDetail?.enrollmentDate || null;
     const dob = item.dob || null;
-
     return {
       ...item,
       programName,
