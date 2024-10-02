@@ -17,11 +17,13 @@ import { TransactionHistory } from "./pages/tables/TransactionHistory";
 import { BulkForm } from "./pages/BulkForm";
 import { Button } from "./components/ui/button";
 import { useState, useEffect } from "react";
+import { useToast } from "./components/ui/use-toast";
 
 function App() {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -72,6 +74,21 @@ function App() {
       });
     }
   };
+
+  // Show the install button in a toast notification
+  useEffect(() => {
+    if (showInstallButton) {
+      toast({
+        title: "Install App",
+        description: (
+          <Button onClick={handleInstallClick} size={"sm"} variant={"outline"}>
+            Install App
+          </Button>
+        ),
+        duration: 5000, // Duration for the toast (optional)
+      });
+    }
+  }, [showInstallButton, toast]);
 
   return (
     <>
@@ -133,11 +150,6 @@ function App() {
           <Route path="/test" element={<SignIn />} />
         </Routes>
       </BrowserRouter>
-      {showInstallButton && (
-        <Button id="installButton" onClick={handleInstallClick}>
-          Install App
-        </Button>
-      )}
     </>
   );
 }
