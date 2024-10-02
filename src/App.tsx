@@ -47,7 +47,7 @@ function App() {
       setDeferredPrompt(e);
       setTimeout(() => {
         setShowInstallButton(true);
-      }, 30000); // Show button after 30 seconds
+      }, 10000); // Show button after 10 seconds
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -59,6 +59,11 @@ function App() {
       );
     };
   }, []);
+
+  const isIOS = () => {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  };
+  const isDesktop = () => !/iPad|iPhone|iPod|Android/.test(navigator.userAgent);
 
   const handleInstallClick = () => {
     if (deferredPrompt) {
@@ -72,20 +77,39 @@ function App() {
         setDeferredPrompt(null);
         setShowInstallButton(false);
       });
+    } else if (isIOS()) {
+      // Show instructions only for iOS users
+      toast({
+        title: "Add to Home Screen",
+        description: (
+          <div>
+            <p>
+              To install this app, tap the Share icon in Safari, then select
+              "Add to Home Screen."
+            </p>
+          </div>
+        ),
+        duration: 50000,
+      });
     }
   };
 
   // Show the install button in a toast notification
   useEffect(() => {
-    if (showInstallButton) {
+    if (showInstallButton && !isDesktop()) {
       toast({
-        title: "Install App",
+        title: "Download Admin-App on your device",
         description: (
-          <Button onClick={handleInstallClick} size={"sm"} variant={"outline"}>
+          <Button
+            className="bg-accent dark:text-black"
+            onClick={handleInstallClick}
+            size={"sm"}
+            variant={"outline"}
+          >
             Install App
           </Button>
         ),
-        duration: 5000, // Duration for the toast (optional)
+        duration: 50000, // Duration for the toast (optional)
       });
     }
   }, [showInstallButton, toast]);
