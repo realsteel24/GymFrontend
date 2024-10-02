@@ -21,6 +21,7 @@ import {
 
 import React from "react";
 import { ScrollArea } from "./ui/scroll-area";
+import { SquarePlus } from "lucide-react";
 
 export const CustomDialogForm = ({
   FormTitle,
@@ -36,8 +37,10 @@ export const CustomDialogForm = ({
   setIsMobileOpen,
   isMobileOpen,
   mobileFn,
+  type,
 }: {
   drawerTitle?: string;
+  type?: string;
   drawerDescription?: string;
   FormTitle: string;
   FormDescription: string;
@@ -57,7 +60,11 @@ export const CustomDialogForm = ({
       <div className="block md:hidden ">
         <Drawer open={isMobileOpen} onOpenChange={setIsMobileOpen}>
           <DrawerTrigger asChild>
-            <Button variant="outline">{titleButton}</Button>
+            {type === "mini" ? (
+              <SquarePlus className="cursor-pointer" />
+            ) : (
+              <Button variant="outline">{titleButton}</Button>
+            )}
           </DrawerTrigger>
           <DrawerContent className="px-4">
             <ScrollArea className="flex-grow overflow-y-auto">
@@ -83,9 +90,13 @@ export const CustomDialogForm = ({
       <div className="hidden md:block">
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button onClick={fn} variant={"outline"}>
-              {titleButton}
-            </Button>
+            {type === "mini" ? (
+              <SquarePlus className="cursor-pointer" />
+            ) : (
+              <Button variant="outline" onClick={fn}>
+                {titleButton}
+              </Button>
+            )}
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

@@ -1,13 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Appbar } from "./AppBar";
-import {
-  SidebarItem,
-  HomeIcon,
-  TransferIcon,
-  TransactionsIcon,
-} from "./SideBar";
+import { SidebarItem, HomeIcon, DashboardIcon, ReportsIcon } from "./SideBar";
 import { Button } from "./ui/button";
 import { SUPER_ADMIN } from "@/config";
+import { FilePlus } from "lucide-react";
 
 export function Layout({
   children,
@@ -36,20 +32,22 @@ export function Layout({
       <div className="flex ">
         <div className="w-72 min-h-screen pt-28 hidden lg:block bg-gray-300 bg-opacity-10 dark:bg-opacity-10 backdrop-filter backdrop-blur-sm  rounded-lg">
           <div>
-            {jwt === SUPER_ADMIN ? <SidebarItem href={"/gym"} icon={<HomeIcon />} title="Home" /> : null}
+            {jwt === SUPER_ADMIN ? (
+              <SidebarItem href={"/gym"} icon={<HomeIcon />} title="Home" />
+            ) : null}
             <SidebarItem
               href={`/gym/${gymId}/dashboard`}
-              icon={<TransferIcon />}
+              icon={<DashboardIcon />}
               title="Dashboard"
             />
             <SidebarItem
               href={`/gym/${gymId}/importForm`}
-              icon={<TransactionsIcon />}
+              icon={<FilePlus />}
               title="Import form"
             />
             <SidebarItem
               href={`/gym/${gymId}/menu`}
-              icon={<TransferIcon />}
+              icon={<ReportsIcon />}
               title="Reports"
             />
           </div>

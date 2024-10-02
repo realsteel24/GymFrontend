@@ -1,3 +1,4 @@
+import { CircleGauge, Files } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const SidebarItem = ({
@@ -16,21 +17,20 @@ export const SidebarItem = ({
   return (
     <div
       className={`flex hover:bg-green-400 dark:hover:bg-lime-300 dark:hover:bg-opacity-10 hover:bg-opacity-10 rounded-lg transition ${
-        selected ? "dark:text-white text-black" : "dark:text-gray-400 text-gray-500"
+        selected
+          ? "dark:text-white text-black"
+          : "dark:text-gray-400 text-gray-500"
       } cursor-pointer p-2 pl-8`}
       onClick={() => {
         navigate(href);
       }}
     >
       <div className="pr-2">{icon}</div>
-      <div className={`font-bold`}>
-        {title}
-      </div>
+      <div className={`font-bold`}>{title}</div>
     </div>
   );
 };
 
-// Icons Fetched from https://heroicons.com/
 export function HomeIcon() {
   return (
     <svg
@@ -49,40 +49,30 @@ export function HomeIcon() {
     </svg>
   );
 }
-export function TransferIcon() {
+export function DashboardIcon() {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
       className="w-6 h-6"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
-      />
+      <CircleGauge />
     </svg>
   );
 }
 
-export function TransactionsIcon() {
+export function ReportsIcon() {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
       className="w-6 h-6"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-      />
+      <Files />
     </svg>
   );
 }

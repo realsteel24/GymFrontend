@@ -97,7 +97,10 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data }) => {
   return (
     <div>
       <div
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => {
+          setOpen((prev) => !prev);
+          setSearchParams("");
+        }}
         className=" text-md flex justify-between"
       >
         {/* <div>
@@ -138,7 +141,7 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data }) => {
                 <CommandGroup>
                   {memberSearch.map((member) => (
                     <CommandItem
-                      key={member.id}
+                      key={member.Members[0].id}
                       value={member.name}
                       onSelect={() => {
                         handleMemberSelect(member);

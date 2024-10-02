@@ -58,8 +58,8 @@ export const TransactionHistory = () => {
       <div className="flex justify-center text-xl my-6 underline underline-offset-8 decoration-4 decoration-accent font-semibold">
         Transaction History
       </div>
-      <div className="text-end mb-4 mx-8">
-      <CreateMemberFee derivedMemberid={memberId} />
+      <div className="text-end mb-4 mx-4 md:mx-8 flex justify-end">
+      <CreateMemberFee derivedMemberid={memberId} type="mini"/>
       </div>
         <div>
         {transactionHistoryLoading ? (

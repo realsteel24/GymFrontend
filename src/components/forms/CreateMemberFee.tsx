@@ -10,9 +10,13 @@ import SelectPackage from "../selectors/SelectPackage";
 
 interface createFeeRecordProps {
   derivedMemberid?: string;
+  type?: string;
 }
 
-export const CreateMemberFee = ({ derivedMemberid }: createFeeRecordProps) => {
+export const CreateMemberFee = ({
+  derivedMemberid,
+  type,
+}: createFeeRecordProps) => {
   const navigate = useNavigate();
   const { gymId } = useParams<{ gymId: string }>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -84,6 +88,7 @@ export const CreateMemberFee = ({ derivedMemberid }: createFeeRecordProps) => {
   return (
     <div>
       <CustomDialogForm
+        type={type}
         isOpen={isDialogOpen}
         isMobileOpen={isDrawerOpen}
         setIsOpen={setIsDialogOpen}
