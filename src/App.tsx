@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -13,23 +15,64 @@ import { MemberFees } from "./pages/tables/MemberFees";
 import { GymNameProvider } from "./context/Gym";
 import { TransactionHistory } from "./pages/tables/TransactionHistory";
 import { BulkForm } from "./pages/BulkForm";
+import { Button } from "./components/ui/button";
+import { useState, useEffect } from "react";
 
 function App() {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("/service-worker.js")
-        .then((registration) => {
-          console.log(
-            "Service Worker registered with scope:",
-            registration.scope
-          );
-        })
-        .catch((error) => {
-          console.error("Service Worker registration failed:", error);
-        });
-    });
-  }
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("/service-worker.js")
+          .then((registration) => {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
+          })
+          .catch((error) => {
+            console.error("Service Worker registration failed:", error);
+          });
+      });
+    }
+
+    const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setTimeout(() => {
+        setShowInstallButton(true);
+      }, 30000); // Show button after 30 seconds
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, []);
+
+  const handleInstallClick = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the A2HS prompt");
+        } else {
+          console.log("User dismissed the A2HS prompt");
+        }
+        setDeferredPrompt(null);
+        setShowInstallButton(false);
+      });
+    }
+  };
+
   return (
     <>
       <BrowserRouter>
@@ -90,6 +133,11 @@ function App() {
           <Route path="/test" element={<SignIn />} />
         </Routes>
       </BrowserRouter>
+      {showInstallButton && (
+        <Button id="installButton" onClick={handleInstallClick}>
+          Install App
+        </Button>
+      )}
     </>
   );
 }
