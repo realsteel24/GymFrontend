@@ -11,8 +11,8 @@ import {
   CommandItem,
   CommandList,
   CommandDialog,
-} from "././ui/command";
-import { Search } from "lucide-react";
+} from "./ui/command";
+import { Search, SearchIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { DialogDescription } from "./ui/dialog";
@@ -23,9 +23,10 @@ interface SearchMemberProps {
   setMemberId?: (memberId: string) => void;
   id: string;
   data?: number;
+  type?: string;
 }
 
-const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data }) => {
+const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data, type }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [memberSearch, setMemberSearch] = useState<MemberOptions[]>([]);
@@ -97,30 +98,41 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data }) => {
 
   return (
     <div>
-      <div
-        onClick={() => {
-          setOpen((prev) => !prev);
-          setSearchParams("");
-        }}
-        className=" text-md flex justify-between"
-      >
-        {/* <div>
+      {type === "search" ? (
+        <SearchIcon
+          onClick={() => {
+            setOpen((prev) => !prev);
+            setSearchParams("");
+          }}
+          className="cursor-pointer text-slate-600"
+        />
+      ) : (
+        <div
+          onClick={() => {
+            setOpen((prev) => !prev);
+            setSearchParams("");
+          }}
+          className=" text-md flex justify-between"
+        >
+          {/* <div>
           <ScanSearch className="h-16 w-16 text-muted-foreground" />
         </div> */}
 
-        <Card x-chunk="dashboard-01-chunk-3">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Member Search</CardTitle>
-            <Search className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold pt-0">{data} </div>
+          <Card x-chunk="dashboard-01-chunk-3">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Member Search
+              </CardTitle>
+              <Search className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold pt-0">{data} </div>
 
-            <p className="text-xs text-muted-foreground">Total Members</p>
-          </CardContent>
-        </Card>
-      </div>
-
+              <p className="text-xs text-muted-foreground">Total Members</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
       <CommandDialog open={open} onOpenChange={setOpen}>
         <DialogTitle className="hidden">Search</DialogTitle>
         <DialogDescription className="hidden">

@@ -2,6 +2,7 @@ import React from "react";
 import DarkModeToggle from "./DarkModeToggle";
 import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../assets/Admin-Logo.svg";
+import SearchMembers from "./SearchMembers";
 
 interface AppbarProps {
   children: React.ReactNode;
@@ -21,10 +22,12 @@ export const Appbar = ({ children }: AppbarProps) => {
       </div>
       <div className="flex my-4">
         <div className="pt-1 mr-4">
+          <SearchMembers gymId={gymId!} type="search" id="all" />
+        </div>
+        <div className="pt-1 mr-4">
           <DarkModeToggle />
         </div>
-
-        <div className="f">{children}</div>
+        <div className="">{children}</div>
       </div>
     </div>
   );

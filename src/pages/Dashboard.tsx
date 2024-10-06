@@ -29,7 +29,7 @@ import { useParams } from "react-router-dom";
 import dateFormat from "dateformat";
 import GenderPieChart from "@/components/vizualizations/GenderPieChart";
 import { MoneyGraph } from "@/components/vizualizations/MoneyGraph";
-import MemberSearch from "@/components/MemberSearch";
+import SearchMembers from "@/components/SearchMembers";
 
 export function Dashboard() {
   const { gymId } = useParams<{ gymId: string }>();
@@ -181,7 +181,7 @@ export function Dashboard() {
             </CardContent>
           </Card>
 
-          <MemberSearch id="all" gymId={gymId!} data={maleCount + femaleCount} />
+          <SearchMembers id="all" gymId={gymId!} data={maleCount + femaleCount}/>
         </div>
         <div className="grid gap-4 md:gap-8 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4">
           <div className="col-span-1 md:col-span-2">
