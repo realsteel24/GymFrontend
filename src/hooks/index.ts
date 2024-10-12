@@ -9,6 +9,11 @@ export interface MemberOptions {
   contact: string;
   gender: string;
   status: string;
+  goals: string;
+  address: string;
+  medical: string;
+  referral: string;
+  instagram: string;
   Members: {
     length: number;
     0: {

@@ -1,12 +1,17 @@
 import { Button } from "@/components/ui/button";
-
 import { BACKEND_URL } from "@/config";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { CustomDialogForm } from "../CustomDialogForm";
-import { LabelledInput } from "../LabelledInput";
-import { useToast } from "../ui/use-toast";
+import { CustomDialogForm } from "@/components/CustomDialogForm";
+import { LabelledInput } from "@/components/LabelledInput";
+import { useToast } from "@/components/ui/use-toast";
 import { CreateMemberInput } from "realsteelgym";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export const CreateMember = () => {
   const [createMemberInput, setCreateMemberInput] = useState<CreateMemberInput>(
@@ -17,6 +22,11 @@ export const CreateMember = () => {
       dob: new Date(),
       gender: "",
       enrollmentDate: new Date(),
+      address: "",
+      goals: "",
+      referral: "",
+      instagram: "",
+      medical: "",
     }
   );
 
@@ -36,6 +46,11 @@ export const CreateMember = () => {
       dob: new Date(),
       gender: "",
       enrollmentDate: new Date(),
+      address: "",
+      goals: "",
+      referral: "",
+      instagram: "",
+      medical: "",
     });
     setIsDialogOpen(false);
     setIsDrawerOpen(false);
@@ -86,84 +101,163 @@ export const CreateMember = () => {
         titleButton="Create Member"
         children={
           <div>
-            <LabelledInput
-              formId="Name"
-              formName="Name"
-              autoComplete="name"
-              label="Name"
-              placeholder="Full Name"
-              onChange={(e) => {
-                setCreateMemberInput({
-                  ...createMemberInput,
-                  name: e.target.value,
-                });
-              }}
-            />
-            <LabelledInput
-              formId="Email"
-              formName="Email"
-              autoComplete="email"
-              label="Email"
-              placeholder="@gmail.com"
-              onChange={(e) => {
-                setCreateMemberInput({
-                  ...createMemberInput,
-                  email: e.target.value,
-                });
-              }}
-            />
-            <LabelledInput
-              formId="Contact"
-              formName="Contact"
-              autoComplete="phone"
-              label="Contact"
-              placeholder="Contact Number"
-              onChange={(e) => {
-                setCreateMemberInput({
-                  ...createMemberInput,
-                  contact: e.target.value,
-                });
-              }}
-            />
-            <LabelledInput
-              formId="Gender"
-              formName="Gender"
-              autoComplete="gender"
-              label="Gender"
-              placeholder="eg. Female"
-              onChange={(e) => {
-                setCreateMemberInput({
-                  ...createMemberInput,
-                  gender: e.target.value,
-                });
-              }}
-            />
-            <LabelledInput
-              formId="Birth Date"
-              formName="Birth Date"
-              label="Birth Date"
-              placeholder={"Enter Date"}
-              selectedDate={createMemberInput.dob}
-              pickDate={(date) => {
-                setCreateMemberInput({ ...createMemberInput, dob: date });
-              }}
-              type="Calendar"
-            />
+            <Accordion type="single" defaultValue="personalDetails">
+              <AccordionItem value="personalDetails">
+                <AccordionTrigger>Personal Details</AccordionTrigger>
+                <AccordionContent>
+                  <LabelledInput
+                    formId="Name"
+                    formName="Name"
+                    autoComplete="name"
+                    label="Name"
+                    placeholder="Full Name"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        name: e.target.value,
+                      });
+                    }}
+                  />
+                  <LabelledInput
+                    formId="Email"
+                    formName="Email"
+                    autoComplete="email"
+                    label="Email"
+                    placeholder="@gmail.com"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        email: e.target.value,
+                      });
+                    }}
+                  />
+                  <LabelledInput
+                    formId="Contact"
+                    formName="Contact"
+                    autoComplete="phone"
+                    label="Contact"
+                    placeholder="Contact Number"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        contact: e.target.value,
+                      });
+                    }}
+                  />
+                  <LabelledInput
+                    formId="Birth Date"
+                    formName="Birth Date"
+                    label="Birth Date"
+                    placeholder={"Enter Date"}
+                    selectedDate={createMemberInput.dob}
+                    pickDate={(date) => {
+                      setCreateMemberInput({ ...createMemberInput, dob: date });
+                    }}
+                    type="Calendar"
+                  />
 
-            <LabelledInput
-              formId="Enroll"
-              formName="Enroll"
-              label="Enrollment Date"
-              placeholder="Date of joining"
-              selectedDate={createMemberInput.enrollmentDate}
-              pickDate={(date) => {
-                setCreateMemberInput({
-                  ...createMemberInput,
-                  enrollmentDate: date,
-                });
-              }}
-              type="Calendar"
-            />
+                  <LabelledInput
+                    formId="Gender"
+                    formName="Gender"
+                    autoComplete="gender"
+                    label="Gender"
+                    placeholder="eg. Female"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        gender: e.target.value,
+                      });
+                    }}
+                  />
+                  <LabelledInput
+                    formId="address"
+                    formName="address"
+                    autoComplete="address"
+                    label="Address"
+                    placeholder="Residential address"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        address: e.target.value,
+                      });
+                    }}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="otherInformation">
+                <AccordionTrigger>Other details</AccordionTrigger>
+                <AccordionContent>
+                  <LabelledInput
+                    formId="goals"
+                    formName="goals"
+                    autoComplete="goals"
+                    label="Goals"
+                    placeholder="What are your Fitness/Martial Arts goals?"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        goals: e.target.value,
+                      });
+                    }}
+                  />
+                  <LabelledInput
+                    formId="medical"
+                    formName="medical"
+                    autoComplete="medical"
+                    label="Medical History"
+                    placeholder="Injuries - Leave blank if none"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        medical: e.target.value,
+                      });
+                    }}
+                  />
+                  <LabelledInput
+                    formId="ig"
+                    formName="ig"
+                    autoComplete="instagram"
+                    label="Instagram Handle"
+                    placeholder="instagram_id"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        instagram: e.target.value,
+                      });
+                    }}
+                  />
+                  <LabelledInput
+                    formId="referral"
+                    formName="referral"
+                    autoComplete="referral"
+                    label="Referred by"
+                    placeholder="How did you hear about us?"
+                    onChange={(e) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        referral: e.target.value,
+                      });
+                    }}
+                  />
+
+                  <LabelledInput
+                    formId="Enroll"
+                    formName="Enroll"
+                    label="Date of Admission"
+                    placeholder="Date of joining"
+                    selectedDate={createMemberInput.enrollmentDate}
+                    pickDate={(date) => {
+                      setCreateMemberInput({
+                        ...createMemberInput,
+                        enrollmentDate: date,
+                      });
+                    }}
+                    type="Calendar"
+                  />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         }
         button={
