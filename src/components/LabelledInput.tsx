@@ -1,6 +1,5 @@
 import { Label } from "@radix-ui/react-label";
 import { ChangeEvent } from "react";
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Input } from "./ui/input";
@@ -9,6 +8,7 @@ export interface LabelledInputTypes {
   placeholder?: string;
   label: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: ChangeEvent<HTMLInputElement>) => void;
   defaultValue?: string;
   labelColor?: string;
   textColor?: string;
@@ -18,10 +18,12 @@ export interface LabelledInputTypes {
   type?: string;
   selectedDate?: Date;
   pickDate?: (date: Date) => void;
-  value?: number;
+  value?: number | string;
+  required?: boolean;
 }
 
 export function LabelledInput({
+  onBlur,
   placeholder,
   label,
   onChange,
@@ -33,7 +35,7 @@ export function LabelledInput({
   type,
   value,
   autoComplete,
-
+  required,
   selectedDate,
   pickDate,
 }: LabelledInputTypes) {
@@ -56,6 +58,7 @@ export function LabelledInput({
             onChange={pickDate!}
             dateFormat={"dd/MM/yyyy"}
             className=" dark:bg-black p-2 text-md rounded-md shadow-sm border col-span-3"
+            required={required}
           />
         ) : (
           <Input
@@ -67,6 +70,8 @@ export function LabelledInput({
             value={value}
             placeholder={placeholder}
             autoComplete={autoComplete}
+            required={required}
+            onBlur={onBlur}
           />
         )}
       </div>
