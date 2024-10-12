@@ -18,7 +18,7 @@ export const Appbar = ({ children }: AppbarProps) => {
         className="text-lg flex flex-col justify-center font-bold"
         onClick={() => navigate(`/gym/${gymId}/dashboard`)}
       >
-        <img src={Logo} className="mx-2 h-8 w-8 "></img>
+        <img src={Logo} className="mx-2 h-8 w-8 cursor-pointer"></img>
       </div>
       <div className="flex my-4">
         <div className="pt-1 mr-4">
