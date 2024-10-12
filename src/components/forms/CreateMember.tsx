@@ -36,7 +36,7 @@ export const CreateMember = () => {
 
   const { toast } = useToast();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [showButton, setShowButton] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("PersonalDetails");
 
   const clear = () => {
     setCreateMemberInput({
@@ -54,6 +54,7 @@ export const CreateMember = () => {
     });
     setIsDialogOpen(false);
     setIsDrawerOpen(false);
+    setActiveTab("PersonalDetails");
   };
 
   async function handleSubmit() {
@@ -87,6 +88,11 @@ export const CreateMember = () => {
     } catch (e) {
       console.log(e);
       setGeneralError("Create User Failed");
+      toast({
+        title: `${generalError}`,
+        description: `Try again with valid inputs`,
+      });
+      clear();
     }
   }
   const validateField = (field: keyof typeof createMemberInput, value: any) => {
@@ -128,20 +134,16 @@ export const CreateMember = () => {
         titleButton="Create Member"
         children={
           <div>
-            <Tabs defaultValue="PersonalDetails" className=" text-center">
+            <Tabs
+              defaultValue="PersonalDetails"
+              className=" text-center"
+              onValueChange={setActiveTab}
+            >
               <TabsList>
-                <TabsTrigger
-                  value="PersonalDetails"
-                  onClick={() => setShowButton(false)}
-                >
+                <TabsTrigger value="PersonalDetails">
                   Personal Details
                 </TabsTrigger>
-                <TabsTrigger
-                  value="OtherDetails"
-                  onClick={() => setShowButton(true)}
-                >
-                  Other Details
-                </TabsTrigger>
+                <TabsTrigger value="OtherDetails">Other Details</TabsTrigger>
               </TabsList>
               <TabsContent value="PersonalDetails">
                 <LabelledInput
@@ -316,7 +318,7 @@ export const CreateMember = () => {
           </div>
         }
         button={
-          showButton ? (
+          activeTab === "OtherDetails" ? (
             <Button
               type="submit"
               onClick={handleSubmit}
@@ -328,7 +330,6 @@ export const CreateMember = () => {
           ) : null
         }
       />
-      {error && <p className="text-red-500 mt-2">{generalError}</p>}
     </div>
   );
 };
