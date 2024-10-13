@@ -39,7 +39,12 @@ const SelectBatches: React.FC<SelectBatchProps> = ({
         <SelectTrigger className="col-span-3 text-md" id={batchId}>
           <SelectValue placeholder="Choose Batch" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent
+          ref={(ref) =>
+            // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
+            ref?.addEventListener("touchend", (e) => e.preventDefault())
+          }
+        >
           {loading ? (
             <div>Loading...</div>
           ) : batches.length === 0 ? (

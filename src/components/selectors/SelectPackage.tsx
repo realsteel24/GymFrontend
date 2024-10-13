@@ -18,7 +18,7 @@ interface SelectFeeCategoryProps {
   setDueDate: (dueDate: Date) => void;
   setPaidDate: (paidDate: Date) => void;
   dataToDisplay?: Date;
-  className?: string
+  className?: string;
 }
 
 const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
@@ -77,7 +77,12 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
         <SelectTrigger className="col-span-3 text-md" id={feeCategoryId}>
           <SelectValue placeholder="Choose Package" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent
+          ref={(ref) =>
+            // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
+            ref?.addEventListener("touchend", (e) => e.preventDefault())
+          }
+        >
           {feeCategoryLoading ? (
             <div>Loading...</div>
           ) : feeCategories.length === 0 ? (
@@ -91,7 +96,7 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
           )}
         </SelectContent>
       </Select>
-      <div className={`col-span-4 ${className}`} >
+      <div className={`col-span-4 ${className}`}>
         <LabelledInput
           formId="date"
           formName="date"

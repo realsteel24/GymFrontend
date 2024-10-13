@@ -35,7 +35,12 @@ const SelectPrograms: React.FC<SelectProgramProps> = ({
         <SelectTrigger className="col-span-3 text-md" id={programId}>
           <SelectValue placeholder="Choose Program" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent
+          ref={(ref) =>
+            // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
+            ref?.addEventListener("touchend", (e) => e.preventDefault())
+          }
+        >
           {programLoading ? (
             <div>Loading...</div>
           ) : programs.length === 0 ? (
