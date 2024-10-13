@@ -8,12 +8,11 @@ export const BulkForm = () => {
     document.documentElement.classList.add("dark");
   }, []);
   return (
-    <div className="relative bg-gym-bg bg-cover bg-center h-screen w-full">
-      {/* Background Screen component */}
+    <div className="relative bg-gym bg-cover bg-center h-screen w-full md:bg-contain lg:bg-cover flex flex-col justify-center items-center">
       <Screen />
-
-      {/* Foreground content */}
-      <div className="relative flex justify-center items-center h-full z-10">
+      <div className="max-w-screen-md mx-auto px-4">
+        {" "}
+        {/* Add container for responsive width */}
         <CreateMemberBulk />
       </div>
     </div>

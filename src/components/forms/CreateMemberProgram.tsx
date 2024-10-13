@@ -23,6 +23,7 @@ export const CreateMemberProgram = () => {
   const [error, setError] = useState("");
   const { toast } = useToast();
 
+
   const clear = () => {
     setProgramId("");
     setBatchId("");

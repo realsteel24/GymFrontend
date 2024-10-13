@@ -18,6 +18,7 @@ import { BulkForm } from "./pages/BulkForm";
 import { Button } from "./components/ui/button";
 import { useState, useEffect } from "react";
 import { useToast } from "./components/ui/use-toast";
+import { Thankyou } from "./pages/Thankyou";
 
 function App() {
   const [deferredPrompt, setDeferredPrompt] =
@@ -140,6 +141,8 @@ function App() {
                       <Layout children={<GymProfile component="Dashboard" />} />
                     }
                   />
+                  <Route path="importForm" element={<BulkForm />} />
+                  <Route path="thankyou" element={<Thankyou />} />
                 </Routes>
               </GymNameProvider>
             }
@@ -165,7 +168,6 @@ function App() {
             path="/gym/:gymId/transactionHistory/:memberId"
             element={<Layout children={<TransactionHistory />} />}
           />
-          <Route path="/importForm" element={<BulkForm />} />
 
           <Route path="/" element={<SignIn />} />
           <Route path="/payment" element={<Batches />} />
