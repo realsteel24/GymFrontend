@@ -9,7 +9,7 @@ export const BulkForm = () => {
   }, []);
   return (
     <div
-      className="relative bg-gym-bg md:bg-gym bg-cover bg-center h-screen w-full 
+      className="relative bg-gym md:bg-gym bg-cover bg-center h-screen w-full 
     // md:bg-contain lg:bg-cover
     flex flex-col justify-center items-center"
     >
