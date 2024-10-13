@@ -112,7 +112,7 @@ export const CreateMemberBulk = () => {
   };
 
   return (
-    <div className="relative bg-black bg-opacity-90 rounded-lg shadow-lg p-6 max-w-lg mx-auto">
+    <div className="relative bg-black bg-opacity-92 md:bg-opacity-90 rounded-lg shadow-lg p-6 max-w-lg mx-3 sm:mx-0">
       <div>
         <svg
           className={`w-4 h-4 text-white ${
@@ -178,7 +178,7 @@ export const CreateMemberBulk = () => {
           </TabsTrigger>
         </TabsList>
         {activeTab === "PersonalDetails" && (
-          <TabsContent value="PersonalDetails" className="w-full">
+                  <TabsContent value="PersonalDetails" className="w-full">
             <LabelledInput
               formId="Name"
               formName="Name"

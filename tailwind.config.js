@@ -21,6 +21,7 @@ module.exports = {
         "gym-bg": "url('@/assets/gym-bg.avif')",
         image: "url('@/assets/image.jpg')",
         gym: "url('@/assets/gym.jpg')",
+        japanese: "url('@/assets/Japanese.jpeg')",
       },
       colors: {
         border: "hsl(var(--border))",
