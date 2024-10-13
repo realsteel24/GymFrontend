@@ -111,7 +111,7 @@ export const SignIn = () => {
           <div className="w-full flex justify-center">
             <div className="h-screen flex-col flex justify-center ">
               <div className="text-6xl font-semibold text-gray-600 max-w-md text-start">
-                My work has been made easy!
+                Insights turning heads
               </div>
               <div className="text-xl flex justify-center text-black pt-4 max-w-md pl-10">
                 -Admin
