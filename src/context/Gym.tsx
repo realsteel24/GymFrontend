@@ -40,6 +40,7 @@ export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
       `/gym/${gymId}/importForm`,
       `/gym/${gymId}/programs`,
       `/gym/${gymId}/batches`,
+      `/gym/${gymId}/thankyou`,
     ];
 
     const isExcludedPath = excludedPaths.some((path) =>
