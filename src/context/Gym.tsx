@@ -36,11 +36,21 @@ export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (!location.pathname.includes(`/gym/${gymId}/importForm`)) {
+    const excludedPaths = [
+      `/gym/${gymId}/importForm`,
+      `/gym/${gymId}/programs`,
+      `/gym/${gymId}/batches`,
+    ];
+
+    const isExcludedPath = excludedPaths.some((path) =>
+      location.pathname.includes(path)
+    );
+
+    if (!isExcludedPath) {
       if (!token) {
-        navigate("/"); 
+        navigate("/");
       } else {
-        setIsAuthenticated(true); 
+        setIsAuthenticated(true);
       }
     } else {
       setIsAuthenticated(true);

@@ -195,16 +195,16 @@ export const usePrograms = ({ gymId }: { gymId: string }) => {
   const [programs, setPrograms] = useState<ProgramsOptions[]>([]);
   const fetchPrograms = async () => {
     try {
-      fetch(`${BACKEND_URL}/api/v1/admin/${gymId}/programs`, {
-        headers: { authorization: localStorage.getItem("token") ?? "" },
-      }).then(async (response) => {
-        if (!response.ok) {
-          throw new Error("Something went wrong");
+      fetch(`${BACKEND_URL}/api/v1/admin/${gymId}/programs`).then(
+        async (response) => {
+          if (!response.ok) {
+            throw new Error("Something went wrong");
+          }
+          const result = await response.json();
+          setPrograms(result.data);
+          setProgramLoading(false);
         }
-        const result = await response.json();
-        setPrograms(result.data);
-        setProgramLoading(false);
-      });
+      );
     } catch (error) {
       console.log(`Error: ${error}`);
     }
@@ -230,9 +230,6 @@ export const useBatches = ({ id, gymId }: { id: string; gymId: string }) => {
       try {
         const response = await fetch(
           `${BACKEND_URL}/api/v1/admin/${gymId}/batches/${id}`,
-          {
-            headers: { authorization: localStorage.getItem("token") ?? "" },
-          }
         );
         if (!response.ok) {
           throw new Error("Something went wrong");
