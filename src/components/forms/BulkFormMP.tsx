@@ -64,7 +64,6 @@ export const CreateMemberBulk = () => {
 
           headers: {
             "Content-Type": "application/json",
-            authorization: localStorage.getItem("token") ?? "",
           },
         }
       );
@@ -178,7 +177,7 @@ export const CreateMemberBulk = () => {
           </TabsTrigger>
         </TabsList>
         {activeTab === "PersonalDetails" && (
-                  <TabsContent value="PersonalDetails" className="w-full">
+          <TabsContent value="PersonalDetails" className="w-full">
             <LabelledInput
               formId="Name"
               formName="Name"
