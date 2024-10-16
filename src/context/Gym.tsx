@@ -5,7 +5,7 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useGyms } from "@/hooks/";
 
 interface GymNameContextProps {
@@ -26,6 +26,7 @@ export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
   const { gymId } = useParams<{ gymId: string }>();
   const { gyms, loading } = useGyms();
   const navigate = useNavigate();
+  const location = useLocation(); // Get current location
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const gym = gyms.find((gym) => gym.id === gymId);
@@ -34,12 +35,17 @@ export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/");
+
+    if (!location.pathname.includes(`/gym/${gymId}/importForm`)) {
+      if (!token) {
+        navigate("/"); 
+      } else {
+        setIsAuthenticated(true); 
+      }
     } else {
       setIsAuthenticated(true);
     }
-  }, [navigate]);
+  }, [navigate, location.pathname, gymId]);
 
   return (
     <GymNameContext.Provider value={{ gymName, loading, isAuthenticated }}>
