@@ -114,7 +114,7 @@ export const CreateMemberProgram = () => {
               label="Start Date"
               placeholder={"Enter Date"}
               selectedDate={startDate}
-              pickDate={(date) => setStartDate(date)}
+              pickDate={(date) => setStartDate(date!)}
               type="Calendar"
             />
             {/* <LabelledInput

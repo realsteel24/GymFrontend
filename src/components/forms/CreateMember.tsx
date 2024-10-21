@@ -204,7 +204,7 @@ export const CreateMember = () => {
                   selectedDate={createMemberInput.dob}
                   value={createMemberInput.dob.toString()}
                   pickDate={(date) => {
-                    setCreateMemberInput({ ...createMemberInput, dob: date });
+                    setCreateMemberInput({ ...createMemberInput, dob: date! });
                   }}
                   type="Calendar"
                   required
@@ -307,7 +307,7 @@ export const CreateMember = () => {
                   pickDate={(date) => {
                     setCreateMemberInput({
                       ...createMemberInput,
-                      enrollmentDate: date,
+                      enrollmentDate: date!,
                     });
                   }}
                   type="Calendar"

@@ -103,8 +103,8 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
           label="Payment Date"
           placeholder="Enter Date"
           pickDate={(date) => {
-            setPaidDate(date);
-            setSelectDate(date);
+            setPaidDate(date!);
+            setSelectDate(date!);
             console.log(dataToDisplay);
           }}
           selectedDate={selectDate}
