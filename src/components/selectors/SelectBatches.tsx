@@ -52,7 +52,7 @@ const SelectBatches: React.FC<SelectBatchProps> = ({
           ) : (
             batches.map((batch: BatchOptions) => (
               <SelectItem key={batch.id} value={batch.id} className="text-md">
-                {batch.name}
+                {batch.name}: {batch.days}
               </SelectItem>
             ))
           )}

@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { z } from "zod";
 import SelectPrograms from "../selectors/SelectPrograms";
 import SelectBatches from "../selectors/SelectBatches";
+import { CardTitle } from "../ui/card";
 
 export const CreateMemberBulk = () => {
   const [createMemberInput, setCreateMemberInput] = useState<CreateMemberInput>(
@@ -111,33 +112,35 @@ export const CreateMemberBulk = () => {
   };
 
   return (
-    <div className="relative bg-black bg-opacity-92 md:bg-opacity-90 rounded-lg shadow-lg p-6 max-w-lg mx-3 sm:mx-0">
-      <div>
-        <svg
-          className={`w-4 h-4 text-white ${
-            activeTab === "PersonalDetails" ? "hidden" : null
-          }    ml-2 hover:text-accent hover:dark:text-accent cursor-pointer`}
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 8 14"
-          onClick={
-            activeTab === "MembershipDetails"
-              ? () => setActiveTab("OtherDetails")
-              : activeTab === "OtherDetails"
-              ? () => setActiveTab("PersonalDetails")
-              : () => null
-          }
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"
-          />
-        </svg>
-      </div>
+    <div className="relative bg-black bg-opacity-90 md:bg-opacity-90 rounded-lg shadow-lg p-6 max-w-lg mx-3 sm:mx-0">
+      <svg
+        className={`w-4 h-4 text-white ${
+          activeTab === "PersonalDetails" ? "hidden" : null
+        }    ml-2 hover:text-accent hover:dark:text-accent cursor-pointer`}
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 8 14"
+        onClick={
+          activeTab === "MembershipDetails"
+            ? () => setActiveTab("OtherDetails")
+            : activeTab === "OtherDetails"
+            ? () => setActiveTab("PersonalDetails")
+            : () => null
+        }
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"
+        />
+      </svg>
+      <CardTitle className="text-center text-2xl text-accent pb-6 md:pb-2">
+        Mohan's Planet
+      </CardTitle>
+
       <Tabs
         defaultValue="PersonalDetails"
         value={activeTab}
@@ -240,7 +243,7 @@ export const CreateMemberBulk = () => {
                   : undefined
               }
               pickDate={(date) => {
-                setCreateMemberInput({ ...createMemberInput, dob: date });
+                setCreateMemberInput({ ...createMemberInput, dob: date! });
               }}
               type="Calendar"
               required
@@ -284,7 +287,7 @@ export const CreateMemberBulk = () => {
               formName="goals"
               autoComplete="goals"
               label="Goals"
-              placeholder="Your Fitness/ Martial Arts goals?"
+              placeholder="Your Fitness goals"
               value={createMemberInput.goals}
               onChange={(e) => {
                 setCreateMemberInput({
@@ -349,7 +352,7 @@ export const CreateMemberBulk = () => {
               pickDate={(date) => {
                 setCreateMemberInput({
                   ...createMemberInput,
-                  enrollmentDate: date,
+                  enrollmentDate: date!,
                 });
               }}
               type="Calendar"
@@ -389,7 +392,7 @@ export const CreateMemberBulk = () => {
             ? () => setActiveTab("OtherDetails")
             : () => setActiveTab("MembershipDetails")
         }
-        className="bg-accent text-white hover:bg-accent focus:outline-none focus:ring focus:ring-accent mt-4 w-full"
+        className="bg-accent text-white hover:bg-accent focus:outline-none focus:ring focus:ring-accent mt-6 md:mt-4 w-full"
       >
         {activeTab === "MembershipDetails" ? "Submit" : "Next"}
       </Button>
