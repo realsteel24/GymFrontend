@@ -10,6 +10,7 @@ import { z } from "zod";
 import SelectPrograms from "../selectors/SelectPrograms";
 import SelectBatches from "../selectors/SelectBatches";
 import { CardTitle } from "../ui/card";
+import SelectGender from "../selectors/SelectGender";
 
 export const CreateMemberBulk = () => {
   const [createMemberInput, setCreateMemberInput] = useState<CreateMemberInput>(
@@ -248,20 +249,11 @@ export const CreateMemberBulk = () => {
               type="Calendar"
               required
             />
-            <LabelledInput
-              formId="Gender"
-              formName="Gender"
-              autoComplete="gender"
-              label="Gender*"
-              placeholder="eg. Female"
-              value={createMemberInput.gender}
-              onChange={(e) => {
-                setCreateMemberInput({
-                  ...createMemberInput,
-                  gender: e.target.value,
-                });
-              }}
-              required
+            <SelectGender
+              gender={createMemberInput.gender}
+              setGender={(value: string) =>
+                setCreateMemberInput({ ...createMemberInput, gender: value })
+              }
             />
             <LabelledInput
               formId="Address"
@@ -341,7 +333,7 @@ export const CreateMemberBulk = () => {
             <LabelledInput
               formId="Enroll"
               formName="Enroll"
-              label="Admission Date*"
+              label="Join Date*"
               placeholder="Date of joining"
               selectedDate={createMemberInput.enrollmentDate}
               value={

@@ -153,29 +153,31 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data, type }) => {
                 <CommandEmpty>No results found.</CommandEmpty>
                 <CommandGroup>
                   {memberSearch.map((member) => (
-                    <CommandItem
-                      key={member.Members[0].id}
-                      value={member.name}
-                      onSelect={() => {
-                        handleMemberSelect(member);
-                        selectedStatus;
-                        member.status === "member"
-                          ? navigate(
-                              `/gym/${gymId}/transactionHistory/${member.Members[0].id}`
-                            )
-                          : toast({
-                              title: "Error: User not enrolled",
-                              description:
-                                "Enroll User to a Program then try again",
-                            });
-                      }}
-                      className="text-md justify-between"
-                    >
-                      <div>{member.name}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {member.status}
-                      </div>
-                    </CommandItem>
+                    <CommandList key={member.Members[0]?.id}>
+                      <CommandItem
+                        value={`${member.name},${member.Members[0].id}`}
+                        content={member.name}
+                        onSelect={() => {
+                          handleMemberSelect(member);
+                          selectedStatus;
+                          member.status === "member"
+                            ? navigate(
+                                `/gym/${gymId}/transactionHistory/${member.Members[0].id}`
+                              )
+                            : toast({
+                                title: "Error: User not enrolled",
+                                description:
+                                  "Enroll User to a Program then try again",
+                              });
+                        }}
+                        className="text-md justify-between"
+                      >
+                        <div>{member.name}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {member.status}
+                        </div>
+                      </CommandItem>
+                    </CommandList>
                   ))}
                 </CommandGroup>
               </>

@@ -70,7 +70,7 @@ export function LabelledInput({
               <Button
                 variant={"outline"}
                 className={cn(
-                  " pl-3 text-left bg-white dark:bg-black text-md rounded-md shadow-border col-span-3",
+                  " pl-3 font-normal text-left bg-white dark:bg-black text-md rounded-md shadow-border col-span-3",
                   !selectedDate && "text-muted-foreground"
                 )}
               >

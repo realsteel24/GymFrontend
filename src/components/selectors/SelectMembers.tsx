@@ -139,7 +139,7 @@ const SelectMember: React.FC<SelectMemberProps> = ({
                     {memberSearch.map((member) => (
                       <CommandItem
                         key={member.Members[0].id}
-                        value={member.name}
+                        value={`${member.name},${member.Members[0].id}`}
                         onSelect={() => handleMemberSelect(member)}
                         className="text-md"
                       >
