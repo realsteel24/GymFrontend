@@ -201,7 +201,7 @@ export const CreateMemberBulk = () => {
               formName="Name"
               autoComplete="name"
               label="Name*"
-              placeholder="Full Name"
+              placeholder="Member Name"
               onBlur={() =>
                 validateField("name", createMemberInput.name.trim())
               }
