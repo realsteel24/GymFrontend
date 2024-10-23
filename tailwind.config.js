@@ -18,10 +18,10 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        "gym-bg": "url('@/assets/gym-bg.avif')",
         image: "url('@/assets/image.jpg')",
         gym: "url('@/assets/gym.jpg')",
         japanese: "url('@/assets/bg-gym4.jpg')",
+        planet: "url('@/assets/planetlogo-white.png')",
       },
       colors: {
         border: "hsl(var(--border))",

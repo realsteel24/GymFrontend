@@ -11,6 +11,7 @@ import SelectPrograms from "../selectors/SelectPrograms";
 import SelectBatches from "../selectors/SelectBatches";
 import { CardTitle } from "../ui/card";
 import SelectGender from "../selectors/SelectGender";
+import planet from "@/assets/planetlogo-white.png";
 
 export const CreateMemberBulk = () => {
   const [createMemberInput, setCreateMemberInput] = useState<CreateMemberInput>(
@@ -35,6 +36,7 @@ export const CreateMemberBulk = () => {
   const [generalError, setGeneralError] = useState<string | null>(null);
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("PersonalDetails");
+  const [loading, setLoading] = useState(false);
 
   const [programId, setProgramId] = useState("");
   const [batchId, setBatchId] = useState("");
@@ -56,6 +58,7 @@ export const CreateMemberBulk = () => {
   };
 
   async function handleSubmit() {
+    setLoading(true);
     try {
       createMember.parse(createMemberInput);
       const submit = await fetch(
@@ -86,6 +89,8 @@ export const CreateMemberBulk = () => {
         title: `Form submission failed`,
         description: `Try again with valid inputs`,
       });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -114,10 +119,16 @@ export const CreateMemberBulk = () => {
 
   return (
     <div className="relative bg-black bg-opacity-90 md:bg-opacity-90 rounded-lg shadow-lg p-6 max-w-lg mx-3 sm:mx-0">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+          <div className="w-12 h-12 border-4 border-gray-200 border-t-red-600 rounded-full animate-spin"></div>
+        </div>
+      )}{" "}
+      {/* Loader display */}
       <svg
         className={`w-4 h-4 text-white ${
           activeTab === "PersonalDetails" ? "hidden" : null
-        }    ml-2 hover:text-accent hover:dark:text-accent cursor-pointer`}
+        }    ml-2 hover:text-accent hover:dark:text-red-600 cursor-pointer`}
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -138,10 +149,13 @@ export const CreateMemberBulk = () => {
           d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"
         />
       </svg>
-      <CardTitle className="text-center text-2xl text-accent pb-6 md:pb-2">
-        Mohan's Planet
+      <CardTitle className="text-center text-2xl text-accent pb-2 md:pb-2 flex justify-center items-center content-center">
+        <img
+          src={planet}
+          alt="Description of the image"
+          className="w-24 h-24"
+        />
       </CardTitle>
-
       <Tabs
         defaultValue="PersonalDetails"
         value={activeTab}
@@ -371,11 +385,9 @@ export const CreateMemberBulk = () => {
           </TabsContent>
         )}
       </Tabs>
-
       {generalError && (
         <p className="text-red-500 mb-4 text-center">{generalError}</p>
       )}
-
       <Button
         onClick={
           activeTab === "MembershipDetails"
@@ -384,9 +396,14 @@ export const CreateMemberBulk = () => {
             ? () => setActiveTab("OtherDetails")
             : () => setActiveTab("MembershipDetails")
         }
-        className="bg-accent text-white hover:bg-accent focus:outline-none focus:ring focus:ring-accent mt-6 md:mt-4 w-full"
+        disabled={activeTab === "MembershipDetails" && loading} // Disable button during submission
+        className="bg-accent text-white hover:bg-accent focus:outline-none focus:ring focus:ring-black mt-8 md:mt-4 w-full"
       >
-        {activeTab === "MembershipDetails" ? "Submit" : "Next"}
+        {activeTab === "MembershipDetails"
+          ? loading
+            ? "Submitting..."
+            : "Submit" // Show loader text when loading
+          : "Next"}
       </Button>
     </div>
   );

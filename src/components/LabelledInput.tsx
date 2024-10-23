@@ -97,8 +97,6 @@ export function LabelledInput({
                 onMonthChange={setCurrentMonth} // Handle month change
                 fromYear={1950}
                 toYear={2050}
-
-                // Enable year dropdown for selection
               />
             </PopoverContent>
           </Popover>
