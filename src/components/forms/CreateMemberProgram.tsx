@@ -23,7 +23,6 @@ export const CreateMemberProgram = () => {
   const [error, setError] = useState("");
   const { toast } = useToast();
 
-
   const clear = () => {
     setProgramId("");
     setBatchId("");
@@ -92,7 +91,6 @@ export const CreateMemberProgram = () => {
               gymId={gymId!}
               id="members"
               setMemberId={setMemberId}
-              
             />
 
             <SelectPrograms

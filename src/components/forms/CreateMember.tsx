@@ -9,6 +9,7 @@ import { createMember, CreateMemberInput } from "realsteelgym";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { z } from "zod";
+import SelectGender from "../selectors/SelectGender";
 
 export const CreateMember = () => {
   const [createMemberInput, setCreateMemberInput] = useState<CreateMemberInput>(
@@ -209,20 +210,14 @@ export const CreateMember = () => {
                   type="Calendar"
                   required
                 />
-                <LabelledInput
-                  formId="Gender"
-                  formName="Gender"
-                  autoComplete="gender"
-                  label="Gender"
-                  placeholder="eg. Female"
-                  value={createMemberInput.gender}
-                  onChange={(e) => {
+                <SelectGender
+                  gender={createMemberInput.gender}
+                  setGender={(value: string) =>
                     setCreateMemberInput({
                       ...createMemberInput,
-                      gender: e.target.value,
-                    });
-                  }}
-                  required
+                      gender: value,
+                    })
+                  }
                 />
                 <LabelledInput
                   formId="address"

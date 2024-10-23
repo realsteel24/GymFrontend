@@ -266,12 +266,14 @@ export const CreateMemberBulk = () => {
               }}
               type="Calendar"
               required
+              bulk
             />
             <SelectGender
               gender={createMemberInput.gender}
               setGender={(value: string) =>
                 setCreateMemberInput({ ...createMemberInput, gender: value })
               }
+              bulk
             />
             <LabelledInput
               formId="Address"
@@ -367,6 +369,7 @@ export const CreateMemberBulk = () => {
               }}
               type="Calendar"
               required
+              bulk
             />
           </TabsContent>
         )}
@@ -377,6 +380,7 @@ export const CreateMemberBulk = () => {
                 gymId={gymId!}
                 programId={programId}
                 setProgramId={setProgramId}
+                bulk
               />
 
               <SelectBatches
@@ -384,6 +388,7 @@ export const CreateMemberBulk = () => {
                 programId={programId}
                 batchId={batchId}
                 setBatchId={setBatchId}
+                bulk
               />
             </div>
           </TabsContent>
@@ -393,6 +398,7 @@ export const CreateMemberBulk = () => {
         <p className="text-red-500 mb-4 text-center">{generalError}</p>
       )}
       <Button
+        variant={"bulkForm"}
         onClick={
           activeTab === "MembershipDetails"
             ? handleSubmit

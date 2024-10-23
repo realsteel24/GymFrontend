@@ -13,6 +13,7 @@ interface SelectBatchProps {
   programId: string;
   batchId: string;
   setBatchId: (batchId: string) => void;
+  bulk?: boolean;
 }
 
 const SelectBatches: React.FC<SelectBatchProps> = ({
@@ -20,6 +21,7 @@ const SelectBatches: React.FC<SelectBatchProps> = ({
   programId,
   batchId,
   setBatchId,
+  bulk,
 }) => {
   const { batches, loading } = useBatches({ gymId, id: programId });
 
@@ -36,7 +38,12 @@ const SelectBatches: React.FC<SelectBatchProps> = ({
       </Label>
 
       <Select onValueChange={(value) => setBatchId(value)}>
-        <SelectTrigger className="col-span-3 text-md" id={batchId}>
+        <SelectTrigger
+          className={`col-span-3 text-md ${
+            bulk ? "hover:shadow-red-600" : null
+          }`}
+          id={batchId}
+        >
           <SelectValue placeholder="Choose Batch" />
         </SelectTrigger>
         <SelectContent
@@ -51,7 +58,13 @@ const SelectBatches: React.FC<SelectBatchProps> = ({
             <div className="text-md opacity-80 p-1">No options available</div>
           ) : (
             batches.map((batch: BatchOptions) => (
-              <SelectItem key={batch.id} value={batch.id} className="text-md">
+              <SelectItem
+                key={batch.id}
+                value={batch.id}
+                className={`text-md ${
+                  bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
+                }`}
+              >
                 {batch.days}: {batch.startTime}
               </SelectItem>
             ))

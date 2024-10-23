@@ -13,12 +13,14 @@ interface SelectProgramProps {
   gymId: string;
   programId: string;
   setProgramId: (programId: string) => void;
+  bulk?: boolean;
 }
 
 const SelectPrograms: React.FC<SelectProgramProps> = ({
   gymId,
   programId,
   setProgramId,
+  bulk,
 }) => {
   const { programLoading, programs, fetchPrograms } = usePrograms({ gymId });
 
@@ -32,7 +34,12 @@ const SelectPrograms: React.FC<SelectProgramProps> = ({
         Program
       </Label>
       <Select onValueChange={(value) => setProgramId(value)}>
-        <SelectTrigger className="col-span-3 text-md" id={programId}>
+        <SelectTrigger
+          className={`col-span-3 text-md ${
+            bulk ? "hover:shadow-red-600" : null
+          }`}
+          id={programId}
+        >
           <SelectValue placeholder="Choose Program" />
         </SelectTrigger>
         <SelectContent
@@ -47,7 +54,13 @@ const SelectPrograms: React.FC<SelectProgramProps> = ({
             <div className="text-md opacity-80 p-1">No options available</div>
           ) : (
             programs.map((prog: ProgramsOptions) => (
-              <SelectItem key={prog.id} value={prog.id} className="text-md">
+              <SelectItem
+                key={prog.id}
+                value={prog.id}
+                className={`text-md ${
+                  bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
+                }`}
+              >
                 {prog.name}
               </SelectItem>
             ))
