@@ -202,7 +202,9 @@ export const CreateMemberBulk = () => {
               autoComplete="name"
               label="Name*"
               placeholder="Full Name"
-              onBlur={() => validateField("name", createMemberInput.name)}
+              onBlur={() =>
+                validateField("name", createMemberInput.name.trim())
+              }
               value={createMemberInput.name}
               onChange={(e) => {
                 setCreateMemberInput({
@@ -220,11 +222,13 @@ export const CreateMemberBulk = () => {
               label="Email*"
               placeholder="@gmail.com"
               value={createMemberInput.email}
-              onBlur={() => validateField("email", createMemberInput.email)}
+              onBlur={() =>
+                validateField("email", createMemberInput.email.trim())
+              }
               onChange={(e) => {
                 setCreateMemberInput({
                   ...createMemberInput,
-                  email: e.target.value,
+                  email: e.target.value.trim(),
                 });
               }}
               required
