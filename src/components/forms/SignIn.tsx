@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { LabelledInput } from "../LabelledInput";
 import { Button } from "../ui/button";
@@ -12,6 +12,10 @@ export const SignIn = () => {
   const navigate = useNavigate();
   const [gymCode, setGymCode] = useState("STEEL/");
 
+  useEffect(() => {
+    localStorage.setItem("darkMode", "true");
+    document.documentElement.classList.add("dark");
+  }, []);
   const handleSubmit = async () => {
     setError("");
     try {
@@ -45,7 +49,7 @@ export const SignIn = () => {
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className="h-screen flex-col flex justify-center bg-slate-800">
+        <div className="h-screen flex-col flex justify-center bg-gradient-to-tr from-slate-700 via-slate-800 to-slate-900">
           <div className="w-full flex justify-center">
             <div>
               <div className="text-gray-200 text-4xl text-center mb-5">
@@ -93,13 +97,13 @@ export const SignIn = () => {
               <div className="flex justify-center">
                 <Button
                   variant={"outline"}
-                  className="m-4"
+                  className="my-4"
                   onClick={handleSubmit}
                 >
                   Login
                 </Button>
                 {error && (
-                  <p className="text-red-500 font-light text-sm mt-2">
+                  <p className="text-red-500 font-light flex justify-center flex-col text-sm ml-2">
                     {error}
                   </p>
                 )}
@@ -107,7 +111,7 @@ export const SignIn = () => {
             </div>
           </div>
         </div>
-        <div className="bg-lime-300 hidden md:block">
+        <div className="bg-slate-300 hidden md:block">
           <div className="w-full flex justify-center">
             <div className="h-screen flex-col flex justify-center ">
               <div className="text-6xl font-semibold text-gray-600 max-w-md text-start">

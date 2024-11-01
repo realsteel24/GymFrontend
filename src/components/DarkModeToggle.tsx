@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const DarkModeToggle = () => {
+export const DarkModeToggle = () => {
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem("darkMode") === "true"
   );
@@ -16,11 +16,11 @@ const DarkModeToggle = () => {
   }, [darkMode]);
 
   const toggleDarkMode = () => {
-    setDarkMode(prevDarkMode => !prevDarkMode);
+    setDarkMode((prevDarkMode) => !prevDarkMode);
   };
 
   return (
-    <button onClick={toggleDarkMode} className="dark:bg-black-800 rounded">
+    <button onClick={toggleDarkMode} className="dark:bg-black rounded">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
