@@ -2,36 +2,38 @@
 
 import * as React from "react";
 import { buttonVariants } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { Command, CommandList, CommandItem } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { DayPicker, DropdownProps } from "react-day-picker";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  bulk?: boolean;
+};
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  bulk,
   ...props
 }: CalendarProps) {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-3 bg-white dark:bg-black", className)}
+      className={cn("p-4 bg-white dark:bg-black", className)}
       classNames={{
         nav_button: "hidden",
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
         caption: "flex justify-center pt-1 relative items-center",
-        caption_label: "text-sm font-medium px-4",
-        caption_dropdowns: "flex justify-center gap-1",
+        caption_label: "text-sm font-medium px-4 flex",
+        caption_dropdowns: "flex justify-center gap-1 w-24",
 
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
@@ -59,42 +61,42 @@ function Calendar({
             children
           ) as React.ReactElement<React.HTMLProps<HTMLOptionElement>>[];
           const selected = options.find((child) => child.props.value === value);
-          const handleChange = (value: string) => {
-            const changeEvent = {
-              target: { value },
-            } as React.ChangeEvent<HTMLSelectElement>;
-            onChange?.(changeEvent);
-          };
+
           return (
-            <Select
-              value={value?.toString()}
-              onValueChange={(value) => {
-                handleChange(value);
-              }}
-            >
-              <SelectTrigger className="pr-1.5 focus:ring-0">
-                <SelectValue>{selected?.props?.children}</SelectValue>
-              </SelectTrigger>
-              <SelectContent
-                position="popper"
-                ref={(ref) =>
-                  // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
-                  ref?.addEventListener("touchend", (e) => e.preventDefault())
-                }
-              >
-                {" "}
-                <ScrollArea className="h-80">
-                  {options.map((option, id: number) => (
-                    <SelectItem
-                      key={`${option.props.value}-${id}`}
-                      value={option.props.value?.toString() ?? ""}
-                    >
-                      {option.props.children}
-                    </SelectItem>
-                  ))}
-                </ScrollArea>
-              </SelectContent>
-            </Select>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="px-2 max-w-24 min-w-22 focus:ring-0 text-sm border rounded-lg flex justify-center flex-col">
+                  {
+                    <div className="flex justify-between">
+                      {selected?.props?.children}
+                      <CaretSortIcon className="w-3 h-3 mt-1 ml-1" />
+                    </div>
+                  }
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="p-0 min-w-10 max-w-24">
+                <Command>
+                  <CommandList className="max-w-full">
+                    {options.map((option, id: number) => (
+                      <CommandItem
+                        className={`p-2 text-sm w-40 ${
+                          bulk ? "aria-selected:bg-red-600" : null
+                        }`}
+                        key={`${option.props.value}-${id}`}
+                        onSelect={() => {
+                          const changeEvent = {
+                            target: { value: option.props.value },
+                          } as React.ChangeEvent<HTMLSelectElement>;
+                          onChange?.(changeEvent);
+                        }}
+                      >
+                        {option.props.children}
+                      </CommandItem>
+                    ))}
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           );
         },
       }}

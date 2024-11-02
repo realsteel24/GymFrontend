@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { BatchOptions, useBatches } from "@/hooks";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+import { Button } from "../ui/button";
+
 interface SelectBatchProps {
   gymId: string;
   programId: string;
@@ -19,12 +23,19 @@ interface SelectBatchProps {
 const SelectBatches: React.FC<SelectBatchProps> = ({
   gymId,
   programId,
-  batchId,
   setBatchId,
   bulk,
 }) => {
   const { batches, loading } = useBatches({ gymId, id: programId });
-
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState<BatchOptions | null>(
+    null
+  );
+  const handleBatchSelect = (batch: BatchOptions) => {
+    setSelectedStatus(batch);
+    setBatchId(batch.id);
+    setOpen(false);
+  };
   useEffect(() => {
     if (programId) {
       batches;
@@ -36,41 +47,64 @@ const SelectBatches: React.FC<SelectBatchProps> = ({
       <Label htmlFor="batch" className="text-right text-md">
         Batch
       </Label>
-
-      <Select onValueChange={(value) => setBatchId(value)}>
-        <SelectTrigger
-          className={`col-span-3 text-md ${
-            bulk ? "hover:shadow-red-600" : null
-          }`}
-          id={batchId}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className={`col-span-3 justify-between p-3 font-normal text-md ${
+              bulk ? "dark:hover:shadow-red-600" : null
+            }`}
+          >
+            {selectedStatus ? (
+              <>
+                {selectedStatus.days}: {selectedStatus.startTime}
+                <CaretSortIcon opacity={"50%"} />
+              </>
+            ) : (
+              <>
+                Select Batch
+                <CaretSortIcon opacity={"50%"} />
+              </>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className={`col-span-3 p-0 z-50 ${bulk ? "min-w-56" : null}`}
+          align="center"
         >
-          <SelectValue placeholder="Choose Batch" />
-        </SelectTrigger>
-        <SelectContent
-          ref={(ref) =>
-            // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
-            ref?.addEventListener("touchend", (e) => e.preventDefault())
-          }
-        >
-          {loading ? (
-            <div>Loading...</div>
-          ) : batches.length === 0 ? (
-            <div className="text-md opacity-80 p-1">No options available</div>
-          ) : (
-            batches.map((batch: BatchOptions) => (
-              <SelectItem
-                key={batch.id}
-                value={batch.id}
-                className={`text-md ${
-                  bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
-                }`}
-              >
-                {batch.days}: {batch.startTime}
-              </SelectItem>
-            ))
-          )}
-        </SelectContent>
-      </Select>
+          <Command>
+            <CommandList>
+              {loading ? (
+                <div className="p-2">Loading...</div>
+              ) : batches.length === 0 ? (
+                <div className="text-md opacity-80 p-2">
+                  No options available
+                </div>
+              ) : (
+                <>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    {batches.map((batch) => (
+                      <CommandItem
+                        key={batch.id}
+                        value={`${batch.id}`}
+                        onSelect={() => handleBatchSelect(batch)}
+                        className={`text-md ${
+                          bulk
+                            ? "aria-selected:bg-red-600 focus:bg-red-600"
+                            : null
+                        }`}
+                      >
+                        {batch.days}: {batch.startTime}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </>
+              )}
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };

@@ -121,7 +121,7 @@ const SelectMember: React.FC<SelectMemberProps> = ({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="col-span-3 p-0 z-50" align="start">
+        <PopoverContent className="col-span-3 p-0 z-50" align="center">
           <Command>
             <CommandInput
               className="text-md"

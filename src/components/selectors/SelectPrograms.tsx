@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import React, { useEffect, useState } from "react";
+
 import { ProgramsOptions, usePrograms } from "@/hooks";
 import { Label } from "../ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 
 interface SelectProgramProps {
   gymId: string;
@@ -18,11 +22,19 @@ interface SelectProgramProps {
 
 const SelectPrograms: React.FC<SelectProgramProps> = ({
   gymId,
-  programId,
   setProgramId,
   bulk,
 }) => {
   const { programLoading, programs, fetchPrograms } = usePrograms({ gymId });
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState<ProgramsOptions | null>(
+    null
+  );
+  const handleProgramSelect = (prog: ProgramsOptions) => {
+    setSelectedStatus(prog);
+    setProgramId(prog.id);
+    setOpen(false);
+  };
 
   useEffect(() => {
     fetchPrograms();
@@ -33,40 +45,64 @@ const SelectPrograms: React.FC<SelectProgramProps> = ({
       <Label htmlFor="program" className="text-right text-md">
         Program
       </Label>
-      <Select onValueChange={(value) => setProgramId(value)}>
-        <SelectTrigger
-          className={`col-span-3 text-md ${
-            bulk ? "hover:shadow-red-600" : null
-          }`}
-          id={programId}
+
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className={`col-span-3 justify-between p-3 font-normal text-md ${
+              bulk ? "dark:hover:shadow-red-600" : null
+            }`}
+          >
+            {selectedStatus ? (
+              <>
+                {selectedStatus.name} <CaretSortIcon opacity={"50%"} />
+              </>
+            ) : (
+              <>
+                Select Program
+                <CaretSortIcon opacity={"50%"} />
+              </>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className={`col-span-3 p-0 z-50 ${bulk ? "min-w-56" : null}`}
+          align="center"
         >
-          <SelectValue placeholder="Choose Program" />
-        </SelectTrigger>
-        <SelectContent
-          ref={(ref) =>
-            // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
-            ref?.addEventListener("touchend", (e) => e.preventDefault())
-          }
-        >
-          {programLoading ? (
-            <div>Loading...</div>
-          ) : programs.length === 0 ? (
-            <div className="text-md opacity-80 p-1">No options available</div>
-          ) : (
-            programs.map((prog: ProgramsOptions) => (
-              <SelectItem
-                key={prog.id}
-                value={prog.id}
-                className={`text-md ${
-                  bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
-                }`}
-              >
-                {prog.name}
-              </SelectItem>
-            ))
-          )}
-        </SelectContent>
-      </Select>
+          <Command>
+            <CommandList>
+              {programLoading ? (
+                <div className="p-2">Loading...</div>
+              ) : programs.length === 0 ? (
+                <div className="text-md opacity-80 p-1">
+                  No options available
+                </div>
+              ) : (
+                <>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    {programs.map((prog) => (
+                      <CommandItem
+                        key={prog.id}
+                        value={`${prog.id}`}
+                        onSelect={() => handleProgramSelect(prog)}
+                        className={`text-md ${
+                          bulk
+                            ? "aria-selected:bg-red-600 focus:bg-red-600"
+                            : null
+                        }`}
+                      >
+                        {prog.name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </>
+              )}
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };

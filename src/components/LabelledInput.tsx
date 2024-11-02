@@ -48,7 +48,6 @@ export function LabelledInput({
 }: LabelledInputTypes) {
   const [open, setOpen] = useState(false); // To control the popover state
   const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date()); // Manage month and year changes
-
   const handleDateChange = (date: Date | undefined) => {
     if (pickDate) {
       pickDate(date); // Trigger date change
@@ -87,9 +86,10 @@ export function LabelledInput({
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
+                  bulk
                   mode="single"
                   selected={selectedDate}
-                  onSelect={handleDateChange} // Call the date handler
+                  onSelect={handleDateChange}
                   disabled={(date) =>
                     date > new Date() || date < new Date("1900-01-01")
                   }

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { FeeOptions, useFeeCategories } from "@/hooks";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { LabelledInput } from "../LabelledInput";
+import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+import {
+  Command,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+} from "../ui/command";
 
 interface SelectFeeCategoryProps {
   gymId: string;
@@ -23,7 +26,6 @@ interface SelectFeeCategoryProps {
 
 const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
   gymId,
-  feeCategoryId,
   setFeeCategoryId,
   setSelectedAmount,
   setDueDate,
@@ -36,14 +38,17 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
 
   const [freq, setFreq] = useState<string>("");
   const [selectDate, setSelectDate] = useState<Date>(new Date());
-
-  const handleSelectionChange = (value: string) => {
-    setFeeCategoryId(value);
-    const selectedCategory = feeCategories.find((item) => item.id === value);
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState<FeeOptions | null>(null);
+  const handleFeeSelection = (fees: FeeOptions) => {
+    setSelectedStatus(fees);
+    setFeeCategoryId(fees.id);
+    const selectedCategory = feeCategories.find((item) => item.id === fees.id);
     if (selectedCategory) {
       setSelectedAmount(parseInt(selectedCategory.amount));
       setFreq(selectedCategory.frequency);
     }
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -73,29 +78,55 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
       <Label htmlFor="feeCategory" className="text-right text-md">
         Fee Plan
       </Label>
-      <Select onValueChange={handleSelectionChange}>
-        <SelectTrigger className="col-span-3 text-md" id={feeCategoryId}>
-          <SelectValue placeholder="Choose Package" />
-        </SelectTrigger>
-        <SelectContent
-          ref={(ref) =>
-            // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
-            ref?.addEventListener("touchend", (e) => e.preventDefault())
-          }
-        >
-          {feeCategoryLoading ? (
-            <div>Loading...</div>
-          ) : feeCategories.length === 0 ? (
-            <div className="text-sm opacity-80 p-1 ">No options available</div>
-          ) : (
-            feeCategories.map((fee: FeeOptions) => (
-              <SelectItem key={fee.id} value={fee.id}>
-                {fee.description}
-              </SelectItem>
-            ))
-          )}
-        </SelectContent>
-      </Select>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className={`col-span-3 justify-between p-3 font-normal text-md }`}
+          >
+            {selectedStatus ? (
+              <>
+                {selectedStatus.description} <CaretSortIcon opacity={"50%"} />
+              </>
+            ) : (
+              <>
+                Choose Package
+                <CaretSortIcon opacity={"50%"} />
+              </>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="col-span-3 p-0 z-50" align="center">
+          <Command>
+            <CommandList>
+              {feeCategoryLoading ? (
+                <div className="p-2">Loading...</div>
+              ) : feeCategories.length === 0 ? (
+                <div className="text-md opacity-80 p-2">
+                  No options available
+                </div>
+              ) : (
+                <>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    {feeCategories.map((fee) => (
+                      <CommandItem
+                        key={fee.id}
+                        value={`${fee.id}`}
+                        onSelect={() => handleFeeSelection(fee)}
+                        className={`text-md`}
+                      >
+                        {fee.description}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </>
+              )}
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
       <div className={`col-span-4 ${className}`}>
         <LabelledInput
           formId="date"
