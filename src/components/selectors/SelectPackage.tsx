@@ -96,7 +96,7 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="col-span-3 p-0 z-50" align="center">
+        <PopoverContent className="col-span-3 min-w-60 sm:min-w-72 p-0 z-50" align="center">
           <Command>
             <CommandList>
               {feeCategoryLoading ? (

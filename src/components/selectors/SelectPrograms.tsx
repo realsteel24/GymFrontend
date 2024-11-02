@@ -67,7 +67,9 @@ const SelectPrograms: React.FC<SelectProgramProps> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className={`col-span-3 p-0 z-50 ${bulk ? "min-w-56" : null}`}
+          className={`col-span-3 min-w-60 sm:min-w-72 p-0 z-50 ${
+            bulk ? "min-w-56" : null
+          }`}
           align="center"
         >
           <Command>
