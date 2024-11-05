@@ -375,22 +375,20 @@ export const CreateMemberBulk = () => {
         )}
         {activeTab === "MembershipDetails" && (
           <TabsContent value="MembershipDetails">
-            <div>
-              <SelectPrograms
-                gymId={gymId!}
-                programId={programId}
-                setProgramId={setProgramId}
-                bulk
-              />
+            <SelectPrograms
+              gymId={gymId!}
+              programId={programId}
+              setProgramId={setProgramId}
+              bulk
+            />
 
-              <SelectBatches
-                gymId={gymId!}
-                programId={programId}
-                batchId={batchId}
-                setBatchId={setBatchId}
-                bulk
-              />
-            </div>
+            <SelectBatches
+              gymId={gymId!}
+              programId={programId}
+              batchId={batchId}
+              setBatchId={setBatchId}
+              bulk
+            />
           </TabsContent>
         )}
       </Tabs>
