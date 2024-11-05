@@ -2,12 +2,7 @@ import { Label } from "@radix-ui/react-label";
 import { ChangeEvent, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Input } from "./ui/input";
-import { Calendar } from "./ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { Button } from "./ui/button";
-import { format } from "date-fns"; // Assuming you're using date-fns for date formatting
-import { cn } from "@/lib/utils";
+import { CustomDatePicker } from "./CustomDatePicker";
 
 export interface LabelledInputTypes {
   placeholder?: string;
@@ -46,15 +41,14 @@ export function LabelledInput({
   pickDate,
   bulk,
 }: LabelledInputTypes) {
-  const [open, setOpen] = useState(false); // To control the popover state
   const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date()); // Manage month and year changes
   const handleDateChange = (date: Date | undefined) => {
     if (pickDate) {
       pickDate(date); // Trigger date change
     }
     setCurrentMonth(date || new Date()); // Keep the current month in sync with selected date
-    setOpen(false); // Close the popover after date is picked
   };
+  console.log(currentMonth);
 
   return (
     <div className="grid gap-4 py-2">
@@ -67,81 +61,16 @@ export function LabelledInput({
         </Label>
         {type === "Calendar" ? (
           bulk ? (
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"bulkOutline"}
-                  className={cn(
-                    "pl-3 font-normal text-left bg-white dark:bg-black text-md rounded-md shadow-border col-span-3",
-                    !selectedDate && "text-muted-foreground"
-                  )}
-                >
-                  {selectedDate ? (
-                    format(selectedDate, "PPP") // Format the selected date
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  bulk
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={handleDateChange}
-                  disabled={(date) =>
-                    date > new Date() || date < new Date("1900-01-01")
-                  }
-                  initialFocus
-                  captionLayout="dropdown-buttons"
-                  // Ensure the calendar opens with the correct month/year
-                  month={currentMonth}
-                  onMonthChange={setCurrentMonth} // Handle month change
-                  fromYear={1950}
-                  toYear={2050}
-                />
-              </PopoverContent>
-            </Popover>
+            <CustomDatePicker
+              bulk
+              selectedDate={selectedDate}
+              onDateChange={handleDateChange}
+            />
           ) : (
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "pl-3 font-normal text-left bg-white dark:bg-black text-md rounded-md shadow-border col-span-3",
-                    !selectedDate && "text-muted-foreground"
-                  )}
-                >
-                  {selectedDate ? (
-                    format(selectedDate, "PPP") // Format the selected date
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent
-                className=" min-w-60 sm:min-w-72 p-0"
-                align="start"
-              >
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={handleDateChange} // Call the date handler
-                  disabled={(date) =>
-                    date > new Date() || date < new Date("1900-01-01")
-                  }
-                  initialFocus
-                  captionLayout="dropdown-buttons"
-                  // Ensure the calendar opens with the correct month/year
-                  month={currentMonth}
-                  onMonthChange={setCurrentMonth} // Handle month change
-                  fromYear={1950}
-                  toYear={2050}
-                />
-              </PopoverContent>
-            </Popover>
+            <CustomDatePicker
+              selectedDate={selectedDate}
+              onDateChange={handleDateChange}
+            />
           )
         ) : (
           /* 

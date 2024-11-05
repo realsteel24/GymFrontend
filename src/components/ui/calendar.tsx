@@ -82,6 +82,7 @@ function Calendar({
                         className={`p-2 text-sm w-40 ${
                           bulk ? "aria-selected:bg-red-600" : null
                         }`}
+                        defaultValue={option.props.value}
                         key={`${option.props.value}-${id}`}
                         onSelect={() => {
                           const changeEvent = {
