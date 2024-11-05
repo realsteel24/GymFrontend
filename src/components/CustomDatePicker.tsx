@@ -61,12 +61,12 @@ export function CustomDatePicker({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="p-4 bg-white dark:bg-black rounded-md shadow-lg w-80 border border-2 z-200">
+      <PopoverContent className="p-4 bg-white dark:bg-black rounded-md shadow-lg border border-2 max-w-xs">
         <div className="flex justify-between items-center mb-4">
           <select
             value={viewingDate.getMonth()}
             onChange={(e) => handleMonthChange(Number(e.target.value))}
-            className="p-2 rounded-md bg-white dark:bg-black ml-2 border"
+            className="p-2 rounded-md bg-white dark:bg-black ml-2 border focus:outline-none"
           >
             {months.map((month, idx) => (
               <option key={month} value={idx}>
@@ -77,7 +77,7 @@ export function CustomDatePicker({
           <select
             value={viewingDate.getFullYear()}
             onChange={(e) => handleYearChange(Number(e.target.value))}
-            className="p-2 rounded-md bg-white dark:bg-black mr-2 border"
+            className="p-2 rounded-md bg-white dark:bg-black mr-2 border focus:outline-none"
           >
             {years.map((year) => (
               <option key={year} value={year}>
