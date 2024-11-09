@@ -152,7 +152,7 @@ export const CreateMemberFee = ({
             type="submit"
             onClick={handleSubmit}
             variant={"outline"}
-            className="bg-accent text-white dark:text-black"
+            className="bg-accent text-white dark:text-black my-4"
           >
             Save changes
           </Button>
