@@ -66,6 +66,7 @@ export function CustomDatePicker({
           <select
             value={viewingDate.getMonth()}
             onChange={(e) => handleMonthChange(Number(e.target.value))}
+            style={{ width: "120px" }} // Custom width in pixels
             className="p-2 rounded-md bg-white dark:bg-black ml-2 border focus:outline-none"
           >
             {months.map((month, idx) => (

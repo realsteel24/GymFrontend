@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CardMenu } from "../CardMenu";
 import { ViewTransactions } from "@/pages/tables/TransactionHistory";
 import { CreateMemberFee } from "../forms/CreateMemberFee";
+import { CreatePaymentMethod } from "../forms/CreatePaymentMethod";
 
 export function PaymentCard() {
   const { gymId, memberId } = useParams<{ gymId: string; memberId: string }>();
@@ -14,6 +15,12 @@ export function PaymentCard() {
         cardTitle="Record Payment"
         type="elementCard"
         children={<CreateMemberFee />}
+      />
+
+      <CardMenu
+        cardTitle="Create New Payment Method"
+        type="elementCard"
+        children={<CreatePaymentMethod />}
       />
 
       <CardMenu
@@ -33,7 +40,7 @@ export function PaymentCard() {
         cardTitle="View all Expenses"
         type="buttonedCard"
         cardFunction={() => ViewPrograms(gymId ?? "", navigate)}
-        buttonTitle="View Expenses"
+        buttonTitle="Coming Soon"
       />
     </div>
   );

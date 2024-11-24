@@ -104,7 +104,17 @@ export interface MemberFeeOptions {
   status: string;
   memberId: string;
   FeeCategory: { description: true; frequency: true };
-  Payments: { 0: { amount: true; paymentMethod: true } };
+  Payments: {
+    0: {
+      amount: true;
+      paymentMethod: true;
+      PaymentMethod: {
+        collectedBy: true;
+        id: true;
+        mode: true;
+      };
+    };
+  };
   Member: {
     User: { name: string; contact: string };
     MemberPrograms: {
@@ -114,6 +124,12 @@ export interface MemberFeeOptions {
       };
     };
   };
+}
+
+export interface PaymentMethodOptions {
+  id: string;
+  mode: string;
+  collectedBy: string;
 }
 
 export const useMembers = ({
@@ -229,7 +245,7 @@ export const useBatches = ({ id, gymId }: { id: string; gymId: string }) => {
     const fetchBatches = async () => {
       try {
         const response = await fetch(
-          `${BACKEND_URL}/api/v1/admin/${gymId}/batches/${id}`,
+          `${BACKEND_URL}/api/v1/admin/${gymId}/batches/${id}`
         );
         if (!response.ok) {
           throw new Error("Something went wrong");
@@ -479,6 +495,7 @@ export const usePayments = ({ gymId }: { gymId: string }) => {
     paymentsLoading,
   };
 };
+
 export const useStatusCount = ({ gymId }: { gymId: string }) => {
   const [statusCountLoading, setStatusCountLoading] = useState(true);
   const [newAdCountLoading, setNewAdCountLoading] = useState(true);
@@ -523,6 +540,39 @@ export const useStatusCount = ({ gymId }: { gymId: string }) => {
     newAdCountLoading,
     maleCount,
     femaleCount,
+  };
+};
+
+export const usePaymentMethod = ({ gymId }: { gymId: string }) => {
+  const [methodLoading, setMethodLoading] = useState(true);
+  const [mode, setMode] = useState<PaymentMethodOptions[]>([]);
+
+  const fetchMethods = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/api/v1/admin/${gymId}/paymentMethods`,
+        {
+          headers: { authorization: localStorage.getItem("token") ?? "" },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const result = await response.json();
+      setMode(result.method);
+
+      console.log(result);
+    } catch (error) {
+      console.error("Error fetching count:", error);
+    } finally {
+      setMethodLoading(false);
+    }
+  };
+
+  return {
+    methodLoading,
+    mode,
+    fetchMethods,
   };
 };
 

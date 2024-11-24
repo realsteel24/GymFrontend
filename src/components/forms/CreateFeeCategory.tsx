@@ -123,7 +123,7 @@ export const CreateFeeCategory = () => {
                 <SelectTrigger className="col-span-3 text-md" id={frequency}>
                   <SelectValue placeholder="Choose Package" />
                 </SelectTrigger>
-                <SelectContent className="bg-opacity-30 border boder-input">
+                <SelectContent className="border boder-input">
                   {frequencyOptions.map((fee) => (
                     <SelectItem key={fee} value={fee} className="text-md">
                       {fee}

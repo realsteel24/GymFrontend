@@ -20,10 +20,15 @@ export const TransactionHistoryColumn = (): ColumnDef<MemberFeeOptions>[] => [
     },
   },
   {
-    accessorKey: "paymentMethod",
+    accessorKey: "Method",
     header: "Payment Method",
     cell: ({ row }: { row: { original: MemberFeeOptions } }) => {
-      const method = row.original.Payments?.[0]?.paymentMethod ?? "N/A";
+      const payment = row.original.Payments?.[0]; // Access the first payment, if available
+      const method = payment
+        ? `${payment.PaymentMethod?.mode ?? "N/A"} - ${
+            payment.PaymentMethod?.collectedBy ?? "N/A"
+          }`
+        : "N/A";
       return method;
     },
   },

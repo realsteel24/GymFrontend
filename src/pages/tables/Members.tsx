@@ -74,7 +74,6 @@ export const Members = () => {
       <div className="flex justify-center text-xl my-6 underline underline-offset-8 decoration-4 decoration-accent">
         Member Details
       </div>
-      <div className="flex justify-end m-4">search</div>
 
       {loading ? (
         <div className="md:mx-8">

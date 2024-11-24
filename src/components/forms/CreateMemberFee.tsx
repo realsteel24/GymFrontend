@@ -7,6 +7,7 @@ import { LabelledInput, addMonths } from "../LabelledInput";
 import { useToast } from "../ui/use-toast";
 import SelectMember from "../selectors/SelectMembers";
 import SelectPackage from "../selectors/SelectPackage";
+import SelectPaymentMethod from "../selectors/SelectPaymentMethod";
 
 interface createFeeRecordProps {
   derivedMemberid?: string;
@@ -24,12 +25,12 @@ export const CreateMemberFee = ({
 
   const [feeCategoryId, setFeeCategoryId] = useState("");
   const [selectedAmount, setSelectedAmount] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethodId, setPaymentMethodId] = useState("");
   const [paidDate, setPaidDate] = useState<Date>(new Date());
   const [dueDate, setDueDate] = useState<Date>(addMonths(new Date(), 1));
   const [remarks, setRemarks] = useState("Success");
   const [memberId, setMemberId] = useState(
-    derivedMemberid ? derivedMemberid : " "
+    derivedMemberid ? derivedMemberid : ""
   );
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -41,7 +42,7 @@ export const CreateMemberFee = ({
     setFeeCategoryId("");
     setMemberId("");
     setRemarks("");
-    setPaymentMethod("");
+    setPaymentMethodId("");
     setSelectedAmount(0);
     setIsDialogOpen(false);
     setError("");
@@ -62,7 +63,8 @@ export const CreateMemberFee = ({
             dueDate,
             remarks,
             amount: selectedAmount,
-            paymentMethod,
+            paymentMethod: paymentMethodId,
+            paymentMethodId,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -97,7 +99,7 @@ export const CreateMemberFee = ({
         FormDescription="Please add all the necessary fields and click save"
         drawerTitle="Record a Payment"
         drawerDescription="Please add all the necessary fields and click save"
-        titleButton="Add transaction"
+        titleButton="Add Transaction"
         mobileFn={clear}
         children={
           <div>
@@ -130,12 +132,17 @@ export const CreateMemberFee = ({
               placeholder="Amount"
             />
 
-            <LabelledInput
+            {/* <LabelledInput
               formId="method"
               formName="method"
               label="Payment Method"
               placeholder="Payment Mode"
               onChange={(e) => setPaymentMethod(e.target.value)}
+            /> */}
+            <SelectPaymentMethod
+              gymId={gymId!}
+              id="paymentMethodId"
+              setPaymentMethodId={setPaymentMethodId}
             />
 
             <LabelledInput
@@ -152,7 +159,7 @@ export const CreateMemberFee = ({
             type="submit"
             onClick={handleSubmit}
             variant={"outline"}
-            className="bg-accent text-white dark:text-black my-4"
+            className="bg-accent text-white dark:text-black my-2"
           >
             Save changes
           </Button>

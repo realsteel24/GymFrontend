@@ -17,7 +17,7 @@ export function InstructorCard() {
         cardTitle="Instructors Pool"
         type="buttonedCard"
         cardFunction={() => ViewPrograms(gymId ?? "", navigate)}
-        buttonTitle="View Instructors"
+        buttonTitle="Coming Soon"
       />
     </div>
   );
