@@ -2,14 +2,22 @@ import { MemberFeeOptions } from "@/hooks";
 import { ColumnDef } from "@tanstack/react-table";
 import dateFormat from "dateformat";
 
-export const TransactionHistoryColumn = (): ColumnDef<MemberFeeOptions>[] => [
+export const TransactionHistoryColumn: ColumnDef<MemberFeeOptions>[] = [
   {
-    accessorKey: "Member.User.name",
+    accessorKey: "Member",
     header: "Name",
+    cell: ({ row }: { row: { original: MemberFeeOptions } }) => {
+      const user = row.original.Member.User.name ?? "N/A";
+      return user;
+    },
   },
   {
-    accessorKey: "FeeCategory.description",
+    accessorKey: "FeeCategory",
     header: "Package",
+    cell: ({ row }: { row: { original: MemberFeeOptions } }) => {
+      const pack = row.original.FeeCategory.description ?? "N/A";
+      return pack;
+    },
   },
   {
     accessorKey: "Payments",
@@ -23,7 +31,7 @@ export const TransactionHistoryColumn = (): ColumnDef<MemberFeeOptions>[] => [
     accessorKey: "Method",
     header: "Payment Method",
     cell: ({ row }: { row: { original: MemberFeeOptions } }) => {
-      const payment = row.original.Payments?.[0]; // Access the first payment, if available
+      const payment = row.original.Payments?.[0];
       const method = payment
         ? `${payment.PaymentMethod?.mode ?? "N/A"} - ${
             payment.PaymentMethod?.collectedBy ?? "N/A"

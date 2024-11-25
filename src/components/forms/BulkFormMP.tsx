@@ -410,7 +410,7 @@ export const CreateMemberBulk = () => {
         {activeTab === "MembershipDetails"
           ? loading
             ? "Submitting..."
-            : "Submit" // Show loader text when loading
+            : "Submit"
           : "Next"}
       </Button>
     </div>

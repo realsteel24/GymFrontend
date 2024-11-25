@@ -17,15 +17,23 @@ const checkAndUpdateStatus = (dueDate: string, status: string) => {
 
 export const MemberFeesColumns = (
   navigate: NavigateFunction,
-  gymId: string,
+  gymId: string
 ): ColumnDef<MemberFeeOptions>[] => [
   {
-    accessorKey: "Member.User.name",
+    accessorKey: "Member",
     header: "Name",
+    cell: ({ row }: { row: { original: MemberFeeOptions } }) => {
+      const user = row.original.Member.User.name ?? "N/A";
+      return user;
+    },
   },
   {
-    accessorKey: "FeeCategory.description",
+    accessorKey: "FeeCategory",
     header: "Package",
+    cell: ({ row }: { row: { original: MemberFeeOptions } }) => {
+      const pack = row.original.FeeCategory.description ?? "N/A";
+      return pack;
+    },
   },
   {
     accessorKey: "Payments",
@@ -74,7 +82,7 @@ export const MemberFeesColumns = (
     cell: ({ row }) => (
       <Button
         variant={"outline"}
-        onClick={() => ViewMemberFees( gymId, row.original.memberId, navigate)}
+        onClick={() => ViewMemberFees(gymId, row.original.memberId, navigate)}
         size={"sm"}
       >
         View Payment Details
@@ -82,5 +90,3 @@ export const MemberFeesColumns = (
     ),
   },
 ];
-
-

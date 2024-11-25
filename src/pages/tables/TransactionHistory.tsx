@@ -14,11 +14,37 @@ import {
   PaginationNext,
 } from "@/components/ui/pagination";
 import { CreateMemberFee } from "@/components/forms/CreateMemberFee";
+// import {
+//   Popover,
+//   PopoverContent,
+//   PopoverTrigger,
+// } from "@/components/ui/popover";
+// import { CaretDownIcon } from "@radix-ui/react-icons";
 
 export const TransactionHistory = () => {
   const { gymId, memberId } = useParams<{ gymId: string; memberId: string }>();
   const [currentPage, setCurrentPage] = useState(1);
+
   const rowsPerPage = 10;
+  const [columns] = useState<typeof TransactionHistoryColumn>(() => [
+    ...TransactionHistoryColumn,
+  ]);
+
+  // const [filters, setFilters] = useState({
+  //   name: "",
+  //   dueDate: "",
+  //   paymentMethod: "",
+  //   package: "",
+  // });
+  // const handleFilterChange = (columnId, value) => {
+  //   setFilters((prev) => ({
+  //     ...prev,
+  //     [columnId]: value,
+  //   }));
+
+  //   Optionally trigger server-side filtering logic
+  //   table.getColumn(columnId)?.setFilterValue(value);
+  // };
 
   const { transactionHistoryLoading, transactionHistory, dataCount } =
     useTransactionHistory({
@@ -30,7 +56,7 @@ export const TransactionHistory = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
-  const columns = TransactionHistoryColumn();
+  // const columns = TransactionHistoryColumn();
   const totalPages = Math.ceil(dataCount / rowsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
@@ -74,6 +100,58 @@ export const TransactionHistory = () => {
             <DataTable
               columns={columns}
               data={transactionHistory.map((fee) => ({ ...fee, navigate }))}
+              // filter={
+              //   <Popover>
+              //     <PopoverTrigger className="bg-white dark:bg-black text-sm text-muted-foreground px-2 flex">
+              //       Filters <CaretDownIcon />
+              //     </PopoverTrigger>
+              //     <PopoverContent className="p-2 bg-gray-100 dark:bg-black border rounded shadow-md">
+              //       {columns.map((column) => (
+              //         <div
+              //           key={column.id}
+              //           className="flex items-center gap-2 mb-2"
+              //         >
+              //           <input
+              //             type="checkbox"
+              //             id={`filter-${column.id}`}
+              //             checked={filters[column.header] !== undefined}
+              //             onChange={(e) => {
+              //               if (e.target.checked) {
+              //                 setFilters((prev) => ({
+              //                   ...prev,
+              //                   [column.header]: "",
+              //                 }));
+              //               } else {
+              //                 const updatedFilters = { ...filters };
+              //                 delete updatedFilters[column.id];
+              //                 setFilters(updatedFilters);
+              //               }
+              //             }}
+              //             className="cursor-pointer"
+              //           />
+              //           <label
+              //             htmlFor={`filter-${column.id}`}
+              //             className="text-sm"
+              //           >
+              //             {column.header ?? column.id}
+              //           </label>
+
+              //           {filters[column.id] !== undefined && (
+              //             <input
+              //               type="text"
+              //               value={filters[column.id]}
+              //               onChange={(e) =>
+              //                 handleFilterChange(column.id, e.target.value)
+              //               }
+              //               placeholder={`Filter ${column.header ?? column.id}`}
+              //               className="ml-4 flex-grow border border-gray-300 dark:border-gray-700 rounded px-2 py-1 text-sm"
+              //             />
+              //           )}
+              //         </div>
+              //       ))}
+              //     </PopoverContent>
+              //   </Popover>
+              // }
             />
           </div>
         )}
