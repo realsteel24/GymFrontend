@@ -103,15 +103,15 @@ export interface MemberFeeOptions {
   dueDate: string;
   status: string;
   memberId: string;
-  FeeCategory: { description: true; frequency: true };
+  FeeCategory: { description: string; frequency: string };
   Payments: {
     0: {
-      amount: true;
-      paymentMethod: true;
+      amount: number;
+      paymentMethod: string;
       PaymentMethod: {
-        collectedBy: true;
-        id: true;
-        mode: true;
+        collectedBy: string;
+        id: string;
+        mode: string;
       };
     };
   };

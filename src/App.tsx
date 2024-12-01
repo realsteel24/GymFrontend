@@ -46,9 +46,7 @@ function App() {
     const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setTimeout(() => {
-        setShowInstallButton(true);
-      }, 10000); // Show button after 10 seconds
+      setShowInstallButton(true);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -80,7 +78,7 @@ function App() {
         setDeferredPrompt(null);
         setShowInstallButton(false);
       });
-    } else if (isIOS()) {
+    } else if (isIOS) {
       // Show instructions only for iOS users
       toast({
         title: "Add to Home Screen",
