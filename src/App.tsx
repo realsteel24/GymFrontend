@@ -19,6 +19,7 @@ import { Button } from "./components/ui/button";
 import { useState, useEffect } from "react";
 import { useToast } from "./components/ui/use-toast";
 import { Thankyou } from "./pages/Thankyou";
+import { Enquiries } from "./pages/tables/Enquiries";
 
 function App() {
   const [deferredPrompt, setDeferredPrompt] =
@@ -149,6 +150,10 @@ function App() {
           <Route
             path="/gym/:gymId/batches/:id"
             element={<Layout children={<Batches />} />}
+          />
+          <Route
+            path="/gym/:gymId/enquiries"
+            element={<Layout children={<Enquiries />} />}
           />
           <Route
             path="/gym/:gymId/feeCategories"

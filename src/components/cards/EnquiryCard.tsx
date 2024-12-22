@@ -1,7 +1,7 @@
-import { ViewPrograms } from "@/pages/tables/Programs";
 import { useNavigate, useParams } from "react-router-dom";
 import { CardMenu } from "../CardMenu";
 import { Enquiry } from "../forms/Enquiry";
+import { ViewEnquiries } from "@/pages/tables/Enquiries";
 
 export function EnquiryCard() {
   const { gymId } = useParams<{ gymId: string }>();
@@ -16,7 +16,7 @@ export function EnquiryCard() {
       <CardMenu
         cardTitle="View Enquiries"
         type="buttonedCard"
-        cardFunction={() => ViewPrograms(gymId ?? "", navigate)}
+        cardFunction={() => ViewEnquiries(gymId ?? "", navigate)}
         buttonTitle="View Enquiries"
       />
     </div>

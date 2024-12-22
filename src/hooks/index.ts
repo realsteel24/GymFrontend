@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
+import { EnquiryInput } from "realsteelgym";
 
 export interface MemberOptions {
   id: string;
@@ -573,6 +574,39 @@ export const usePaymentMethod = ({ gymId }: { gymId: string }) => {
     methodLoading,
     mode,
     fetchMethods,
+  };
+};
+
+export const useEnquiry = ({ gymId }: { gymId: string }) => {
+  const [enquiryLoading, setEnquiryLoading] = useState(true);
+  const [enquiry, setEnquiry] = useState<EnquiryInput[]>([]);
+
+  const fetchEnquiries = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/api/v1/admin/${gymId}/enquiries`,
+        {
+          headers: { authorization: localStorage.getItem("token") ?? "" },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const result = await response.json();
+      setEnquiry(result.data);
+
+      console.log(result);
+    } catch (error) {
+      console.error("Error fetching count:", error);
+    } finally {
+      setEnquiryLoading(false);
+    }
+  };
+
+  return {
+    enquiryLoading,
+    enquiry,
+    fetchEnquiries,
   };
 };
 
