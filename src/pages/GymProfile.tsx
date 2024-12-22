@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { useGymNameContext } from "@/context/Gym";
+import { EnquiryCard } from "@/components/cards/EnquiryCard";
 
 export function GymProfile({ component }: { component: string }) {
   const [activeComponent, setActiveComponent] = useState(component);
@@ -30,6 +31,8 @@ export function GymProfile({ component }: { component: string }) {
         return <PaymentCard />;
       case "Instructor":
         return <InstructorCard />;
+      case "Enquiry":
+        return <EnquiryCard />;
       case "":
         return null;
       default:
@@ -92,11 +95,12 @@ export function GymProfile({ component }: { component: string }) {
               >
                 {[
                   "Dashboard",
+                  "Enquiry",
+                  "Member",
+                  "Payment",
                   "Program",
                   "Batch",
-                  "Member",
                   "FeeStructure",
-                  "Payment",
                   "Instructor",
                 ].map((option) => (
                   <button
@@ -133,6 +137,42 @@ export function GymProfile({ component }: { component: string }) {
 
           <Button
             variant={"default"}
+            onClick={() => setActiveComponent("Enquiry")}
+            className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
+              activeComponent === "Enquiry"
+                ? "underline underline-offset-4 decoration-2"
+                : null
+            }`}
+          >
+            Enquiry
+          </Button>
+
+          <Button
+            variant={"default"}
+            onClick={() => setActiveComponent("Member")}
+            className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
+              activeComponent === "Member"
+                ? "underline underline-offset-4 decoration-2"
+                : null
+            }`}
+          >
+            Members
+          </Button>
+
+          <Button
+            variant={"default"}
+            onClick={() => setActiveComponent("Payment")}
+            className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
+              activeComponent === "Payment"
+                ? "underline underline-offset-4 decoration-2"
+                : null
+            }`}
+          >
+            Payments
+          </Button>
+
+          <Button
+            variant={"default"}
             onClick={() => setActiveComponent("Program")}
             className={`inline-flex items-center hover:font-bold justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  h-9 px-4 py-2 mr-2  ${
               activeComponent === "Program"
@@ -154,17 +194,7 @@ export function GymProfile({ component }: { component: string }) {
           >
             Batches
           </Button>
-          <Button
-            variant={"default"}
-            onClick={() => setActiveComponent("Member")}
-            className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
-              activeComponent === "Member"
-                ? "underline underline-offset-4 decoration-2"
-                : null
-            }`}
-          >
-            Members
-          </Button>
+
           <Button
             variant={"default"}
             onClick={() => setActiveComponent("FeeStructure")}
@@ -175,17 +205,6 @@ export function GymProfile({ component }: { component: string }) {
             }`}
           >
             FeeStructure
-          </Button>
-          <Button
-            variant={"default"}
-            onClick={() => setActiveComponent("Payment")}
-            className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
-              activeComponent === "Payment"
-                ? "underline underline-offset-4 decoration-2"
-                : null
-            }`}
-          >
-            Payments
           </Button>
 
           <Button
