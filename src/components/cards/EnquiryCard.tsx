@@ -14,7 +14,7 @@ export function EnquiryCard() {
         children={<Enquiry />}
       />
       <CardMenu
-        cardTitle="View Enquiries"
+        cardTitle="Manage Enquiries"
         type="buttonedCard"
         cardFunction={() => ViewEnquiries(gymId ?? "", navigate)}
         buttonTitle="View Enquiries"

@@ -190,7 +190,9 @@ export const Enquiry = () => {
               autoComplete="age"
               label="Age"
               placeholder="Enter age"
-              value={enquiryInputs.age}
+              min={0}
+              defaultValue="0"
+              value={enquiryInputs.age || ""}
               onChange={(e) => {
                 setEnquiryInputs({
                   ...enquiryInputs,

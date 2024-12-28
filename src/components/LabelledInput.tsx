@@ -21,6 +21,7 @@ export interface LabelledInputTypes {
   value?: number | string;
   required?: boolean;
   bulk?: boolean;
+  min?: number;
 }
 
 export function LabelledInput({
@@ -35,6 +36,7 @@ export function LabelledInput({
   formId,
   type,
   value,
+  min,
   autoComplete,
   required,
   selectedDate,
@@ -96,6 +98,7 @@ export function LabelledInput({
             autoComplete={autoComplete}
             required={required}
             onBlur={onBlur}
+            min={min}
           />
         )}
       </div>
