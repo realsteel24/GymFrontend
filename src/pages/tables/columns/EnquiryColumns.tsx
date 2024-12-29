@@ -84,6 +84,7 @@ export const EnquiryColumns = (gymId: string): ColumnDef<EnquiryInput>[] => [
   },
   {
     header: "Message Sent",
+    // @ts-ignore
     cell: ({ row }) => <div>{row.original.isMsgd ? <Check /> : <X />}</div>,
   },
 ];
