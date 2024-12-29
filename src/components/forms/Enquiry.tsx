@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BACKEND_URL } from "@/config";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CustomDialogForm } from "@/components/CustomDialogForm";
 import { LabelledInput } from "@/components/LabelledInput";
@@ -10,6 +10,7 @@ import { enquiry, EnquiryInput } from "realsteelgym";
 import { z } from "zod";
 import SelectBatchPref from "../selectors/SelectBatchPref";
 import SelectGender from "../selectors/SelectGender";
+import MultiSelectPrograms from "../selectors/MultiSelectPrograms";
 
 export const Enquiry = () => {
   const [enquiryInputs, setEnquiryInputs] = useState<EnquiryInput>({
@@ -18,7 +19,7 @@ export const Enquiry = () => {
     age: 0,
     gender: "",
     enquiryDate: new Date(),
-    programs: "",
+    programs: [],
     batchPref: "",
     remarks: "",
     location: "",
@@ -31,6 +32,7 @@ export const Enquiry = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState<{ [key: string]: string }>({});
   const [generalError, setGeneralError] = useState<string | null>(null);
+  const [programs, setPrograms] = useState<string[]>([]);
 
   const { toast } = useToast();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -43,7 +45,7 @@ export const Enquiry = () => {
       gender: "",
       enquiryDate: new Date(),
       location: "",
-      programs: "",
+      programs: [],
       batchPref: "",
       remarks: "",
       source: "",
@@ -51,6 +53,9 @@ export const Enquiry = () => {
     setIsDialogOpen(false);
     setIsDrawerOpen(false);
   };
+  useEffect(() => {
+    setEnquiryInputs((prev) => ({ ...prev, programs }));
+  }, [programs]);
 
   async function handleSubmit() {
     try {
@@ -85,12 +90,11 @@ export const Enquiry = () => {
       navigate(`/gym/${gymId}/menu`);
     } catch (e) {
       console.log(e);
-      setGeneralError("Create User Failed");
+      setGeneralError("Create Enquiry Failed");
       toast({
         title: `${generalError}`,
         description: `Try again with valid inputs`,
       });
-      clear();
     }
   }
   const validateField = (field: keyof typeof enquiryInputs, value: any) => {
@@ -218,17 +222,11 @@ export const Enquiry = () => {
             />
             {error.location && <p className="text-red-500">{error.location}</p>}
 
-            <LabelledInput
-              formId="program"
-              formName="program"
-              label="Program"
-              placeholder="Kickboxing"
-              value={enquiryInputs.programs}
-              onChange={(e) => {
-                setEnquiryInputs({
-                  ...enquiryInputs,
-                  programs: e.target.value,
-                });
+            <MultiSelectPrograms
+              gymId={gymId!}
+              setProgram={setPrograms}
+              fn={() => {
+                setEnquiryInputs({ ...enquiryInputs, programs: [...programs] });
               }}
             />
 

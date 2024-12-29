@@ -4,7 +4,7 @@ import dateFormat from "dateformat";
 import { TextEnquiry } from "@/components/whatsapp/TextEnquiry";
 import { WhatsappButton } from "@/components/whatsapp/WhatsappButton";
 import { BACKEND_URL } from "@/config";
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
 
 export const EnquiryColumns = (gymId: string): ColumnDef<EnquiryInput>[] => [
   {
@@ -31,6 +31,12 @@ export const EnquiryColumns = (gymId: string): ColumnDef<EnquiryInput>[] => [
   {
     accessorKey: "programs",
     header: "Program",
+    cell: ({ row }: { row: { original: EnquiryInput } }) => {
+      const programs = Array.isArray(row.original.programs)
+        ? row.original.programs.join(", ")
+        : row.original.programs || "No Programs";
+      return <span>{programs}</span>;
+    },
   },
   {
     accessorKey: "batchPref",
@@ -48,53 +54,60 @@ export const EnquiryColumns = (gymId: string): ColumnDef<EnquiryInput>[] => [
     header: "Send Info",
     cell: ({ row }) => (
       <div>
-        <WhatsappButton
-          fn={async () => {
-            redirectToExternal(
-              row.original.contact,
-              row.original.name,
-              row.original.programs
-            );
-            try {
-              const response = await fetch(
-                // @ts-ignore
-                `${BACKEND_URL}/api/v1/admin/${gymId}/enquiries/${row.original.id}`,
-                {
-                  method: "PUT",
-                  body: JSON.stringify({
-                    isMsgd: true,
-                  }),
-                  headers: {
-                    "Content-Type": "application/json",
-                    authorization: localStorage.getItem("token") ?? "",
-                  },
-                }
+        {row.original.isMsgd ? (
+          <Check className="ml-2" />
+        ) : (
+          <WhatsappButton
+            fn={async () => {
+              redirectToExternal(
+                row.original.contact,
+                row.original.name,
+                row.original.programs,
+                gymId
               );
-              if (!response.ok) {
-                throw new Error("Status Update failed");
+              try {
+                const response = await fetch(
+                  `${BACKEND_URL}/api/v1/admin/${gymId}/enquiries/${row.original.id}`,
+                  {
+                    method: "PUT",
+                    body: JSON.stringify({
+                      isMsgd: true,
+                    }),
+                    headers: {
+                      "Content-Type": "application/json",
+                      authorization: localStorage.getItem("token") ?? "",
+                    },
+                  }
+                );
+                if (!response.ok) {
+                  throw new Error("Status Update failed");
+                }
+                window.location.reload();
+              } catch (e) {
+                console.log(e);
               }
-              window.location.reload();
-            } catch (e) {
-              console.log(e);
-            }
-          }}
-        />
+            }}
+          />
+        )}
       </div>
     ),
   },
-  {
-    header: "Message Sent",
-    // @ts-ignore
-    cell: ({ row }) => <div>{row.original.isMsgd ? <Check /> : <X />}</div>,
-  },
+  // {
+  //   header: "Message Sent",
+  //   cell: ({ row }) => <div>{row.original.isMsgd ? <Check /> : <X />}</div>,
+  // },
 ];
 
 const redirectToExternal = (
   phone: string,
   name: string,
-  programs: string
+  programs: string[] | string,
+  gymId: string
 ): void => {
-  const message = TextEnquiry(name, programs);
+  const programsString = Array.isArray(programs)
+    ? programs.join(", ")
+    : programs;
+  const message = TextEnquiry(name, programsString, gymId);
   const encodedMessage = encodeURIComponent(message);
   const formattedPhone = trimPhoneNumber(phone);
   const url = `https://web.whatsapp.com/send?phone=${formattedPhone}&text=${encodedMessage}`;
