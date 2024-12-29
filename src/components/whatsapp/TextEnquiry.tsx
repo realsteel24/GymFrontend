@@ -1,13 +1,17 @@
 export const TextEnquiry = (name: string, programs: string): string => {
   const firstname = name.split(" ")[0];
-  return `Hi ${firstname},
+  return `Dear ${firstname},
   
-Thank you for your interest in our ${programs} class!
-  
-Here are our batch timings - 
-*Monday, Wednesday, Friday*:
-- 8:00 AM - 9:00 AM
-- 8:00 PM - 9:00 PM
-  
-We look forward to having you join us!`;
+Welcome to Mohan's Planet!
+To start and regularize your membership for our ${programs} session,
+please complete the registration form through the link below
+
+https://www.admin-app.in/gym/TITANS/importForm
+
+If you have any questions, don't hesitate to reach out to us on 7710049470.
+We're excited to have you onboard and look forward to seeing you in the next session!
+
+
+Best regards,
+Mohan's Planet`;
 };

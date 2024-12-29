@@ -45,10 +45,7 @@ export const Enquiries = () => {
         </div>
       ) : (
         <div className="relative overflow-x-auto md:mx-8 border rounded-xl">
-          <DataTable
-            columns={EnquiryColumns(navigate, gymId!)}
-            data={enquiry}
-          />
+          <DataTable columns={EnquiryColumns(gymId!)} data={enquiry} />
         </div>
       )}
     </div>

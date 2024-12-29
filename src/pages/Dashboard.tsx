@@ -181,7 +181,11 @@ export function Dashboard() {
             </CardContent>
           </Card>
 
-          <SearchMembers id="all" gymId={gymId!} data={maleCount + femaleCount}/>
+          <SearchMembers
+            id="all"
+            gymId={gymId!}
+            data={maleCount + femaleCount}
+          />
         </div>
         <div className="grid gap-4 md:gap-8 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4">
           <div className="col-span-1 md:col-span-2">
@@ -252,7 +256,9 @@ export function Dashboard() {
                             {fee.Member.User.name}
                           </div>
                           <div className="hidden text-sm text-muted-foreground md:inline">
-                            {fee.Member.MemberPrograms[0].Program.name}
+                            {fee.Member.MemberPrograms.map(
+                              (item) => item.Program.name
+                            ).join(", ")}
                           </div>
                         </TableCell>
 

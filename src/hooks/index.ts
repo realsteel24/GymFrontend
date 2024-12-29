@@ -118,12 +118,12 @@ export interface MemberFeeOptions {
   };
   Member: {
     User: { name: string; contact: string };
-    MemberPrograms: {
-      0: {
+    MemberPrograms: [
+      {
         Batch: { name: true };
         Program: { name: true };
-      };
-    };
+      }
+    ];
   };
 }
 
