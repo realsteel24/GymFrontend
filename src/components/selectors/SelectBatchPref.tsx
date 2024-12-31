@@ -14,6 +14,7 @@ const SelectBatchPref = ({
   pref: string;
   setPref: (value: string) => void;
 }) => {
+  const preferences = ["Morning", "Evening", "Any", "Others"];
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-2">
       <Label htmlFor="gender" className="text-right text-md">
@@ -28,15 +29,11 @@ const SelectBatchPref = ({
             ref?.addEventListener("touchend", (e) => e.preventDefault())
           }
         >
-          <SelectItem value="Morning" className={`text-md `}>
-            Morning
-          </SelectItem>
-          <SelectItem value="Evening" className={`text-md `}>
-            Evening
-          </SelectItem>
-          <SelectItem value="Other" className={`text-md `}>
-            Other
-          </SelectItem>
+          {preferences.map((item) => (
+            <SelectItem value={item} className={`text-md hover:cursor-pointer`}>
+              {item}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

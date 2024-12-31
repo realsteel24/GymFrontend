@@ -91,7 +91,7 @@ const SelectPaymentMethod: React.FC<SelectPaymentMethodProps> = ({
                         key={item.id}
                         value={`${item.id}`}
                         onSelect={() => handleMethodSelect(item)}
-                        className={`text-md ${
+                        className={`text-md hover:cursor-pointer ${
                           bulk
                             ? "aria-selected:bg-red-600 focus:bg-red-600"
                             : null

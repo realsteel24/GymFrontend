@@ -51,7 +51,7 @@ export const EnquiryColumns = (gymId: string): ColumnDef<EnquiryInput>[] => [
     header: "Source",
   },
   {
-    header: "Send Info",
+    header: "Trial Info",
     cell: ({ row }) => (
       <div>
         {row.original.isMsgd ? (
@@ -63,7 +63,8 @@ export const EnquiryColumns = (gymId: string): ColumnDef<EnquiryInput>[] => [
                 row.original.contact,
                 row.original.name,
                 row.original.programs,
-                gymId
+                gymId,
+                "trial"
               );
               try {
                 const response = await fetch(
@@ -92,6 +93,50 @@ export const EnquiryColumns = (gymId: string): ColumnDef<EnquiryInput>[] => [
       </div>
     ),
   },
+  {
+    header: "Admission Info",
+    cell: ({ row }) => (
+      <div>
+        {row.original.trialClass ? (
+          <Check className="ml-2" />
+        ) : (
+          <WhatsappButton
+            fn={async () => {
+              redirectToExternal(
+                row.original.contact,
+                row.original.name,
+                row.original.programs,
+                gymId,
+                "admission"
+              );
+              try {
+                const response = await fetch(
+                  `${BACKEND_URL}/api/v1/admin/${gymId}/enquiries/${row.original.id}`,
+                  {
+                    method: "PUT",
+                    body: JSON.stringify({
+                      trialClass: true,
+                    }),
+                    headers: {
+                      "Content-Type": "application/json",
+                      authorization: localStorage.getItem("token") ?? "",
+                    },
+                  }
+                );
+                if (!response.ok) {
+                  throw new Error("Status Update failed");
+                }
+                window.location.reload();
+              } catch (e) {
+                console.log(e);
+              }
+            }}
+          />
+        )}
+      </div>
+    ),
+  },
+
   // {
   //   header: "Message Sent",
   //   cell: ({ row }) => <div>{row.original.isMsgd ? <Check /> : <X />}</div>,
@@ -102,12 +147,13 @@ const redirectToExternal = (
   phone: string,
   name: string,
   programs: string[] | string,
-  gymId: string
+  gymId: string,
+  type: string
 ): void => {
   const programsString = Array.isArray(programs)
     ? programs.join(", ")
     : programs;
-  const message = TextEnquiry(name, programsString, gymId);
+  const message = TextEnquiry(name, programsString, gymId, type);
   const encodedMessage = encodeURIComponent(message);
   const formattedPhone = trimPhoneNumber(phone);
   const url = `https://web.whatsapp.com/send?phone=${formattedPhone}&text=${encodedMessage}`;

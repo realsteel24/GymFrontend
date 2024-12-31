@@ -22,6 +22,7 @@ export interface LabelledInputTypes {
   required?: boolean;
   bulk?: boolean;
   min?: number;
+  disabled?: boolean;
 }
 
 export function LabelledInput({
@@ -42,6 +43,7 @@ export function LabelledInput({
   selectedDate,
   pickDate,
   bulk,
+  disabled,
 }: LabelledInputTypes) {
   const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date()); // Manage month and year changes
   const handleDateChange = (date: Date | undefined) => {
@@ -99,6 +101,7 @@ export function LabelledInput({
             required={required}
             onBlur={onBlur}
             min={min}
+            disabled={disabled}
           />
         )}
       </div>

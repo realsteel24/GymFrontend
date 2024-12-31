@@ -30,7 +30,7 @@ export function Layout({
         }
       />
       <div className="flex ">
-        <div className="w-72 min-h-screen pt-28 hidden xl:block bg-gray-100 bg-opacity-80 bg-blur dark:bg-slate-600 dark:bg-blur dark:bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-lg">
+        <div className="w-72 min-h-screen pt-28 hidden lg:block bg-gray-100 bg-opacity-80 bg-blur dark:bg-slate-600 dark:bg-blur dark:bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-lg">
           <div>
             {jwt === SUPER_ADMIN ? (
               <SidebarItem href={"/gym"} icon={<HomeIcon />} title="Home" />

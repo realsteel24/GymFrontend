@@ -16,6 +16,7 @@ const SelectGender = ({
   setGender: (value: string) => void;
   bulk?: boolean;
 }) => {
+  const genderList = ["Male", "Female", "Other"];
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-2">
       <Label htmlFor="gender" className="text-right text-md">
@@ -34,30 +35,16 @@ const SelectGender = ({
             ref?.addEventListener("touchend", (e) => e.preventDefault())
           }
         >
-          <SelectItem
-            value="Male"
-            className={`text-md ${
-              bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
-            }`}
-          >
-            Male
-          </SelectItem>
-          <SelectItem
-            value="Female"
-            className={`text-md ${
-              bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
-            }`}
-          >
-            Female
-          </SelectItem>
-          <SelectItem
-            value="Other"
-            className={`text-md ${
-              bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
-            }`}
-          >
-            Other
-          </SelectItem>
+          {genderList.map((item) => (
+            <SelectItem
+              value={item}
+              className={`text-md hover:cursor-pointer ${
+                bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
+              }`}
+            >
+              {item}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

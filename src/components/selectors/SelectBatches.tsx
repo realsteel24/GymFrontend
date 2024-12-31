@@ -69,7 +69,9 @@ const SelectBatches: React.FC<SelectBatchProps> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className={`col-span-3 min-w-60 sm:min-w-72 p-0 z-50 ${bulk ? "min-w-56" : null}`}
+          className={`col-span-3 min-w-60 sm:min-w-72 p-0 z-50 ${
+            bulk ? "min-w-56" : null
+          }`}
           align="center"
         >
           <Command>
@@ -89,7 +91,7 @@ const SelectBatches: React.FC<SelectBatchProps> = ({
                         key={batch.id}
                         value={`${batch.id}`}
                         onSelect={() => handleBatchSelect(batch)}
-                        className={`text-md ${
+                        className={`text-md hover:cursor-pointer ${
                           bulk
                             ? "aria-selected:bg-red-600 focus:bg-red-600"
                             : null

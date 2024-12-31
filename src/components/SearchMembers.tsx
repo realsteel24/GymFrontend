@@ -170,7 +170,7 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data, type }) => {
                                   "Enroll User to a Program then try again",
                               });
                         }}
-                        className="text-md justify-between"
+                        className="text-md justify-between hover:cursor-pointer"
                       >
                         <div>{member.name}</div>
                         <div className="text-xs text-muted-foreground">

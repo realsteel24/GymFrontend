@@ -130,6 +130,7 @@ export const CreateMemberFee = ({
               value={selectedAmount}
               onChange={(e) => setSelectedAmount(parseInt(e.target.value))}
               placeholder="Amount"
+              disabled
             />
 
             {/* <LabelledInput

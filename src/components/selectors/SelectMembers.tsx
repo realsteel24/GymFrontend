@@ -144,7 +144,7 @@ const SelectMember: React.FC<SelectMemberProps> = ({
                         key={member.Members[0].id}
                         value={`${member.name},${member.Members[0].id}`}
                         onSelect={() => handleMemberSelect(member)}
-                        className="text-md"
+                        className="text-md hover:cursor-pointer"
                       >
                         {member.name}
                       </CommandItem>

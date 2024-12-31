@@ -26,7 +26,7 @@ enum PaymentFrequency {
 
 export const CreateFeeCategory = () => {
   const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState(1500);
+  const [amount, setAmount] = useState(5000);
   const [frequency, setFrequency] = useState<PaymentFrequency>(
     PaymentFrequency.Monthly
   );
@@ -125,7 +125,11 @@ export const CreateFeeCategory = () => {
                 </SelectTrigger>
                 <SelectContent className="border boder-input">
                   {frequencyOptions.map((fee) => (
-                    <SelectItem key={fee} value={fee} className="text-md">
+                    <SelectItem
+                      key={fee}
+                      value={fee}
+                      className="text-md hover:cursor-pointer"
+                    >
                       {fee}
                     </SelectItem>
                   ))}
@@ -138,7 +142,7 @@ export const CreateFeeCategory = () => {
               formName="Amount"
               label="Amount"
               placeholder="Amount"
-              defaultValue="1500"
+              defaultValue="5000"
               onChange={(e) => setAmount(parseInt(e.target.value))}
             />
           </div>
