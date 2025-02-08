@@ -79,8 +79,8 @@ export const Notifications = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-      <div className="relative cursor-pointer z-[50]"> 
-      <svg
+        <div className="relative cursor-pointer z-50">
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 611.999 611.999"
             className="fill-current text-black dark:text-white h-4 w-4"
@@ -104,16 +104,8 @@ export const Notifications = () => {
         </div>
       </PopoverTrigger>
 
-      {/* Backdrop */}
-      {open && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-[9999] pointer-events-auto"
-          onClick={() => setOpen(false)}
-        />
-      )}
-
       {/* Popover Content */}
-      <PopoverContent className="w-[280px] sm:w-[320px] p-3 shadow-lg rounded-lg mx-4 mt-2 bg-black z-[10000] relative">
+      <PopoverContent className="z-200 p-3 shadow-lg rounded-lg mx-4 mt-2 bg-gray-300 dark:bg-black dark:bg-opacity-90 bg-opacity-90 backdrop-blur-md">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           🎉 Upcoming Birthdays
         </h3>
