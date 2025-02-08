@@ -114,9 +114,7 @@ const SearchMembers: React.FC<SearchMemberProps> = ({ gymId, data, type }) => {
           }}
           className=" text-md flex justify-between"
         >
-          {/* <div>
-          <ScanSearch className="h-16 w-16 text-muted-foreground" />
-        </div> */}
+       
 
           <Card x-chunk="dashboard-01-chunk-3">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

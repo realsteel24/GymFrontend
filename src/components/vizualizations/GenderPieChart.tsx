@@ -4,11 +4,13 @@ import * as echarts from "echarts";
 interface GenderPieChartProps {
   maleCount: number;
   femaleCount: number;
+  otherCount: number;
 }
 
 const GenderPieChart: React.FC<GenderPieChartProps> = ({
   maleCount,
   femaleCount,
+  otherCount,
 }) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstanceRef = useRef<echarts.ECharts | null>(null);
@@ -19,6 +21,7 @@ const GenderPieChart: React.FC<GenderPieChartProps> = ({
       const genderData = [
         { name: "Male", value: maleCount },
         { name: "Female", value: femaleCount },
+        { name: "Other", value: otherCount },
       ];
       // Initialize ECharts instance
       const chart = echarts.init(chartRef.current);

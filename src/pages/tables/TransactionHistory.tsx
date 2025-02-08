@@ -1,7 +1,12 @@
 import { DataTable } from "@/components/Data-table";
 import { Skeleton } from "@/components/Skeleton";
 import { useTransactionHistory } from "@/hooks";
-import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
+import {
+  NavigateFunction,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { TransactionHistoryColumn } from "./columns/TransactionHistoryColumn";
 import { useState } from "react";
 import {
@@ -23,9 +28,11 @@ import { CreateMemberFee } from "@/components/forms/CreateMemberFee";
 
 export const TransactionHistory = () => {
   const { gymId, memberId } = useParams<{ gymId: string; memberId: string }>();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const type = searchParams.get("type") || "";
 
-  const rowsPerPage = 10;
+  const rowsPerPage = Number(searchParams.get("rowsPerPage")) || 20;
   const [columns] = useState<typeof TransactionHistoryColumn>(() => [
     ...TransactionHistoryColumn,
   ]);
@@ -52,6 +59,7 @@ export const TransactionHistory = () => {
       memberId: memberId ?? "all",
       page: currentPage,
       rowsPerPage: rowsPerPage,
+      type,
     });
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -60,7 +68,18 @@ export const TransactionHistory = () => {
   const totalPages = Math.ceil(dataCount / rowsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    const queryParams = new URLSearchParams({
+      page: String(pageNumber),
+      rowsPerPage: String(rowsPerPage),
+    });
+
+    if (type) {
+      queryParams.set("type", type);
+    }
+
+    navigate(
+      `/gym/${gymId}/transactionHistory/${memberId}?${queryParams.toString()}`
+    );
   };
 
   return (
@@ -96,7 +115,7 @@ export const TransactionHistory = () => {
             <Skeleton />
           </div>
         ) : (
-          <div className="relative overflow-x-auto border rounded-xl md:mx-8">
+          <div className="relative overflow-x-auto border rounded-xl mx-2 md:mx-8">
             <DataTable
               columns={columns}
               data={transactionHistory.map((fee) => ({ ...fee, navigate }))}
@@ -214,7 +233,16 @@ export const TransactionHistory = () => {
 export const ViewTransactions = (
   gymId: string,
   memberId: string,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
+  page: number = 1,
+  rowsPerPage: number = 20,
+  type: string
 ) => {
-  navigate(`/gym/${gymId}/transactionHistory/${memberId}`);
+  const queryParams = new URLSearchParams({
+    page: String(page),
+    rowsPerPage: String(rowsPerPage),
+    type,
+  }).toString();
+
+  navigate(`/gym/${gymId}/transactionHistory/${memberId}?${queryParams}`);
 };

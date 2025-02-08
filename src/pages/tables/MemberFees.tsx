@@ -38,12 +38,12 @@ export const MemberFees = () => {
       </div>
       <div>
         {memberFeesLoading ? (
-          <div className="md:mx-8">
+          <div className="mx-2 md:mx-8">
             <Skeleton />
             <Skeleton />
           </div>
         ) : (
-          <div className="relative overflow-x-auto border rounded-xl md:mx-8">
+          <div className="relative overflow-x-auto border rounded-xl mx-2 md:mx-8">
             <DataTable
               columns={columns}
               data={memberFees.map((fee) => ({ ...fee, navigate }))}

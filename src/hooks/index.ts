@@ -382,11 +382,13 @@ export const useTransactionHistory = ({
   memberId,
   page,
   rowsPerPage,
+  type,
 }: {
   gymId: string;
   memberId?: string;
   page: number;
   rowsPerPage: number;
+  type?: string;
 }) => {
   const [transactionHistoryLoading, setTransactionHistoryLoading] =
     useState(true);
@@ -399,7 +401,13 @@ export const useTransactionHistory = ({
     const fetchTransactionHistory = async () => {
       try {
         const response = await fetch(
-          `${BACKEND_URL}/api/v1/admin/${gymId}/transactionHistory/${memberId}?page=${page}&rowsPerPage=${rowsPerPage}`,
+          `${BACKEND_URL}/api/v1/admin/${gymId}/transactionHistory/${memberId}?page=${page}&rowsPerPage=${rowsPerPage}${
+            type === "newAd"
+              ? `&type=newAd`
+              : type === "defaulter"
+              ? `&type=defaulter`
+              : null
+          }`,
           {
             headers: { authorization: localStorage.getItem("token") ?? "" },
           }
@@ -463,47 +471,16 @@ export const useTransactionCharts = ({ gymId }: { gymId: string }) => {
   };
 };
 
-export const usePayments = ({ gymId }: { gymId: string }) => {
-  const [paymentsLoading, setPaymentsLoading] = useState(true);
-  const [payments, setPayments] = useState(0);
-
-  useEffect(() => {
-    const fetchPayments = async () => {
-      try {
-        const response = await fetch(
-          `${BACKEND_URL}/api/v1/admin/${gymId}/payments`,
-          {
-            headers: { authorization: localStorage.getItem("token") ?? "" },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Something went wrong");
-        }
-        const result = await response.json();
-        setPayments(result.amount);
-      } catch (error) {
-        console.error("Error fetching batches:", error);
-      } finally {
-        setPaymentsLoading(false);
-      }
-    };
-
-    fetchPayments();
-  }, [gymId]);
-
-  return {
-    payments,
-    paymentsLoading,
-  };
-};
-
 export const useStatusCount = ({ gymId }: { gymId: string }) => {
   const [statusCountLoading, setStatusCountLoading] = useState(true);
-  const [newAdCountLoading, setNewAdCountLoading] = useState(true);
-  const [statusCount, setStatusCount] = useState(0);
+  const [defaulterCount, setDefaulterCount] = useState(0);
   const [newAdCount, setNewAdCount] = useState(0);
-  const [maleCount, setMaleCount] = useState(0);
-  const [femaleCount, setFemaleCount] = useState(0);
+  const [genderCount, setGenderCount] = useState({
+    male: 0,
+    female: 0,
+    other: 0,
+  });
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -518,16 +495,18 @@ export const useStatusCount = ({ gymId }: { gymId: string }) => {
           throw new Error("Something went wrong");
         }
         const result = await response.json();
-        setStatusCount(result.defaultersCount.status);
-        setNewAdCount(result.newAdCount.feeCategoryId);
-        setMaleCount(result.genderCount[1].count);
-        setFemaleCount(result.genderCount[0].count);
-        console.log(result);
+        setDefaulterCount(result.defaultersCount);
+        setNewAdCount(result.newAdCount);
+        setTotalAmount(result.totalAmount);
+        setGenderCount({
+          male: result.gender.male,
+          female: result.gender.female,
+          other: result.gender.other,
+        });
       } catch (error) {
         console.error("Error fetching count:", error);
       } finally {
         setStatusCountLoading(false);
-        setNewAdCountLoading(false);
       }
     };
 
@@ -535,12 +514,11 @@ export const useStatusCount = ({ gymId }: { gymId: string }) => {
   }, [gymId]);
 
   return {
-    statusCount,
+    totalAmount,
+    defaulterCount,
     newAdCount,
     statusCountLoading,
-    newAdCountLoading,
-    maleCount,
-    femaleCount,
+    genderCount,
   };
 };
 

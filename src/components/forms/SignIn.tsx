@@ -40,9 +40,9 @@ export const SignIn = () => {
         ? navigate("/gym")
         : navigate(`/gym/${gymCode.split("/")[1]}/menu`);
     } catch (e) {
-      if (e instanceof Error) {
-        setError(e.message);
-      } else setError("An unexpected error occurred");
+        if (e instanceof Error) {
+          setError(e.message);
+        } else setError("An unexpected error occurred");
     }
   };
 
