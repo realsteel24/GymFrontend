@@ -44,10 +44,11 @@ export function GymProfile({ component }: { component: string }) {
   };
 
   const handleComponentChange = (component: string) => {
-    setActiveComponent(component);
+    if (component !== activeComponent) {
+      setActiveComponent(component);
+    }
     setIsDropdownOpen(false);
   };
-
   return (
     <div>
       <div className="flex justify-center text-2xl py-4 underline underline-offset-8 decoration-4 decoration-accent font-semibold">

@@ -18,7 +18,7 @@ const SelectGender = ({
 }) => {
   const genderList = ["Male", "Female", "Other"];
   return (
-    <div className="grid grid-cols-4 items-center gap-4 py-2">
+    <div className="grid grid-cols-4 items-center gap-4 py-4">
       <Label htmlFor="gender" className="text-right text-md">
         Gender*
       </Label>

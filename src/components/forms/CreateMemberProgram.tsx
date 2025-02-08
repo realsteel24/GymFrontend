@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { BACKEND_URL } from "@/config";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,6 +10,15 @@ import SelectPrograms from "../selectors/SelectPrograms";
 import SelectBatches from "../selectors/SelectBatches";
 
 export const CreateMemberProgram = () => {
+  const programRef = useRef<HTMLButtonElement>(null);
+  const batchRef = useRef<HTMLButtonElement>(null);
+  const memoizedSetProgramId = useCallback(
+    (id: string) => setProgramId(id),
+    []
+  );
+  const memoizedSetBatchId = useCallback((id: string) => setBatchId(id), []);
+  const memoizedSetMemberId = useCallback((id: string) => setMemberId(id), []);
+
   const { gymId } = useParams<{ gymId: string }>();
   const [programId, setProgramId] = useState("");
   const [memberId, setMemberId] = useState("");
@@ -90,20 +99,22 @@ export const CreateMemberProgram = () => {
             <SelectMember
               gymId={gymId!}
               id="members"
-              setMemberId={setMemberId}
+              setMemberId={memoizedSetMemberId}
+              nextFieldRef={programRef}
             />
 
             <SelectPrograms
               gymId={gymId!}
               programId={programId}
-              setProgramId={setProgramId}
+              setProgramId={memoizedSetProgramId}
+              nextFieldRef={batchRef}
             />
 
             <SelectBatches
               gymId={gymId!}
               programId={programId}
               batchId={batchId}
-              setBatchId={setBatchId}
+              setBatchId={memoizedSetBatchId}
             />
 
             <LabelledInput

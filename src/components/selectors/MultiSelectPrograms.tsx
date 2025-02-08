@@ -51,7 +51,7 @@ const MultiSelectPrograms: React.FC<SelectProgramProps> = ({
   }, [gymId]);
 
   return (
-    <div className="grid grid-cols-4 items-center gap-4 py-2">
+    <div className="grid grid-cols-4 items-center gap-4 py-4">
       <Label htmlFor="program" className="text-right text-md">
         Program
       </Label>

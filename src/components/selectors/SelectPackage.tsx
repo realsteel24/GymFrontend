@@ -18,6 +18,7 @@ interface SelectFeeCategoryProps {
   feeCategoryId: string;
   setFeeCategoryId: (feeCategoryId: string) => void;
   setSelectedAmount: (amount: number) => void;
+  setFeeType?: (description: string) => void;
   setDueDate: (dueDate: Date) => void;
   setPaidDate: (paidDate: Date) => void;
   dataToDisplay?: Date;
@@ -27,6 +28,7 @@ interface SelectFeeCategoryProps {
 const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
   gymId,
   setFeeCategoryId,
+  setFeeType,
   setSelectedAmount,
   setDueDate,
   setPaidDate,
@@ -43,6 +45,9 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
   const handleFeeSelection = (fees: FeeOptions) => {
     setSelectedStatus(fees);
     setFeeCategoryId(fees.id);
+    if (setFeeType) {
+      setFeeType(fees.description);
+    }
     const selectedCategory = feeCategories.find((item) => item.id === fees.id);
     if (selectedCategory) {
       setSelectedAmount(parseInt(selectedCategory.amount));
@@ -74,7 +79,7 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
   }, [gymId]);
 
   return (
-    <div className="grid grid-cols-4 items-center gap-4 py-2">
+    <div className="grid grid-cols-4 items-center gap-4 py-4">
       <Label htmlFor="feeCategory" className="text-right text-md">
         Fee Plan
       </Label>

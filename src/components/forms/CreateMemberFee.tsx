@@ -22,7 +22,7 @@ export const CreateMemberFee = ({
   const { gymId } = useParams<{ gymId: string }>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState("");
-
+  const [feeType, setFeeType] = useState("");
   const [feeCategoryId, setFeeCategoryId] = useState("");
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [paymentMethodId, setPaymentMethodId] = useState("");
@@ -116,6 +116,7 @@ export const CreateMemberFee = ({
               feeCategoryId={feeCategoryId}
               setFeeCategoryId={setFeeCategoryId}
               setSelectedAmount={setSelectedAmount}
+              setFeeType={setFeeType}
               setDueDate={setDueDate}
               setPaidDate={setPaidDate}
               dataToDisplay={dueDate}
@@ -130,16 +131,9 @@ export const CreateMemberFee = ({
               value={selectedAmount}
               onChange={(e) => setSelectedAmount(parseInt(e.target.value))}
               placeholder="Amount"
-              disabled
+              disabled={feeType != "Admission Fee"}
             />
 
-            {/* <LabelledInput
-              formId="method"
-              formName="method"
-              label="Payment Method"
-              placeholder="Payment Mode"
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            /> */}
             <SelectPaymentMethod
               gymId={gymId!}
               id="paymentMethodId"

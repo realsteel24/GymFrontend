@@ -4,6 +4,7 @@ import React, {
   ReactNode,
   useState,
   useEffect,
+  useMemo,
 } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useGyms } from "@/hooks/";
@@ -26,28 +27,36 @@ export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
   const { gymId } = useParams<{ gymId: string }>();
   const { gyms, loading } = useGyms();
   const navigate = useNavigate();
-  const location = useLocation(); // Get current location
+  const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  const gym = gyms.find((gym) => gym.id === gymId);
-  const gymName = gym ? gym.name : "STEEL";
-  console.log(gymId, gymName);
+  // Memoize gym object to prevent unnecessary lookups
+  const gym = useMemo(() => gyms.find((g) => g.id === gymId), [gyms, gymId]);
+
+  // Memoize gymName
+  const gymName = useMemo(() => (gym ? gym.name : "STEEL"), [gym]);
+
+  // Memoize context value to prevent unnecessary re-renders
+  const contextValue = useMemo(
+    () => ({
+      gymName,
+      loading,
+      isAuthenticated,
+    }),
+    [gymName, loading, isAuthenticated]
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    const excludedPaths = [
+    const excludedPaths = new Set([
       `/gym/${gymId}/importForm`,
       `/gym/${gymId}/programs`,
       `/gym/${gymId}/batches`,
       `/gym/${gymId}/thankyou`,
-    ];
+    ]);
 
-    const isExcludedPath = excludedPaths.some((path) =>
-      location.pathname.includes(path)
-    );
-
-    if (!isExcludedPath) {
+    if (!excludedPaths.has(location.pathname)) {
       if (!token) {
         navigate("/");
       } else {
@@ -56,10 +65,10 @@ export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
     } else {
       setIsAuthenticated(true);
     }
-  }, [navigate, location.pathname, gymId]);
+  }, [navigate, gymId]);
 
   return (
-    <GymNameContext.Provider value={{ gymName, loading, isAuthenticated }}>
+    <GymNameContext.Provider value={contextValue}>
       {children}
     </GymNameContext.Provider>
   );
