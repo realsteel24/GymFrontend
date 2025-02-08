@@ -3,6 +3,7 @@ import DarkModeToggle from "./DarkModeToggle";
 import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../assets/Admin-Logo.svg";
 import SearchMembers from "./SearchMembers";
+import { Notifications } from "./Notifications";
 
 interface AppbarProps {
   children: React.ReactNode;
@@ -27,6 +28,10 @@ export const Appbar = ({ children }: AppbarProps) => {
         <div className="pt-1 mr-4">
           <DarkModeToggle />
         </div>
+        <div className="pt-2 mr-4">
+          <Notifications />
+        </div>
+
         <div className="">{children}</div>
       </div>
     </div>
