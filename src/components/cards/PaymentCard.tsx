@@ -32,7 +32,14 @@ export function PaymentCard() {
         cardTitle="Incoming Transactions History"
         type="buttonedCard"
         cardFunction={() =>
-          ViewTransactions(gymId ?? "", memberId ?? "all", navigate)
+          ViewTransactions(
+            gymId ?? "",
+            memberId ?? "all",
+            navigate,
+            1,
+            20,
+            "null"
+          )
         }
         buttonTitle="View Transactions"
       />
