@@ -107,9 +107,7 @@ const SelectPrograms: React.FC<SelectProgramProps> = React.memo(
                           value={prog.id}
                           onSelect={() => handleProgramSelect(prog)}
                           className={`text-md hover:cursor-pointer   ${
-                            bulk
-                              ? "aria-selected:bg-red-600 focus:bg-red-600"
-                              : ""
+                            bulk ? "aria-selected:bg-red-600" : ""
                           }`}
                           tabIndex={index === 0 ? 0 : -1} // Ensure first item gets focus
                         >

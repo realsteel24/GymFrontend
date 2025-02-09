@@ -110,9 +110,7 @@ const SelectBatches: React.FC<SelectBatchProps> = React.memo(
                           value={batch.id}
                           onSelect={() => handleBatchSelect(batch)}
                           className={`text-md hover:cursor-pointer ${
-                            bulk
-                              ? "aria-selected:bg-red-600 focus:bg-red-600"
-                              : ""
+                            bulk ? "aria-selected:bg-red-600" : ""
                           }`}
                           tabIndex={index === 0 ? 0 : -1} // Ensure first item gets focus
                         >

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BACKEND_URL } from "@/config";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LabelledInput } from "@/components/LabelledInput";
 import { useToast } from "@/components/ui/use-toast";
@@ -30,6 +30,8 @@ export const CreateMemberBulk = () => {
     }
   );
   const navigate = useNavigate();
+  const batchRef = useRef<HTMLButtonElement>(null);
+
   const { gymId } = useParams<{ gymId: string }>();
 
   const [error, setError] = useState<{ [key: string]: string }>({});
@@ -379,6 +381,7 @@ export const CreateMemberBulk = () => {
               gymId={gymId!}
               programId={programId}
               setProgramId={setProgramId}
+              nextFieldRef={batchRef}
               bulk
             />
 

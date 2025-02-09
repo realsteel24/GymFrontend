@@ -39,7 +39,7 @@ const SelectGender = ({
             <SelectItem
               value={item}
               className={`text-md hover:cursor-pointer ${
-                bulk ? "hover:shadow-red-600 focus:bg-red-600" : null
+                bulk ? "hover:shadow-red-600" : null
               }`}
             >
               {item}
