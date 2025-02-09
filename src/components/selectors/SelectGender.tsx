@@ -24,13 +24,12 @@ const SelectGender = ({
       </Label>
       <Select onValueChange={setGender} value={gender}>
         <SelectTrigger
-          className={`col-span-3 text-md ${
-            bulk ? "hover:shadow-red-600" : null
-          }`}
+          className={`col-span-3 text-md ${bulk ? "hover:shadow-red-600" : ""}`}
+          data-native={
+            typeof window !== "undefined" &&
+            /iPhone|iPad|iPod/.test(navigator.userAgent)
+          }
         >
-          data-native=
-          {typeof window !== "undefined" &&
-            /iPhone|iPad|iPod/.test(navigator.userAgent)}
           <SelectValue placeholder="Select gender" />
         </SelectTrigger>
         <SelectContent
