@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { format } from "date-fns";
+import { format, isSameDay, parseISO } from "date-fns";
 import { BACKEND_URL } from "@/config";
 import { useParams } from "react-router-dom";
 
@@ -105,7 +105,7 @@ export const Notifications = () => {
       </PopoverTrigger>
 
       {/* Popover Content */}
-      <PopoverContent className="z-200 p-3 shadow-lg rounded-lg mx-4 mt-2 bg-gray-300 dark:bg-black dark:bg-opacity-90 bg-opacity-90 backdrop-blur-md">
+      <PopoverContent className="z-200 p-3 shadow-lg rounded-lg mx-4 mt-2 bg-gray-300 dark:bg-black backdrop-blur-md">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           🎉 Upcoming Birthdays
         </h3>
@@ -131,7 +131,8 @@ const NotifList = ({ members }: { members: Birthdays[] }) => {
         <p className="text-sm text-gray-500">No upcoming birthdays</p>
       ) : (
         members.map((member) => {
-          const isToday = member.dob === today.toDateString();
+          const memberDate = parseISO(member.dob); // Convert string to Date
+          const isToday = isSameDay(memberDate, today); // Compare only the date
           return (
             <div
               key={member.id}
@@ -144,7 +145,11 @@ const NotifList = ({ members }: { members: Birthdays[] }) => {
               <span className="text-sm font-medium text-gray-900 dark:text-white">
                 {member.name}
               </span>
-              <span className="text-xs text-gray-500">
+              <span
+                className={`text-xs ${
+                  isToday ? "text-white" : "text-gray-500"
+                }`}
+              >
                 {isToday ? "🎂 Today" : format(new Date(member.dob), "MMM dd")}
               </span>
             </div>
