@@ -24,11 +24,7 @@ const SelectBatchPref = ({
         <SelectTrigger className={`col-span-3 text-md `}>
           <SelectValue placeholder="Select preference" />
         </SelectTrigger>
-        <SelectContent
-          ref={(ref) =>
-            ref?.addEventListener("touchend", (e) => e.preventDefault())
-          }
-        >
+        <SelectContent>
           {preferences.map((item) => (
             <SelectItem value={item} className={`text-md hover:cursor-pointer`}>
               {item}
