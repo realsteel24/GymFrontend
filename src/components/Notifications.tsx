@@ -147,7 +147,7 @@ const NotifList = ({ members }: { members: Birthdays[] }) => {
               </span>
               <span
                 className={`text-xs ${
-                  isToday ? "text-white" : "text-gray-500"
+                  isToday ? "text-black dark:text-white" : "text-gray-500"
                 }`}
               >
                 {isToday ? "🎂 Today" : format(new Date(member.dob), "MMM dd")}
