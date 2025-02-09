@@ -28,6 +28,9 @@ const SelectGender = ({
             bulk ? "hover:shadow-red-600" : null
           }`}
         >
+          data-native=
+          {typeof window !== "undefined" &&
+            /iPhone|iPad|iPod/.test(navigator.userAgent)}
           <SelectValue placeholder="Select gender" />
         </SelectTrigger>
         <SelectContent
@@ -37,9 +40,10 @@ const SelectGender = ({
         >
           {genderList.map((item) => (
             <SelectItem
+              key={item}
               value={item}
               className={`text-md hover:cursor-pointer ${
-                bulk ? "hover:shadow-red-600" : null
+                bulk ? "aria-selected:bg-red-600 " : null
               }`}
             >
               {item}
