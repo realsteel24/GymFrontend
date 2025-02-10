@@ -11,7 +11,7 @@ import SelectPrograms from "../selectors/SelectPrograms";
 import SelectBatches from "../selectors/SelectBatches";
 import { CardTitle } from "../ui/card";
 import SelectGender from "../selectors/SelectGender";
-import planet from "@/assets/planetlogo-white.png";
+import { useGymNameContext } from "@/context/Gym";
 
 export const CreateMemberBulk = () => {
   const [createMemberInput, setCreateMemberInput] = useState<CreateMemberInput>(
@@ -38,10 +38,12 @@ export const CreateMemberBulk = () => {
   const [generalError, setGeneralError] = useState<string | null>(null);
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("PersonalDetails");
-  const [loading, setLoading] = useState(false);
+  const [enquiryLoading, setEnquiryLoading] = useState(false);
 
   const [programId, setProgramId] = useState("");
   const [batchId, setBatchId] = useState("");
+  const { gymLogo, loading } = useGymNameContext();
+
   const clear = () => {
     setCreateMemberInput({
       name: "",
@@ -60,7 +62,7 @@ export const CreateMemberBulk = () => {
   };
 
   async function handleSubmit() {
-    setLoading(true);
+    setEnquiryLoading(true);
     try {
       createMember.parse(createMemberInput);
       const submit = await fetch(
@@ -92,7 +94,7 @@ export const CreateMemberBulk = () => {
         description: `Try again with valid inputs`,
       });
     } finally {
-      setLoading(false);
+      setEnquiryLoading(false);
     }
   }
 
@@ -121,7 +123,7 @@ export const CreateMemberBulk = () => {
 
   return (
     <div className="relative bg-black bg-opacity-90 md:bg-opacity-90 rounded-lg shadow-lg p-6 max-w-lg mx-3 sm:mx-0">
-      {loading && (
+      {enquiryLoading && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
           <div className="w-12 h-12 border-4 border-gray-200 border-t-red-600 rounded-full animate-spin"></div>
         </div>
@@ -152,11 +154,15 @@ export const CreateMemberBulk = () => {
         />
       </svg>
       <CardTitle className="text-center text-2xl text-accent pb-2 md:pb-2 flex justify-center items-center content-center">
-        <img
-          src={planet}
-          alt="Description of the image"
-          className="w-24 h-24"
-        />
+        {loading ? (
+          <div className="text-red-600 text-sm">Loading...</div>
+        ) : (
+          <img
+            src={gymLogo}
+            alt="Gym Logo"
+            className="w-24 h-24 text-xs text-red-600"
+          />
+        )}
       </CardTitle>
       <Tabs
         defaultValue="PersonalDetails"
@@ -407,11 +413,11 @@ export const CreateMemberBulk = () => {
             ? () => setActiveTab("OtherDetails")
             : () => setActiveTab("MembershipDetails")
         }
-        disabled={activeTab === "MembershipDetails" && loading} // Disable button during submission
+        disabled={activeTab === "MembershipDetails" && enquiryLoading} // Disable button during submission
         className="bg-accent text-white hover:bg-accent focus:outline-none focus:ring focus:ring-black mt-8 md:mt-4 w-full"
       >
         {activeTab === "MembershipDetails"
-          ? loading
+          ? enquiryLoading
             ? "Submitting..."
             : "Submit"
           : "Next"}

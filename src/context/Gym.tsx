@@ -11,6 +11,7 @@ import { useGyms } from "@/hooks/";
 
 interface GymNameContextProps {
   gymName: string;
+  gymLogo: string;
   loading: boolean;
   isAuthenticated: boolean;
 }
@@ -19,13 +20,14 @@ const GymNameContext = createContext<GymNameContextProps>({
   gymName: "",
   loading: true,
   isAuthenticated: false,
+  gymLogo: "",
 });
 
 export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const { gymId } = useParams<{ gymId: string }>();
-  const { gyms, loading } = useGyms();
+  const { gyms, loading } = useGyms({ gymId: gymId! });
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -35,10 +37,12 @@ export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
 
   // Memoize gymName
   const gymName = useMemo(() => (gym ? gym.name : "STEEL"), [gym]);
+  const gymLogo = useMemo(() => (gym ? gym.logo : "STEEL"), [gym]);
 
   // Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
+      gymLogo,
       gymName,
       loading,
       isAuthenticated,

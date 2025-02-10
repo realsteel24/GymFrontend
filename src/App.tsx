@@ -118,7 +118,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/gym" element={<Layout children={<Gym />} />} />
+          <Route path="/gym/:gymId" element={<Layout children={<Gym />} />} />
           <Route
             path="/gym/:gymId/*"
             element={

@@ -29,6 +29,7 @@ export interface MemberOptions {
 }
 
 export interface GymOptions {
+  logo: string;
   id: string;
   name: string;
   branch: string;
@@ -181,12 +182,12 @@ export const useMembers = ({
   };
 };
 
-export const useGyms = () => {
+export const useGyms = ({ gymId }: { gymId: string }) => {
   const [loading, setLoading] = useState(true);
   const [gyms, setGyms] = useState<GymOptions[]>([]);
   useEffect(() => {
     try {
-      fetch(`${BACKEND_URL}/api/v1/gym/gyms`, {
+      fetch(`${BACKEND_URL}/api/v1/gym/${gymId}`, {
         headers: {
           authorization: localStorage.getItem("token") ?? "",
         },

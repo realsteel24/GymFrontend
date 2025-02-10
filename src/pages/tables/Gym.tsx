@@ -1,11 +1,13 @@
 import { DataTable } from "@/components/Data-table";
 import { Skeleton } from "@/components/Skeleton";
 import { useGyms } from "@/hooks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GymColumns } from "./columns/GymColumns";
 
 export const Gym = () => {
-  const { loading, gyms } = useGyms();
+  const { gymId } = useParams<{ gymId: string }>();
+
+  const { loading, gyms } = useGyms({ gymId: gymId! });
   const navigate = useNavigate();
 
   return (
