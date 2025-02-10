@@ -33,7 +33,11 @@ export function Layout({
         <div className="w-72 min-h-screen pt-28 hidden lg:block bg-gray-100 bg-opacity-80 bg-blur dark:bg-slate-600 dark:bg-blur dark:bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-lg">
           <div>
             {jwt === SUPER_ADMIN ? (
-              <SidebarItem href={"/gym"} icon={<HomeIcon />} title="Home" />
+              <SidebarItem
+                href={`/gym/${gymId}`}
+                icon={<HomeIcon />}
+                title="Home"
+              />
             ) : null}
             <SidebarItem
               href={`/gym/${gymId}/dashboard`}

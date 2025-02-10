@@ -11,12 +11,14 @@ export const SignIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [gymCode, setGymCode] = useState("STEEL/");
+  const [signinLoading, setSigninLoading] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("darkMode", "true");
     document.documentElement.classList.add("dark");
   }, []);
   const handleSubmit = async () => {
+    setSigninLoading(true);
     setError("");
     try {
       const response = await fetch(`${BACKEND_URL}/api/v1/admin/signin`, {
@@ -43,12 +45,19 @@ export const SignIn = () => {
       if (e instanceof Error) {
         setError(e.message);
       } else setError("An unexpected error occurred");
+    } finally {
+      setSigninLoading(false);
     }
   };
 
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2">
+        {signinLoading && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+            <div className="w-12 h-12 border-4 border-gray-200 border-t-red-600 rounded-full animate-spin"></div>
+          </div>
+        )}{" "}
         <div className="h-screen flex-col flex justify-center bg-gradient-to-tr from-slate-700 via-slate-800 to-slate-900">
           <div className="w-full flex justify-center">
             <div>
