@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Appbar } from "./AppBar";
 import { SidebarItem, HomeIcon, DashboardIcon, ReportsIcon } from "./SideBar";
 import { Button } from "./ui/button";
-import { SUPER_ADMIN } from "@/config";
+import { MP_ADMIN, SUPER_ADMIN } from "@/config";
 import { FilePlus } from "lucide-react";
 
 export function Layout({
@@ -33,11 +33,9 @@ export function Layout({
         <div className="w-72 min-h-screen pt-28 hidden lg:block bg-gray-100 bg-opacity-80 bg-blur dark:bg-slate-600 dark:bg-blur dark:bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-lg">
           <div>
             {jwt === SUPER_ADMIN ? (
-              <SidebarItem
-                href={`/gym/${gymId}`}
-                icon={<HomeIcon />}
-                title="Home"
-              />
+              <SidebarItem href={`/gym/00`} icon={<HomeIcon />} title="Home" />
+            ) : jwt === MP_ADMIN ? (
+              <SidebarItem href={`/gym/01`} icon={<HomeIcon />} title="Home" />
             ) : null}
             <SidebarItem
               href={`/gym/${gymId}/dashboard`}
