@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { format, isSameDay, parseISO } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { BACKEND_URL } from "@/config";
 import { useParams } from "react-router-dom";
 
@@ -124,6 +124,8 @@ export const Notifications = () => {
 
 const NotifList = ({ members }: { members: Birthdays[] }) => {
   const today = new Date();
+  const todayMonth = today.getMonth();
+  const todayDay = today.getDate();
 
   return (
     <div className="mt-2 max-h-60 overflow-y-auto space-y-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
@@ -132,7 +134,10 @@ const NotifList = ({ members }: { members: Birthdays[] }) => {
       ) : (
         members.map((member) => {
           const memberDate = parseISO(member.dob); // Convert string to Date
-          const isToday = isSameDay(memberDate, today); // Compare only the date
+          const memberMonth = memberDate.getMonth();
+          const memberDay = memberDate.getDate();
+          const isToday = todayMonth === memberMonth && todayDay === memberDay; // Ignore year
+
           return (
             <div
               key={member.id}
