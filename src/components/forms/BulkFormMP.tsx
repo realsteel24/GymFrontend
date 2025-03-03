@@ -62,6 +62,7 @@ export const CreateMemberBulk = () => {
   };
 
   async function handleSubmit() {
+    if (enquiryLoading) return;
     setEnquiryLoading(true);
     try {
       createMember.parse(createMemberInput);

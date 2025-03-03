@@ -33,6 +33,7 @@ export const CreateMemberFee = ({
     derivedMemberid ? derivedMemberid : ""
   );
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [compLoading, setCompLoading] = useState(false);
 
   const { toast } = useToast();
 
@@ -49,8 +50,11 @@ export const CreateMemberFee = ({
   };
 
   const handleSubmit = async () => {
+    if (compLoading) return;
+
     setIsDialogOpen(false);
     setIsDrawerOpen(false);
+    setCompLoading(true);
     try {
       const response = await fetch(
         `${BACKEND_URL}/api/v1/admin/${gymId}/memberFees`,
@@ -74,6 +78,11 @@ export const CreateMemberFee = ({
       );
 
       if (!response.ok) {
+        setCompLoading(false);
+        toast({
+          title: `Failed to record payment`,
+          description: `Insufficient details`,
+        });
         throw new Error("Failed to create fee record");
       }
 
@@ -83,12 +92,23 @@ export const CreateMemberFee = ({
       });
       clear();
       navigate(`/gym/${gymId}/menu`);
+      setCompLoading(false);
     } catch (e) {
+      setCompLoading(false);
+      toast({
+        title: `Failed to record payment`,
+        description: `Payment failed`,
+      });
       setError(e instanceof Error ? e.message : "An unexpected error occurred");
     }
   };
   return (
     <div>
+      {compLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+          <div className="w-12 h-12 border-4 border-gray-200 border-t-red-600 rounded-full animate-spin"></div>
+        </div>
+      )}
       <CustomDialogForm
         type={type}
         isOpen={isDialogOpen}

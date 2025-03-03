@@ -31,6 +31,7 @@ export const CreateMemberProgram = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
+  const [compLoading, setCompLoading] = useState(false);
 
   const clear = () => {
     setProgramId("");
@@ -42,8 +43,10 @@ export const CreateMemberProgram = () => {
   };
 
   async function handleSubmit() {
+    if (compLoading) return;
     setIsDialogOpen(false);
     setIsDrawerOpen(false);
+    setCompLoading(true);
 
     try {
       const response = await fetch(
@@ -63,6 +66,11 @@ export const CreateMemberProgram = () => {
         }
       );
       if (!response.ok) {
+        setCompLoading(false);
+        toast({
+          title: "Could not Enroll Member",
+          description: "Failed!",
+        });
         throw new Error("Failed to create member program");
       }
 
@@ -73,17 +81,33 @@ export const CreateMemberProgram = () => {
       });
       clear();
       navigate(`/gym/${gymId}/menu`);
+      setCompLoading(false);
     } catch (e) {
       if (e instanceof Error) {
+        setCompLoading(false);
         setError(e.message);
+        toast({
+          title: "Could not Enroll member",
+          description: "Failed!",
+        });
       } else {
+        setCompLoading(false);
         setError("An unexpected error occurred");
+        toast({
+          title: "Could not Enroll Member",
+          description: "Failed!",
+        });
       }
     }
   }
 
   return (
     <div>
+      {compLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+          <div className="w-12 h-12 border-4 border-gray-200 border-t-red-600 rounded-full animate-spin"></div>
+        </div>
+      )}
       <CustomDialogForm
         isMobileOpen={isDrawerOpen}
         setIsMobileOpen={setIsDrawerOpen}

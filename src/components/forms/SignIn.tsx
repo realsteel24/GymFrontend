@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { LabelledInput } from "../LabelledInput";
 import { Button } from "../ui/button";
-import { BACKEND_URL, SUPER_ADMIN } from "@/config";
+import { BACKEND_URL, MP_ADMIN, SUPER_ADMIN } from "@/config";
 import { useNavigate } from "react-router-dom";
 
 export const SignIn = () => {
@@ -18,6 +18,7 @@ export const SignIn = () => {
     document.documentElement.classList.add("dark");
   }, []);
   const handleSubmit = async () => {
+    if (signinLoading) return;
     setSigninLoading(true);
     setError("");
     try {
@@ -38,7 +39,7 @@ export const SignIn = () => {
       const admin = await response.json();
       localStorage.setItem("token", admin.jwt);
 
-      admin.jwt === SUPER_ADMIN
+      admin.jwt === SUPER_ADMIN || admin.jwt === MP_ADMIN
         ? navigate(`/gym/${gymCode.split("/")[1]}`)
         : navigate(`/gym/${gymCode.split("/")[1]}/menu`);
     } catch (e) {
