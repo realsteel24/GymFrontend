@@ -42,7 +42,7 @@ export const CreateMemberBulk = () => {
 
   const [programId, setProgramId] = useState("");
   const [batchId, setBatchId] = useState("");
-  const { gymLogo, loading } = useGymNameContext();
+  const { loading } = useGymNameContext();
 
   const clear = () => {
     setCreateMemberInput({
@@ -159,7 +159,7 @@ export const CreateMemberBulk = () => {
           <div className="text-red-600 text-sm">Loading...</div>
         ) : (
           <img
-            src={gymLogo}
+            src={"/planetlogo-white.png"}
             alt="Gym Logo"
             className="w-24 h-24 text-xs text-red-600"
           />

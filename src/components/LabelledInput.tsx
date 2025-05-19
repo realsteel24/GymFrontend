@@ -45,7 +45,7 @@ export function LabelledInput({
   bulk,
   disabled,
 }: LabelledInputTypes) {
-  const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date()); // Manage month and year changes
+  const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date()); 
   const handleDateChange = (date: Date | undefined) => {
     if (pickDate) {
       pickDate(date); // Trigger date change
@@ -77,18 +77,7 @@ export function LabelledInput({
             />
           )
         ) : (
-          /* 
-            <DatePicker
-              id={formId}
-              showYearDropdown
-              scrollableYearDropdown
-              popperPlacement="top-start"
-              selected={selectedDate}
-              onChange={pickDate!}
-              dateFormat={"dd/MM/yyyy"}
-              className=" dark:bg-black p-2 text-md rounded-md shadow-   border col-span-3"
-              required={required}
-            /> */
+        
           <Input
             type={type}
             id={formId}
