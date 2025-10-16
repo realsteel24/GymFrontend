@@ -3,6 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { format, parseISO } from "date-fns";
 import { BACKEND_URL } from "@/config";
 import { useParams } from "react-router-dom";
+import { Portal } from "@radix-ui/react-popover";
 
 type Birthdays = {
   id: string;
@@ -79,7 +80,7 @@ export const Notifications = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="relative cursor-pointer z-50">
+        <div className="relative cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 611.999 611.999"
@@ -97,7 +98,7 @@ export const Notifications = () => {
 
           {/* Notification count badge */}
           {upcomingBirthdays.length > 0 && (
-            <span className="absolute -top-1.5 h-4 w-4 flex justify-center flex-col items-center -right-2 bg-red-500 text-white text-xs font-bold  rounded-full">
+            <span className="absolute -top-1.5 h-4 w-4 flex justify-center flex-col items-center -right-2 bg-red-500 text-white text-xs font-bold rounded-full">
               {upcomingBirthdays.length}
             </span>
           )}
@@ -105,19 +106,21 @@ export const Notifications = () => {
       </PopoverTrigger>
 
       {/* Popover Content */}
-      <PopoverContent className="z-200 p-3 shadow-lg rounded-lg mx-4 mt-2 bg-gray-300 dark:bg-black backdrop-blur-md">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-          🎉 Upcoming Birthdays
-        </h3>
+      <Portal>
+        <PopoverContent className="p-3 shadow-lg rounded-lg mx-4 mt-2 bg-gray-300 dark:bg-black backdrop-blur-md">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            🎉 Upcoming Birthdays
+          </h3>
 
-        {loading ? (
-          <p className="text-sm text-gray-500">Loading...</p>
-        ) : error ? (
-          <p className="text-sm text-red-500">{error}</p>
-        ) : (
-          <NotifList members={upcomingBirthdays} />
-        )}
-      </PopoverContent>
+          {loading ? (
+            <p className="text-sm text-gray-500">Loading...</p>
+          ) : error ? (
+            <p className="text-sm text-red-500">{error}</p>
+          ) : (
+            <NotifList members={upcomingBirthdays} />
+          )}
+        </PopoverContent>
+      </Portal>
     </Popover>
   );
 };
