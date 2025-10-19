@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 
 export interface DatePickerProps {
   selectedDate?: Date;
-  onDateChange: (date: Date) => void;
+  onDateChange: (date: Date ) => void;
   bulk?: boolean;
 }
 

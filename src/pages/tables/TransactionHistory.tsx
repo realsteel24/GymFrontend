@@ -1,6 +1,6 @@
 import { DataTable } from "@/components/Data-table";
 import { Skeleton } from "@/components/Skeleton";
-import { useTransactionHistory } from "@/hooks";
+import { MemberFeeOptions, useTransactionHistory } from "@/hooks";
 import {
   NavigateFunction,
   useNavigate,
@@ -8,7 +8,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { TransactionHistoryColumn } from "./columns/TransactionHistoryColumn";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -19,15 +19,13 @@ import {
   PaginationNext,
 } from "@/components/ui/pagination";
 import { CreateMemberFee } from "@/components/forms/CreateMemberFee";
-// import {
-//   Popover,
-//   PopoverContent,
-//   PopoverTrigger,
-// } from "@/components/ui/popover";
-// import { CaretDownIcon } from "@radix-ui/react-icons";
 
 export const TransactionHistory = () => {
   const { gymId, memberId } = useParams<{ gymId: string; memberId: string }>();
+  useEffect(() => {
+    // Trigger refetch whenever URL param changes
+    refetch?.();
+  }, [memberId]);
   const [searchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
   const type = searchParams.get("type") || "";
@@ -37,35 +35,26 @@ export const TransactionHistory = () => {
     ...TransactionHistoryColumn,
   ]);
 
-  // const [filters, setFilters] = useState({
-  //   name: "",
-  //   dueDate: "",
-  //   paymentMethod: "",
-  //   package: "",
-  // });
-  // const handleFilterChange = (columnId, value) => {
-  //   setFilters((prev) => ({
-  //     ...prev,
-  //     [columnId]: value,
-  //   }));
+  const {
+    transactionHistoryLoading,
+    transactionHistory,
+    dataCount,
+    refetch, // Make sure your hook returns refetch
+  } = useTransactionHistory({
+    gymId: gymId!,
+    memberId: memberId ?? "all",
+    page: currentPage,
+    rowsPerPage: rowsPerPage,
+    type,
+  });
 
-  //   Optionally trigger server-side filtering logic
-  //   table.getColumn(columnId)?.setFilterValue(value);
-  // };
-
-  const { transactionHistoryLoading, transactionHistory, dataCount } =
-    useTransactionHistory({
-      gymId: gymId!,
-      memberId: memberId ?? "all",
-      page: currentPage,
-      rowsPerPage: rowsPerPage,
-      type,
-    });
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
-  // const columns = TransactionHistoryColumn();
   const totalPages = Math.ceil(dataCount / rowsPerPage);
+
+  // Debug: Log when data changes
+  useEffect(() => {}, [transactionHistory, transactionHistoryLoading]);
 
   const handlePageChange = (pageNumber: number) => {
     const queryParams = new URLSearchParams({
@@ -103,11 +92,20 @@ export const TransactionHistory = () => {
       <div className="flex justify-center text-xl my-6 underline underline-offset-8 decoration-4 decoration-accent font-semibold">
         Transaction History
       </div>
+
       {memberId === "all" ? null : (
         <div className="text-end mb-4 mx-4 md:mx-8 flex justify-end">
-          <CreateMemberFee derivedMemberid={memberId} type="mini" />
+          {/* ✅ CRITICAL: Pass the onSuccess callback */}
+          <CreateMemberFee
+            derivedMemberid={memberId}
+            type="mini"
+            onSuccess={() => {
+              refetch?.();
+            }}
+          />
         </div>
       )}
+
       <div>
         {transactionHistoryLoading ? (
           <div className="md:mx-8">
@@ -118,59 +116,10 @@ export const TransactionHistory = () => {
           <div className="relative overflow-x-auto border rounded-xl mx-2 md:mx-8">
             <DataTable
               columns={columns}
-              data={transactionHistory.map((fee) => ({ ...fee, navigate }))}
-              // filter={
-              //   <Popover>
-              //     <PopoverTrigger className="bg-white dark:bg-black text-sm text-muted-foreground px-2 flex">
-              //       Filters <CaretDownIcon />
-              //     </PopoverTrigger>
-              //     <PopoverContent className="p-2 bg-gray-100 dark:bg-black border rounded shadow-md">
-              //       {columns.map((column) => (
-              //         <div
-              //           key={column.id}
-              //           className="flex items-center gap-2 mb-2"
-              //         >
-              //           <input
-              //             type="checkbox"
-              //             id={`filter-${column.id}`}
-              //             checked={filters[column.header] !== undefined}
-              //             onChange={(e) => {
-              //               if (e.target.checked) {
-              //                 setFilters((prev) => ({
-              //                   ...prev,
-              //                   [column.header]: "",
-              //                 }));
-              //               } else {
-              //                 const updatedFilters = { ...filters };
-              //                 delete updatedFilters[column.id];
-              //                 setFilters(updatedFilters);
-              //               }
-              //             }}
-              //             className="cursor-pointer"
-              //           />
-              //           <label
-              //             htmlFor={`filter-${column.id}`}
-              //             className="text-sm"
-              //           >
-              //             {column.header ?? column.id}
-              //           </label>
-
-              //           {filters[column.id] !== undefined && (
-              //             <input
-              //               type="text"
-              //               value={filters[column.id]}
-              //               onChange={(e) =>
-              //                 handleFilterChange(column.id, e.target.value)
-              //               }
-              //               placeholder={`Filter ${column.header ?? column.id}`}
-              //               className="ml-4 flex-grow border border-gray-300 dark:border-gray-700 rounded px-2 py-1 text-sm"
-              //             />
-              //           )}
-              //         </div>
-              //       ))}
-              //     </PopoverContent>
-              //   </Popover>
-              // }
+              data={transactionHistory.map((fee: MemberFeeOptions) => ({
+                ...fee,
+                navigate,
+              }))}
             />
           </div>
         )}

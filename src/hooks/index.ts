@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { BACKEND_URL } from "../config";
 import { EnquiryInput } from "realsteelgym";
 
@@ -200,7 +201,7 @@ export const useGyms = ({ gymId }: { gymId: string }) => {
         setLoading(false);
       });
     } catch (error) {
-      console.log(`Error:${error}`);
+      console.error(`Error:${error}`);
     }
   }, []);
   return {
@@ -224,7 +225,7 @@ export const usePrograms = ({ gymId }: { gymId: string }) => {
         }
       );
     } catch (error) {
-      console.log(`Error: ${error}`);
+      console.error(`Error: ${error}`);
     }
   };
   return {
@@ -345,32 +346,30 @@ export const useMemberFees = ({
   gymId: string;
   memberId?: string;
 }) => {
-  const [memberFeesLoading, setMemberFeesLoading] = useState(true);
-  const [memberFees, setMemberFees] = useState<MemberFeeOptions[]>([]);
+  const queryKey = ["memberFees", gymId, memberId];
 
-  useEffect(() => {
-    const fetchMemberFees = async () => {
-      try {
-        const response = await fetch(
-          `${BACKEND_URL}/api/v1/admin/${gymId}/memberFees/${memberId}`,
-          {
-            headers: { authorization: localStorage.getItem("token") ?? "" },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Something went wrong");
+  const { data: memberFees = [], isPending: memberFeesLoading } = useQuery({
+    queryKey,
+    queryFn: async () => {
+      const response = await fetch(
+        `${BACKEND_URL}/api/v1/admin/${gymId}/memberFees/${memberId}`,
+        {
+          headers: { authorization: localStorage.getItem("token") ?? "" },
         }
-        const result = await response.json();
-        setMemberFees(result.memberFees);
-      } catch (error) {
-        console.error("Error fetching batches:", error);
-      } finally {
-        setMemberFeesLoading(false);
-      }
-    };
+      );
 
-    fetchMemberFees();
-  }, [gymId, memberId]);
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+
+      const result = await response.json();
+      return result.memberFees;
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: false,
+  });
 
   return {
     memberFees,
@@ -391,50 +390,63 @@ export const useTransactionHistory = ({
   rowsPerPage: number;
   type?: string;
 }) => {
-  const [transactionHistoryLoading, setTransactionHistoryLoading] =
-    useState(true);
-  const [dataCount, setDataCount] = useState(0);
-  const [transactionHistory, setTransactionHistory] = useState<
-    MemberFeeOptions[]
-  >([]);
+  const queryKey = [
+    "transactionHistory",
+    gymId,
+    memberId,
+    page,
+    rowsPerPage,
+    type,
+  ];
+  const {
+    data,
+    isPending: transactionHistoryLoading,
+    refetch,
+    isRefetching,
+  } = useQuery({
+    queryKey,
+    queryFn: async () => {
+      const typeParam =
+        type === "newAd"
+          ? `&type=newAd`
+          : type === "defaulter"
+          ? `&type=defaulter`
+          : "";
 
-  useEffect(() => {
-    const fetchTransactionHistory = async () => {
-      try {
-        const response = await fetch(
-          `${BACKEND_URL}/api/v1/admin/${gymId}/transactionHistory/${memberId}?page=${page}&rowsPerPage=${rowsPerPage}${
-            type === "newAd"
-              ? `&type=newAd`
-              : type === "defaulter"
-              ? `&type=defaulter`
-              : null
-          }`,
-          {
-            headers: { authorization: localStorage.getItem("token") ?? "" },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Something went wrong");
+      const response = await fetch(
+        `${BACKEND_URL}/api/v1/admin/${gymId}/transactionHistory/${memberId}?page=${page}&rowsPerPage=${rowsPerPage}${typeParam}`,
+        {
+          headers: { authorization: localStorage.getItem("token") ?? "" },
         }
-        const result = await response.json();
-        setTransactionHistory(result.data);
-        setDataCount(result.dataCount);
-      } catch (error) {
-        console.error("Error fetching batches:", error);
-      } finally {
-        setTransactionHistoryLoading(false);
-      }
-    };
+      );
 
-    fetchTransactionHistory();
-  }, [gymId, memberId, page, rowsPerPage]);
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+
+      const result = await response.json();
+
+      return {
+        data: result.data || [],
+        dataCount: result.dataCount || 0,
+      };
+    },
+    // CRITICAL: Configure refetch behavior
+    staleTime: 0, // Always consider data stale
+    gcTime: 0, // Don't cache - always fetch fresh
+    refetchOnMount: "always", // Always refetch when component mounts
+    refetchOnWindowFocus: false, // Disable for now to avoid confusion
+  });
 
   return {
-    transactionHistory,
+    transactionHistory: data?.data || [],
+    dataCount: data?.dataCount || 0,
     transactionHistoryLoading,
-    dataCount,
+    refetch,
+    isRefetching,
   };
 };
+
 export const useTransactionCharts = ({ gymId }: { gymId: string }) => {
   const [transactionChartsLoading, setTransactionChartsLoading] =
     useState(true);
@@ -540,8 +552,6 @@ export const usePaymentMethod = ({ gymId }: { gymId: string }) => {
       }
       const result = await response.json();
       setMode(result.method);
-
-      console.log(result);
     } catch (error) {
       console.error("Error fetching count:", error);
     } finally {
@@ -573,8 +583,6 @@ export const useEnquiry = ({ gymId }: { gymId: string }) => {
       }
       const result = await response.json();
       setEnquiry(result.data);
-
-      console.log(result);
     } catch (error) {
       console.error("Error fetching count:", error);
     } finally {

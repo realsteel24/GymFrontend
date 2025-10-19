@@ -1,8 +1,9 @@
 import { DataTable } from "@/components/Data-table";
 import { Skeleton } from "@/components/Skeleton";
-import { useMemberFees } from "@/hooks";
+import { MemberFeeOptions, useMemberFees } from "@/hooks";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import { MemberFeesColumns } from "./columns/MemberFeesColumns";
+import { useEffect } from "react";
 
 export const MemberFees = () => {
   const { gymId, memberId } = useParams<{ gymId: string; memberId: string }>();
@@ -14,6 +15,9 @@ export const MemberFees = () => {
   const navigate = useNavigate();
 
   const columns = MemberFeesColumns(navigate, gymId!);
+
+  // Debug: Log when data changes
+  useEffect(() => {}, [memberFees, memberFeesLoading]);
 
   return (
     <div>
@@ -34,8 +38,20 @@ export const MemberFees = () => {
         />
       </svg>
       <div className="flex justify-center text-xl my-6 underline underline-offset-8 decoration-4 decoration-accent font-semibold">
-        Member Fees
+        Member Fees {memberFeesLoading && <span className="text-sm ml-2">🔄</span>}
       </div>
+
+    
+
+      {/* YOUR CreateMemberFee COMPONENT SHOULD BE HERE */}
+      {/* Make sure to pass the onSuccess callback like this: */}
+      {/* <CreateMemberFee 
+        onSuccess={() => {
+          console.log("🎯 onSuccess callback from CreateMemberFee");
+          refetch();
+        }} 
+      /> */}
+
       <div>
         {memberFeesLoading ? (
           <div className="mx-2 md:mx-8">
@@ -46,7 +62,10 @@ export const MemberFees = () => {
           <div className="relative overflow-x-auto border rounded-xl mx-2 md:mx-8">
             <DataTable
               columns={columns}
-              data={memberFees.map((fee) => ({ ...fee, navigate }))}
+              data={memberFees.map((fee: MemberFeeOptions) => ({
+                ...fee,
+                navigate,
+              }))}
             />
           </div>
         )}

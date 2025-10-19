@@ -1,5 +1,5 @@
 import { Label } from "@radix-ui/react-label";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Input } from "./ui/input";
 import { CustomDatePicker } from "./CustomDatePicker";
@@ -17,7 +17,7 @@ export interface LabelledInputTypes {
   autoComplete?: string;
   type?: string;
   selectedDate?: Date;
-  pickDate?: (date: Date | undefined) => void; // Accepts undefined or Date
+  pickDate?: (date: Date) => void;
   value?: number | string;
   required?: boolean;
   bulk?: boolean;
@@ -45,15 +45,6 @@ export function LabelledInput({
   bulk,
   disabled,
 }: LabelledInputTypes) {
-  const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date()); 
-  const handleDateChange = (date: Date | undefined) => {
-    if (pickDate) {
-      pickDate(date); // Trigger date change
-    }
-    setCurrentMonth(date || new Date()); // Keep the current month in sync with selected date
-  };
-  console.log(currentMonth);
-
   return (
     <div className="grid gap-4 py-4">
       <div className="grid grid-cols-4 items-center gap-4">
@@ -63,26 +54,18 @@ export function LabelledInput({
         >
           {label}
         </Label>
-        {type === "Calendar" ? (
-          bulk ? (
-            <div className="col-span-3 text-${textColor} flex justify-start text-md">
-            <CustomDatePicker
-              bulk
-              selectedDate={selectedDate}
-              onDateChange={handleDateChange}
-              />
-              </div>
-          ) : (
-            <CustomDatePicker
-              selectedDate={selectedDate}
-              onDateChange={handleDateChange}
-            />
-          )
-        ) : (
         
+        {type === "Calendar" ? (
+          <CustomDatePicker
+            bulk={bulk}
+            selectedDate={selectedDate}
+            onDateChange={pickDate ?? (() => {})}
+          />
+        ) : (
           <Input
             type={type}
             id={formId}
+            name={formName}
             defaultValue={defaultValue}
             className={`col-span-3 text-${textColor} text-md`}
             onChange={onChange}
@@ -101,7 +84,7 @@ export function LabelledInput({
 }
 
 export const addMonths = (date: Date, months: number) => {
-  const custom = new Date(date);
-  custom.setMonth(custom.getMonth() + months);
-  return custom;
+  const result = new Date(date);
+  result.setMonth(result.getMonth() + months);
+  return result;
 };
