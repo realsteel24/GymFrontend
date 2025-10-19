@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/table";
 
 import {
+  MemberFeeOptions,
   useMemberFees,
   useStatusCount,
   useTransactionCharts,
@@ -255,28 +256,30 @@ export function Dashboard() {
                   </TableHeader>
 
                   <TableBody>
-                    {transactionHistory.slice(0, 6).map((fee) => (
-                      <TableRow key={fee.id}>
-                        <TableCell>
-                          <div className="font-medium">
-                            {fee.Member.User.name}
-                          </div>
-                          <div className="hidden text-sm text-muted-foreground md:inline">
-                            {fee.Member.MemberPrograms.map(
-                              (item) => item.Program.name
-                            ).join(", ")}
-                          </div>
-                        </TableCell>
+                    {transactionHistory
+                      .slice(0, 6)
+                      .map((fee: MemberFeeOptions) => (
+                        <TableRow key={fee.id}>
+                          <TableCell>
+                            <div className="font-medium">
+                              {fee.Member.User.name}
+                            </div>
+                            <div className="hidden text-sm text-muted-foreground md:inline">
+                              {fee.Member.MemberPrograms.map(
+                                (item) => item.Program.name
+                              ).join(", ")}
+                            </div>
+                          </TableCell>
 
-                        <TableCell className="hidden md:table-cell">
-                          {dateFormat(fee.paidDate, "dd/mm/yyyy")}
-                        </TableCell>
-                        <TableCell className="items-center text-right flex justify-end">
-                          <IndianRupee className="h-3 w-3 " />
-                          {fee.Payments[0].amount}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                          <TableCell className="hidden md:table-cell">
+                            {dateFormat(fee.paidDate, "dd/mm/yyyy")}
+                          </TableCell>
+                          <TableCell className="items-center text-right flex justify-end">
+                            <IndianRupee className="h-3 w-3 " />
+                            {fee.Payments[0].amount}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               )}
@@ -345,7 +348,7 @@ export function Dashboard() {
                   </TableHeader>
 
                   <TableBody>
-                    {memberFees.slice(0, 6).map((fee) => (
+                    {memberFees.slice(0, 6).map((fee: MemberFeeOptions) => (
                       <TableRow key={fee.id}>
                         <TableCell>
                           <div className="font-medium">
