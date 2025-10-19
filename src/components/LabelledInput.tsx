@@ -65,11 +65,13 @@ export function LabelledInput({
         </Label>
         {type === "Calendar" ? (
           bulk ? (
+            <div className="col-span-3 text-${textColor} flex justify-start text-md">
             <CustomDatePicker
               bulk
               selectedDate={selectedDate}
               onDateChange={handleDateChange}
-            />
+              />
+              </div>
           ) : (
             <CustomDatePicker
               selectedDate={selectedDate}

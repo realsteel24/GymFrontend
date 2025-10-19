@@ -98,7 +98,7 @@ export const CustomDialogForm = ({
               </Button>
             )}
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]  max-h-[80vh] overflow-visible z-[9999]">
+          <DialogContent className="sm:max-w-[425px]  max-h-[auto] overflow-visible z-[9999]">
             <DialogHeader>
               <DialogTitle>{FormTitle}</DialogTitle>
               <DialogDescription>{FormDescription} </DialogDescription>

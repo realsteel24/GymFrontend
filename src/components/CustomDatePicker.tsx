@@ -32,7 +32,7 @@ export function CustomDatePicker({
         <Button
           variant={bulk ? "bulkOutline" : "outline"}
           className={cn(
-            "w-[240px] justify-start text-left font-normal",
+            "w-max justify-start text-left font-normal",
             !selectedDate && "text-muted-foreground"
           )}
         >
@@ -44,7 +44,10 @@ export function CustomDatePicker({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+      <PopoverContent
+        align="start"
+        className="w-[var(--radix-popover-trigger-width)] min-w-[280px] max-w-[420px] p-0 overflow-hidden"
+      >
         <Calendar
           mode="single"
           selected={selectedDate}
@@ -57,9 +60,9 @@ export function CustomDatePicker({
             }
           }}
           captionLayout="dropdown"
-          fromYear={1950}
-          toYear={2028}
-          initialFocus
+          startMonth={new Date(1950, 0)}
+          endMonth={new Date(month.getFullYear(), 12)}
+          className="w-full"
         />
       </PopoverContent>
     </Popover>
