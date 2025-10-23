@@ -5,7 +5,6 @@ import { MemberCard } from "@/components/cards/MemberCard";
 import { PaymentCard } from "@/components/cards/PaymentCard";
 import { ProgramCard } from "@/components/cards/ProgramCard";
 import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/toaster";
 import { useState } from "react";
 import { Dashboard } from "./Dashboard";
 import { useGymNameContext } from "@/context/Gym";
@@ -51,7 +50,7 @@ export function GymProfile({ component }: { component: string }) {
   };
   return (
     <div>
-      <div className="flex justify-center text-2xl py-4 underline underline-offset-8 decoration-4 decoration-accent font-semibold">
+      <div className="flex justify-center text-2xl py-4 font-bold font-mono">
         {loading ? "loading.." : gymName}
       </div>
 
@@ -121,7 +120,7 @@ export function GymProfile({ component }: { component: string }) {
             onClick={() => setActiveComponent("Dashboard")}
             className={`inline-flex items-center hover:font-bold justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  h-9 px-4 py-2 mr-2  ${
               activeComponent === "Dashboard"
-                ? "underline underline-offset-4 decoration-2"
+                ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
@@ -133,7 +132,7 @@ export function GymProfile({ component }: { component: string }) {
             onClick={() => setActiveComponent("Enquiry")}
             className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
               activeComponent === "Enquiry"
-                ? "underline underline-offset-4 decoration-2"
+                ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
@@ -145,7 +144,7 @@ export function GymProfile({ component }: { component: string }) {
             onClick={() => setActiveComponent("Member")}
             className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
               activeComponent === "Member"
-                ? "underline underline-offset-4 decoration-2"
+                ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
@@ -157,7 +156,7 @@ export function GymProfile({ component }: { component: string }) {
             onClick={() => setActiveComponent("Payment")}
             className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
               activeComponent === "Payment"
-                ? "underline underline-offset-4 decoration-2"
+                ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
@@ -169,7 +168,7 @@ export function GymProfile({ component }: { component: string }) {
             onClick={() => setActiveComponent("Program")}
             className={`inline-flex items-center hover:font-bold justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  h-9 px-4 py-2 mr-2  ${
               activeComponent === "Program"
-                ? "underline underline-offset-4 decoration-2"
+                ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
@@ -181,7 +180,7 @@ export function GymProfile({ component }: { component: string }) {
             onClick={() => setActiveComponent("Batch")}
             className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
               activeComponent === "Batch"
-                ? "underline underline-offset-4 decoration-2"
+                ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
@@ -193,7 +192,7 @@ export function GymProfile({ component }: { component: string }) {
             onClick={() => setActiveComponent("FeeStructure")}
             className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
               activeComponent === "FeeStructure"
-                ? "underline underline-offset-4 decoration-2"
+                ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
@@ -205,7 +204,7 @@ export function GymProfile({ component }: { component: string }) {
             onClick={() => setActiveComponent("Instructor")}
             className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
               activeComponent === "Instructor"
-                ? "underline underline-offset-4 decoration-2"
+                ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
@@ -213,7 +212,6 @@ export function GymProfile({ component }: { component: string }) {
           </Button>
         </div>
       </div>
-      <Toaster />
       <div>{renderComponent()}</div>
     </div>
   );

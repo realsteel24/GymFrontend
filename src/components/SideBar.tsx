@@ -1,4 +1,4 @@
-import { CircleGauge, Files } from "lucide-react";
+import { Files, LayoutDashboardIcon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const SidebarItem = ({
@@ -18,7 +18,7 @@ export const SidebarItem = ({
     <div
       className={`flex hover:bg-green-400 dark:hover:bg-lime-300 dark:hover:bg-opacity-10 hover:bg-opacity-10 rounded-lg transition ${
         selected
-          ? "dark:text-white text-black"
+          ? "text-accent"
           : "dark:text-gray-400 text-gray-500"
       } cursor-pointer p-2 pl-8`}
       onClick={() => {
@@ -58,7 +58,7 @@ export function DashboardIcon() {
       stroke="currentColor"
       className="w-6 h-6"
     >
-      <CircleGauge />
+      <LayoutDashboardIcon />
     </svg>
   );
 }

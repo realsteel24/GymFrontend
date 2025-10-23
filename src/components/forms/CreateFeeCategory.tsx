@@ -115,7 +115,7 @@ export const CreateFeeCategory = () => {
               onChange={(e) => setDescription(e.target.value)}
             />
 
-            <div className="grid grid-cols-4 items-center gap-4 ">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="frequency" className="text-right text-md">
                 Duration
               </Label>
@@ -123,7 +123,7 @@ export const CreateFeeCategory = () => {
                 <SelectTrigger className="col-span-3 text-md" id={frequency}>
                   <SelectValue placeholder="Choose Package" />
                 </SelectTrigger>
-                <SelectContent className="border boder-input">
+                <SelectContent className="border boder-input z-[9999]">
                   {frequencyOptions.map((fee) => (
                     <SelectItem
                       key={fee}

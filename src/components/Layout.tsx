@@ -50,7 +50,7 @@ export function Layout({
             <SidebarItem
               href={`/gym/${gymId}/menu`}
               icon={<ReportsIcon />}
-              title="Reports"
+              title="Inventory"
             />
           </div>
         </div>
