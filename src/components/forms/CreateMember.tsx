@@ -85,7 +85,7 @@ export const CreateMember = () => {
       setIsDialogOpen(false);
       setIsDrawerOpen(false);
       clear();
-      navigate(`/gym/${gymId}/menu`);
+      navigate(`/gym/${gymId}/dashboard`);
     } catch (e) {
       console.log(e);
       setGeneralError("Create User Failed");

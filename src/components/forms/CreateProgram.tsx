@@ -56,7 +56,7 @@ export const CreateProgram = () => {
         title: "Program successfully created",
         description: "Success",
       });
-      navigate(`/gym/${gymId}/menu`);
+      navigate(`/gym/${gymId}/dashboard`);
 
       clear();
     } catch (e) {

@@ -86,7 +86,7 @@ export const CreateFeeCategory = () => {
         description: "Success",
       });
       clear();
-      navigate(`/gym/${gymId}/menu`);
+      navigate(`/gym/${gymId}/dashboard`);
     } catch (e) {
       if (e instanceof Error) {
         setError(e.message);

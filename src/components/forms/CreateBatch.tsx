@@ -62,7 +62,7 @@ export const CreateBatch: React.FC = () => {
         description: "Success",
       });
       clear();
-      navigate(`/gym/${gymId}/menu`);
+      navigate(`/gym/${gymId}/dashboard`);
     } catch (e) {
       if (e instanceof Error) {
         setError(e.message);

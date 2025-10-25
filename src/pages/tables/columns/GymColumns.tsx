@@ -29,7 +29,7 @@ export const GymColumns: ColumnDef<GymOptions>[] = [
       <Button
         variant={"outline"}
         onClick={() => {
-          row.original.navigate(`/gym/${row.original.id}/menu`);
+          row.original.navigate(`/gym/${row.original.id}/dashboard`);
         }}
         size={"sm"}
       >

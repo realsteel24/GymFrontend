@@ -80,7 +80,7 @@ export const CreateMemberProgram = () => {
         description: "Success",
       });
       clear();
-      navigate(`/gym/${gymId}/menu`);
+      navigate(`/gym/${gymId}/dashboard`);
       setCompLoading(false);
     } catch (e) {
       if (e instanceof Error) {

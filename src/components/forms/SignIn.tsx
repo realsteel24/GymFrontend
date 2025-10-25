@@ -48,7 +48,7 @@ export const SignIn = () => {
       if (admin.jwt === SUPER_ADMIN || admin.jwt === MP_ADMIN) {
         navigate(`/gym/${code}`);
       } else {
-        navigate(`/gym/${code}/menu`);
+        navigate(`/gym/${code}/dashboard`);
       }
     } catch (e) {
       if (e instanceof Error) setError(e.message);

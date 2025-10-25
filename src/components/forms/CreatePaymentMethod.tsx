@@ -53,7 +53,7 @@ export const CreatePaymentMethod = () => {
         title: `New Payment Mode added`,
       });
       clear();
-      navigate(`/gym/${gymId}/menu`);
+      navigate(`/gym/${gymId}/dashboard`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "An unexpected error occurred");
     }

@@ -45,7 +45,7 @@ export function Layout({
             <SidebarItem
               href={`/gym/${gymId}/importForm`}
               icon={<FilePlus />}
-              title="Import form"
+              title="Member form"
             />
             <SidebarItem
               href={`/gym/${gymId}/menu`}
