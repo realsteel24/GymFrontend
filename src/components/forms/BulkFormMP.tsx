@@ -11,7 +11,7 @@ import SelectPrograms from "../selectors/SelectPrograms";
 import SelectBatches from "../selectors/SelectBatches";
 import { CardTitle } from "../ui/card";
 import SelectGender from "../selectors/SelectGender";
-import { useGymNameContext } from "@/context/Gym";
+import { useGymNameContext } from "@/context/useGymNameContext";
 
 export const CreateMemberBulk = () => {
   const [createMemberInput, setCreateMemberInput] = useState<CreateMemberInput>(

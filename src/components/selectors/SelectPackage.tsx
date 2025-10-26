@@ -80,12 +80,13 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
 
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-4">
-      <Label htmlFor="feeCategory" className="text-right text-md">
+      <Label id="feeCategory" className="text-right text-md">
         Fee Plan
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            aria-labelledby="feeCategory"
             variant="outline"
             className={`col-span-3 justify-between p-3 font-normal text-md }`}
           >
@@ -137,8 +138,8 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
 
       <div className={`col-span-4 ${className}`}>
         <LabelledInput
-          formId="date"
-          formName="date"
+          formId="startdate"
+          formName="startdate"
           label="Payment Date"
           placeholder="Enter Date"
           pickDate={(date) => {

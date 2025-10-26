@@ -4,7 +4,7 @@ import { usePrograms } from "@/hooks";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import { ProgramColumns } from "./columns/ProgramColumns";
 import { useEffect } from "react";
-import { useGymNameContext } from "@/context/Gym";
+import { useGymNameContext } from "@/context/useGymNameContext";
 
 export const Programs = () => {
   const { gymId } = useParams<{ gymId: string }>();

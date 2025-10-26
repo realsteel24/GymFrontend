@@ -19,6 +19,7 @@ import {
   PaginationNext,
 } from "@/components/ui/pagination";
 import { CreateMemberFee } from "@/components/forms/CreateMemberFee";
+import { CreateInventoryItem } from "@/components/forms/CreateInventoryItem";
 
 export const TransactionHistory = () => {
   const { gymId, memberId } = useParams<{ gymId: string; memberId: string }>();
@@ -96,13 +97,22 @@ export const TransactionHistory = () => {
       {memberId === "all" ? null : (
         <div className="text-end mb-4 mx-4 md:mx-8 flex justify-end">
           {/* ✅ CRITICAL: Pass the onSuccess callback */}
-          <CreateMemberFee
+          <CreateInventoryItem
             derivedMemberid={memberId}
-            type="mini"
+            type="stock-mini"
             onSuccess={() => {
               refetch?.();
             }}
           />
+          <div className="text-end mx-4 md:mx-8">
+            <CreateMemberFee
+              derivedMemberid={memberId}
+              type="mini"
+              onSuccess={() => {
+                refetch?.();
+              }}
+            />
+          </div>
         </div>
       )}
 

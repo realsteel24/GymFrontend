@@ -134,6 +134,11 @@ export interface PaymentMethodOptions {
   mode: string;
   collectedBy: string;
 }
+export interface ItemOptions {
+  id: string;
+  name: string;
+  description: string;
+}
 
 export const useMembers = ({
   gymId,
@@ -594,6 +599,43 @@ export const useEnquiry = ({ gymId }: { gymId: string }) => {
     enquiryLoading,
     enquiry,
     fetchEnquiries,
+  };
+};
+
+export const useItem = ({
+  gymId,
+  itemId,
+}: {
+  gymId: string;
+  itemId?: string;
+}) => {
+  const [itemLoading, setItemLoading] = useState(true);
+  const [item, setItem] = useState<ItemOptions[]>([]);
+
+  const fetchItems = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/api/v1/admin/${gymId}/items/${itemId ? itemId : "all"}`,
+        {
+          headers: { authorization: localStorage.getItem("token") ?? "" },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const result = await response.json();
+      setItem(result.data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    } finally {
+      setItemLoading(false);
+    }
+  };
+
+  return {
+    itemLoading,
+    item,
+    fetchItems,
   };
 };
 

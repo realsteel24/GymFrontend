@@ -5,6 +5,7 @@ import { CardMenu } from "../CardMenu";
 import { ViewTransactions } from "@/pages/tables/TransactionHistory";
 import { CreateMemberFee } from "../forms/CreateMemberFee";
 import { CreatePaymentMethod } from "../forms/CreatePaymentMethod";
+import { CreateInventoryItem } from "../forms/CreateInventoryItem";
 
 export function PaymentCard() {
   const { gymId, memberId } = useParams<{ gymId: string; memberId: string }>();
@@ -22,7 +23,11 @@ export function PaymentCard() {
         type="elementCard"
         children={<CreatePaymentMethod />}
       />
-
+      <CardMenu
+        cardTitle="Record Item Sale"
+        type="elementCard"
+        children={<CreateInventoryItem />}
+      />
       <CardMenu
         cardTitle="Record Expense"
         type="elementCard"

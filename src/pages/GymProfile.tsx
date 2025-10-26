@@ -1,13 +1,13 @@
 import { BatchCard } from "@/components/cards/BatchCard";
 import { FeeCategoryCard } from "@/components/cards/FeeCategoryCard";
-import { InstructorCard } from "@/components/cards/InstructorCard";
+import { InventoryCard } from "@/components/cards/InventoryCard";
 import { MemberCard } from "@/components/cards/MemberCard";
 import { PaymentCard } from "@/components/cards/PaymentCard";
 import { ProgramCard } from "@/components/cards/ProgramCard";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Dashboard } from "./Dashboard";
-import { useGymNameContext } from "@/context/Gym";
+import { useGymNameContext } from "@/context/useGymNameContext";
 import { EnquiryCard } from "@/components/cards/EnquiryCard";
 
 export function GymProfile({ component }: { component: string }) {
@@ -28,8 +28,8 @@ export function GymProfile({ component }: { component: string }) {
         return <FeeCategoryCard />;
       case "Payment":
         return <PaymentCard />;
-      case "Instructor":
-        return <InstructorCard />;
+      case "Inventory":
+        return <InventoryCard />;
       case "Enquiry":
         return <EnquiryCard />;
       case "":
@@ -93,7 +93,7 @@ export function GymProfile({ component }: { component: string }) {
                   "Program",
                   "Batch",
                   "FeeStructure",
-                  "Instructor",
+                  "Inventory",
                 ].map((option) => (
                   <button
                     key={option}
@@ -201,14 +201,14 @@ export function GymProfile({ component }: { component: string }) {
 
           <Button
             variant={"default"}
-            onClick={() => setActiveComponent("Instructor")}
+            onClick={() => setActiveComponent("Inventory")}
             className={`inline-flex items-center justify-center hover:font-bold whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 rounded-xl mr-2 ${
-              activeComponent === "Instructor"
+              activeComponent === "Inventory"
                 ? "underline underline-offset-4 decoration-2 !text-accent"
                 : null
             }`}
           >
-            Instructors
+            Inventory
           </Button>
         </div>
       </div>

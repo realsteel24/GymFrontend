@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  useContext,
   ReactNode,
   useState,
   useEffect,
@@ -16,7 +15,7 @@ interface GymNameContextProps {
   isAuthenticated: boolean;
 }
 
-const GymNameContext = createContext<GymNameContextProps>({
+export const GymNameContext = createContext<GymNameContextProps>({
   gymName: "",
   loading: true,
   isAuthenticated: false,
@@ -77,5 +76,3 @@ export const GymNameProvider: React.FC<{ children: ReactNode }> = ({
     </GymNameContext.Provider>
   );
 };
-
-export const useGymNameContext = () => useContext(GymNameContext);

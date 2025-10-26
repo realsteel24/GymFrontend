@@ -17,9 +17,7 @@ const SelectBatchPref = ({
   const preferences = ["Morning", "Evening", "Any", "Others"];
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-4">
-      <Label htmlFor="gender" className="text-right text-md">
-        Batch Preference
-      </Label>
+      <Label className="text-right text-md">Batch Preference</Label>
       <Select onValueChange={setPref} value={pref}>
         <SelectTrigger className={`col-span-3 text-md `}>
           <SelectValue placeholder="Select preference" />

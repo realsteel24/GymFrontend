@@ -102,12 +102,13 @@ const SelectMember: React.FC<SelectMemberProps> = React.memo(
 
     return (
       <div className="grid grid-cols-4 items-center gap-4 py-4">
-        <Label htmlFor="members" className="text-right text-md">
+        <Label id="member-label" className="text-right text-md">
           Member
         </Label>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
+              aria-labelledby="member-label"
               variant="outline"
               className="col-span-3 justify-between p-3 font-normal text-md"
             >

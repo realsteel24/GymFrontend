@@ -43,13 +43,14 @@ const SelectPrograms: React.FC<SelectProgramProps> = React.memo(
 
     return (
       <div className="grid grid-cols-4 items-center gap-4 py-4">
-        <Label htmlFor="program" className="text-right text-md">
+        <Label id="program" className="text-right text-md">
           Program
         </Label>
 
         <Popover open={open} onOpenChange={setOpen} modal={true}>
           <PopoverTrigger asChild>
             <Button
+              aria-labelledby="program"
               ref={nextFieldRef}
               variant="outline"
               className={`col-span-3 justify-between p-3 font-normal text-md ${

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CustomDialogForm } from "@/components/CustomDialogForm";
 import { LabelledInput } from "@/components/LabelledInput";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "@/components/ui/use-toast";
 import { createMember, CreateMemberInput } from "realsteelgym";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -35,7 +35,6 @@ export const CreateMember = () => {
   const [error, setError] = useState<{ [key: string]: string }>({});
   const [generalError, setGeneralError] = useState<string | null>(null);
 
-  const { toast } = useToast();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("PersonalDetails");
 

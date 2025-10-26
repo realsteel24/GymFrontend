@@ -21,7 +21,7 @@ import {
 
 import React from "react";
 import { ScrollArea } from "./ui/scroll-area";
-import { SquarePlus } from "lucide-react";
+import { ShoppingCart, BadgeIndianRupee } from "lucide-react";
 
 export const CustomDialogForm = ({
   FormTitle,
@@ -38,11 +38,13 @@ export const CustomDialogForm = ({
   isMobileOpen,
   mobileFn,
   type,
+  icon,
 }: {
   drawerTitle?: string;
   type?: string;
   drawerDescription?: string;
   FormTitle: string;
+  icon?: React.ReactNode;
   FormDescription: string;
   children: React.ReactNode;
   button: React.ReactNode;
@@ -61,7 +63,10 @@ export const CustomDialogForm = ({
         <Drawer open={isMobileOpen} onOpenChange={setIsMobileOpen}>
           <DrawerTrigger asChild>
             {type === "mini" ? (
-              <SquarePlus className="cursor-pointer" />
+              <BadgeIndianRupee className="cursor-pointer" />
+            ) : type === "stock-mini" ? (
+              // TODO: Ensure that localstorage has the option enabled
+              <ShoppingCart className="cursor-pointer" />
             ) : (
               <Button variant="outline">{titleButton}</Button>
             )}
@@ -69,7 +74,10 @@ export const CustomDialogForm = ({
           <DrawerContent className="px-4">
             <ScrollArea className="flex-grow overflow-y-auto">
               <DrawerHeader className="text-left">
-                <DrawerTitle>{drawerTitle}</DrawerTitle>
+                <DrawerTitle className="flex">
+                  {icon}
+                  {drawerTitle}
+                </DrawerTitle>
                 <DrawerDescription>{drawerDescription}</DrawerDescription>
               </DrawerHeader>
               {children}
@@ -91,7 +99,10 @@ export const CustomDialogForm = ({
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             {type === "mini" ? (
-              <SquarePlus className="cursor-pointer" />
+              <BadgeIndianRupee className="cursor-pointer" />
+            ) : type === "stock-mini" ? (
+              // TODO: Ensure that localstorage has the option enabled
+              <ShoppingCart className="cursor-pointer" />
             ) : (
               <Button variant="outline" onClick={fn}>
                 {titleButton}
@@ -100,7 +111,10 @@ export const CustomDialogForm = ({
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]  max-h-[auto] overflow-visible z-[9999]">
             <DialogHeader>
-              <DialogTitle>{FormTitle}</DialogTitle>
+              <DialogTitle className="flex">
+                {icon}
+                {FormTitle}
+              </DialogTitle>
               <DialogDescription>{FormDescription} </DialogDescription>
             </DialogHeader>
             {children}

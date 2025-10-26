@@ -17,7 +17,7 @@ interface createFeeRecordProps {
   onSuccess?: () => void; // Add callback prop
 }
 
-export const CreateMemberFee = ({
+export const CreateInventoryItem = ({
   derivedMemberid,
   type,
   onSuccess: onSuccessCallback, // Rename to avoid conflict
@@ -73,7 +73,7 @@ export const CreateMemberFee = ({
     },
     onSuccess: () => {
       toast({
-        title: "Payment recorded successfully",
+        title: "Item sale recorded successfully",
         description: `Amount: ${formData.amount}`,
       });
 
@@ -86,7 +86,7 @@ export const CreateMemberFee = ({
     },
     onError: () => {
       toast({
-        title: "Failed to record payment",
+        title: "Failed to record sale",
         description: "Payment failed",
       });
       setError("An unexpected error occurred");
@@ -111,9 +111,9 @@ export const CreateMemberFee = ({
         isMobileOpen={isDrawerOpen}
         setIsOpen={setIsDialogOpen}
         setIsMobileOpen={setIsDrawerOpen}
-        FormTitle="Record a Payment"
+        FormTitle="Record a Sale"
         FormDescription="Please add all the necessary fields and click save"
-        drawerTitle="Record a Payment"
+        drawerTitle="Record a Sale"
         drawerDescription="Please add all the necessary fields and click save"
         titleButton="Add Transaction"
         mobileFn={clear}
@@ -146,7 +146,7 @@ export const CreateMemberFee = ({
               formId="Amount"
               formName="Amount"
               label="Amount"
-              type="number"
+              type="text"
               value={formData.amount}
               onChange={(e) => {
                 const value = parseInt(e.target.value);

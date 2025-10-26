@@ -32,13 +32,14 @@ const SelectGender: React.FC<SelectGenderProps> = ({
 
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-4">
-      <Label htmlFor="gender" className="text-right text-md">
+      <Label id="gender" className="text-right text-md">
         Gender*
       </Label>
 
       <Popover open={open} onOpenChange={setOpen} modal={true}>
         <PopoverTrigger asChild>
           <Button
+            aria-labelledby="gender"
             variant="outline"
             className={`col-span-3 justify-between p-3 font-normal text-md ${
               bulk ? "dark:hover:shadow-red-600" : ""

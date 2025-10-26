@@ -5,6 +5,7 @@ import { CardMenu } from "../CardMenu";
 import { CreateMemberProgram } from "../forms/CreateMemberProgram";
 import { CreateMemberFee } from "../forms/CreateMemberFee";
 import { ViewMemberships } from "@/pages/tables/MemberFees";
+import { CreateInventoryItem } from "../forms/CreateInventoryItem";
 
 export function MemberCard() {
   const { gymId, id } = useParams<{
@@ -42,6 +43,11 @@ export function MemberCard() {
         type="buttonedCard"
         cardFunction={() => ViewMembers(id ?? "all", gymId ?? "", navigate)}
         buttonTitle="View Members"
+      />
+      <CardMenu
+        cardTitle="Record Item Sale"
+        type="elementCard"
+        children={<CreateInventoryItem />}
       />
     </div>
   );

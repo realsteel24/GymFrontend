@@ -46,13 +46,14 @@ const SelectBatches: React.FC<SelectBatchProps> = React.memo(
 
     return (
       <div className="grid grid-cols-4 items-center gap-4 py-4">
-        <Label htmlFor="batch" className="text-right text-md">
+        <Label id="batch" className="text-right text-md">
           Batch
         </Label>
 
         <Popover open={open} onOpenChange={setOpen} modal={true}>
           <PopoverTrigger asChild>
             <Button
+              aria-labelledby="batch"
               variant="outline"
               className={`col-span-3 justify-between p-3 font-normal text-md ${
                 bulk ? "dark:hover:shadow-red-600" : ""

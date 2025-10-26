@@ -52,13 +52,14 @@ const MultiSelectPrograms: React.FC<SelectProgramProps> = ({
 
   return (
     <div className="grid grid-cols-4 items-center gap-4 py-4">
-      <Label htmlFor="program" className="text-right text-md">
+      <Label id="multi-program" className="text-right text-md">
         Program
       </Label>
 
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            aria-labelledby="multi-program"
             variant="outline"
             className={`col-span-3 justify-between p-3 font-normal text-md ${
               bulk ? "dark:hover:shadow-red-600" : null
