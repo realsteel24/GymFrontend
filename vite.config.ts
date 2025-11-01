@@ -11,6 +11,9 @@ export default defineConfig({
       open: true,
     }),
   ],
+  define: {
+    __BUILD_ID__: JSON.stringify(Date.now()),
+  },
   build: {
     sourcemap: false,
     rollupOptions: {
