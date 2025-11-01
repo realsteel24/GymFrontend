@@ -58,7 +58,7 @@ export const CreateInventoryItem = ({
   const createFeeMutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        `${BACKEND_URL}/api/v1/admin/${gymId}/memberFees`,
+        `${BACKEND_URL}/api/v1/admin/${gymId}/tobechanged`,
         {
           method: "POST",
           body: JSON.stringify(formData),
