@@ -1,4 +1,4 @@
-const CACHE_NAME = "app-cache-v3";
+const CACHE_NAME = "app-cache-v4";
 const urlsToCache = [
   "/",
   "/index.html",
@@ -38,6 +38,21 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const request = event.request;
 
+  // Bypass caching for API calls (always fetch fresh data)
+  // Adjust this pattern if your API prefix is different (e.g. /api/v1/)
+  if (request.url.includes("/api/")) {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          // Optionally, you could update a runtime cache for offline fallback
+          // but do not serve stale API responses from cache by default.
+          return networkResponse;
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
+
   // Network-first for navigation requests (index.html)
   if (request.mode === "navigate") {
     event.respondWith(
@@ -60,7 +75,7 @@ self.addEventListener("fetch", (event) => {
         return cachedResponse;
       }
       return fetch(request).then((networkResponse) => {
-        // Only cache successful GET requests
+        // Only cache successful GET requests for static assets
         if (
           networkResponse &&
           networkResponse.status === 200 &&

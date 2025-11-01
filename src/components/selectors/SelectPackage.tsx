@@ -66,11 +66,12 @@ const SelectPackage: React.FC<SelectFeeCategoryProps> = ({
       onetime: 240,
       monthly: 1,
       quarterly: 3,
-      halfYearly: 6,
+      halfyearly: 6,
       yearly: 12,
     };
     const monthsToAdd =
       frequencies[frequency.toLowerCase() as keyof typeof frequencies] || 1;
+    console.log("Months to add:", monthsToAdd, frequency);
     return addMonths(startDate, monthsToAdd);
   };
 
