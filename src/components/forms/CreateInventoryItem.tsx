@@ -3,15 +3,16 @@ import { BACKEND_URL } from "@/config";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CustomDialogForm } from "../CustomDialogForm";
-import { LabelledInput, addMonths } from "../LabelledInput";
+import { LabelledInput } from "../LabelledInput";
 import { useToast } from "../ui/use-toast";
 import SelectMember from "../selectors/SelectMembers";
-import SelectPackage from "../selectors/SelectPackage";
 import SelectPaymentMethod from "../selectors/SelectPaymentMethod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@/hooks/formstatehook";
+import SelectItems from "../selectors/SelectItem";
+import SelectSubitem from "../selectors/SelectSubitem";
 
-interface createFeeRecordProps {
+interface CreateInventoryItemProps {
   derivedMemberid?: string;
   type?: string;
   onSuccess?: () => void; // Add callback prop
@@ -21,19 +22,18 @@ export const CreateInventoryItem = ({
   derivedMemberid,
   type,
   onSuccess: onSuccessCallback, // Rename to avoid conflict
-}: createFeeRecordProps) => {
+}: CreateInventoryItemProps) => {
   const { gymId } = useParams<{ gymId: string }>();
-  const [selectedAmount, setSelectedAmount] = useState<number>(0);
   const { formData, setFieldValue, resetForm } = useForm({
     gymId,
+    subItemId: "",
     memberId: "",
-    feeCategoryId: "",
+    transactionType: "Sale",
     paymentMethodId: "",
-    paidDate: new Date(),
-    dueDate: addMonths(new Date(), 1),
+    quantity: 1,
+    totalAmount: 0,
     remarks: "Success",
-    feeType: "",
-    amount: selectedAmount,
+    unitPrice: 0,
   });
 
   useEffect(() => {
@@ -42,9 +42,13 @@ export const CreateInventoryItem = ({
     }
   }, [derivedMemberid]);
 
+  useEffect(() => {
+    const total = (formData.unitPrice || 0) * (formData.quantity || 1);
+    setFieldValue("totalAmount", total);
+  }, [formData.unitPrice, formData.quantity]);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [error, setError] = useState("");
 
   const { toast } = useToast();
 
@@ -52,13 +56,12 @@ export const CreateInventoryItem = ({
     setIsDialogOpen(false);
     setIsDrawerOpen(false);
     resetForm();
-    setError("");
   };
 
   const createFeeMutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        `${BACKEND_URL}/api/v1/admin/${gymId}/tobechanged`,
+        `${BACKEND_URL}/api/v1/admin/${gymId}/itemtransactioncreate`,
         {
           method: "POST",
           body: JSON.stringify(formData),
@@ -74,7 +77,7 @@ export const CreateInventoryItem = ({
     onSuccess: () => {
       toast({
         title: "Item sale recorded successfully",
-        description: `Amount: ${formData.amount}`,
+        description: `Amount: ${formData.totalAmount}`,
       });
 
       // Call parent callback to allow parent to refetch or update state
@@ -86,10 +89,10 @@ export const CreateInventoryItem = ({
     },
     onError: () => {
       toast({
-        title: "Failed to record sale",
-        description: "Payment failed",
+        title: "Error",
+        description: "An unexpected error occurred while recording the sale.",
+        variant: "destructive",
       });
-      setError("An unexpected error occurred");
     },
   });
 
@@ -127,33 +130,44 @@ export const CreateInventoryItem = ({
                 type="member"
               />
             )}
-            <SelectPackage
+            <SelectItems
               gymId={gymId!}
-              feeCategoryId={formData.feeCategoryId}
-              setFeeCategoryId={(id) => setFieldValue("feeCategoryId", id)}
-              setSelectedAmount={(amt) => {
-                setSelectedAmount(amt);
-                setFieldValue("amount", amt);
-              }}
-              setFeeType={(type) => setFieldValue("feeType", type)}
-              setDueDate={(date) => setFieldValue("dueDate", date)}
-              setPaidDate={(date) => setFieldValue("paidDate", date)}
-              dataToDisplay={formData.dueDate}
-              className={formData.feeCategoryId ? "block" : "hidden"}
+              setItemId={(id) => setFieldValue("itemId", id)}
+            />
+            <SelectSubitem
+              gymId={gymId!}
+              setSubitemId={(id) => setFieldValue("subItemId", id)}
+              setAmount={(price) => setFieldValue("unitPrice", parseInt(price))}
+              itemId={formData.itemId}
             />
 
             <LabelledInput
-              formId="Amount"
-              formName="Amount"
-              label="Amount"
-              type="text"
-              value={formData.amount}
+              formId="unitPrice"
+              formName="unitPrice"
+              label="Unit Price"
+              type="number"
+              value={formData.unitPrice}
               onChange={(e) => {
                 const value = parseInt(e.target.value);
-                setFieldValue("amount", value);
+                setFieldValue("unitPrice", value);
               }}
-              placeholder="Amount"
+              placeholder="0.00"
               disabled={formData.feeType != "Admission Fee"}
+              min={0}
+            />
+
+            <LabelledInput
+              formId="quantity"
+              formName="quantity"
+              label="Quantity"
+              type="number"
+              placeholder="1"
+              value={formData.quantity}
+              onChange={(e) => {
+                const quantity = Math.max(1, parseInt(e.target.value) || 1);
+                setFieldValue("quantity", quantity);
+              }}
+              min={1}
             />
 
             <SelectPaymentMethod
@@ -183,7 +197,6 @@ export const CreateInventoryItem = ({
           </Button>
         }
       />
-      {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
   );
 };

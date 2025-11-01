@@ -140,6 +140,28 @@ export interface ItemOptions {
   description: string;
 }
 
+export interface SubitemOptions {
+  id: string;
+  name: string;
+  itemId: string;
+  costPrice: string;
+  sellingPrice: string;
+  stock: string;
+  Item: ItemOptions;
+}
+
+export interface StockInventoryOptions {
+  id: string;
+  memberId: string;
+  quantity: number;
+  totalAmount: number;
+  unitPrice: number;
+  date: string;
+  SubItem: SubitemOptions;
+  Member: MemberOptions;
+  PaymentMethod: PaymentMethodOptions;
+}
+
 export const useMembers = ({
   gymId,
   id,
@@ -615,14 +637,12 @@ export const useItem = ({
   const fetchItems = async () => {
     try {
       const response = await fetch(
-        `${BACKEND_URL}/api/v1/admin/${gymId}/items/${itemId ? itemId : "all"}`,
+        `${BACKEND_URL}/api/v1/admin/${gymId}/items/${itemId ?? "all"}`,
         {
           headers: { authorization: localStorage.getItem("token") ?? "" },
         }
       );
-      if (!response.ok) {
-        throw new Error("Something went wrong");
-      }
+      if (!response.ok) throw new Error("Something went wrong");
       const result = await response.json();
       setItem(result.data);
     } catch (error) {
@@ -632,10 +652,90 @@ export const useItem = ({
     }
   };
 
+  return { itemLoading, item, fetchItems };
+};
+
+export const useSubitem = ({
+  gymId,
+  itemId,
+}: {
+  gymId: string;
+  itemId: string;
+}) => {
+  const [subitemLoading, setSubitemLoading] = useState(true);
+  const [subitem, setSubitem] = useState<SubitemOptions[]>([]);
+
+  const fetchSubitem = async () => {
+    if (!itemId) {
+      setSubitem([]);
+      setSubitemLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/api/v1/admin/${gymId}/subitems/${itemId}`,
+        {
+          headers: { authorization: localStorage.getItem("token") ?? "" },
+        }
+      );
+      if (!response.ok) throw new Error("Something went wrong");
+      const result = await response.json();
+      setSubitem(result.data);
+    } catch (error) {
+      console.error("Error fetching subitems:", error);
+    } finally {
+      setSubitemLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubitem();
+  }, [itemId, gymId]);
+
+  return { subitemLoading, subitem, fetchSubitem };
+};
+
+export const useInventoryTransactions = ({
+  gymId,
+  memberId,
+}: {
+  gymId: string;
+  memberId?: string;
+}) => {
+  const [inventoryTransactionsLoading, setInventoryTransactionsLoading] =
+    useState(true);
+  const [inventoryTransaction, setInventoryTransaction] = useState<
+    StockInventoryOptions[]
+  >([]);
+
+  useEffect(() => {
+    const fetchInventoryTransactions = async () => {
+      try {
+        const response = await fetch(
+          `${BACKEND_URL}/api/v1/admin/${gymId}/inventorytransactions/${memberId}`,
+          {
+            headers: { authorization: localStorage.getItem("token") ?? "" },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Something went wrong");
+        }
+        const result = await response.json();
+        setInventoryTransaction(result.data);
+      } catch (error) {
+        console.error("Error fetching batches:", error);
+      } finally {
+        setInventoryTransactionsLoading(false);
+      }
+    };
+
+    fetchInventoryTransactions();
+  }, [gymId]);
+
   return {
-    itemLoading,
-    item,
-    fetchItems,
+    inventoryTransaction,
+    inventoryTransactionsLoading,
   };
 };
 

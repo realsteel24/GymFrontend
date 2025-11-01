@@ -1,8 +1,8 @@
-import { ViewPrograms } from "@/pages/tables/Programs";
 import { useNavigate, useParams } from "react-router-dom";
 import { CardMenu } from "../CardMenu";
 import CreateItem from "../forms/CreateItem";
 import CreateSubItem from "../forms/CreateSubItem";
+import { ViewInventoryTransactions } from "@/pages/tables/InventoryTransactions";
 
 export function InventoryCard() {
   const { gymId } = useParams<{ gymId: string }>();
@@ -27,7 +27,7 @@ export function InventoryCard() {
       <CardMenu
         cardTitle="Manage Inventory "
         type="buttonedCard"
-        cardFunction={() => ViewPrograms(gymId ?? "", navigate)}
+        cardFunction={() => ViewInventoryTransactions(gymId ?? "", navigate)}
         buttonTitle="View Inventory"
       />
     </div>
